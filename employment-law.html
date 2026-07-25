@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employment Law - NYAYSETU</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-blue: #1e3c72;
+            --secondary-blue: #2a5298;
+            --accent-gold: #ffd700;
+            --accent-gold-light: #ffed4a;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 5px 20px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+            --border-radius-large: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-medium);
+            backdrop-filter: blur(10px);
+        }
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--white);
+            color: var(--primary-blue);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-light);
+        }
+        .lang-btn:hover {
+            transform: scale(1.1);
+        }
+        .lang-btn.active {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+        /* Header */
+        .header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+        /* Navigation */
+        .nav-tabs {
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+            padding: 0 2rem;
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+        }
+        .nav-tab {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+        .nav-tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--accent-gold);
+        }
+        /* Content Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+        .subsection {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--accent-gold);
+        }
+        .subsection h3 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .subsection h4 {
+            color: var(--secondary-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        .example-box {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .example-box strong {
+            color: var(--primary-blue);
+        }
+        /* Table Styles */
+        .principles-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+        .principles-table th,
+        .principles-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .principles-table th {
+            background: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+        }
+        .principles-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+        /* Laws Grid */
+        .laws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .law-card {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-gold);
+        }
+        .law-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        .law-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+        /* Case Cards */
+        .cases-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .case-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--secondary-blue);
+        }
+        .case-title {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        /* Process Steps */
+        .process-steps {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .step-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        /* Contact CTA */
+        .contact-cta {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius-large);
+            margin-top: 3rem;
+        }
+        .contact-cta h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .cta-button {
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .back-btn {
+                position: static;
+                margin-bottom: 1rem;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            .nav-tabs {
+                padding: 0 1rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-btn">← Back to Services</a>
+        <h1>Employment Law</h1>
+        <p>Comprehensive Guide to Employment Rights and Regulations</p>
+    </div>
+
+    <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('overview')">Overview</button>
+        <button class="nav-tab" onclick="showSection('rights')">Employee Rights</button>
+        <button class="nav-tab" onclick="showSection('contracts')">Employment Contracts</button>
+        <button class="nav-tab" onclick="showSection('termination')">Termination</button>
+        <button class="nav-tab" onclick="showSection('disputes')">Dispute Resolution</button>
+        <button class="nav-tab" onclick="showSection('cases')">Landmark Cases</button>
+        <button class="nav-tab" onclick="showSection('recent')">Recent Updates</button>
+    </nav>
+
+    <div class="container">
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <h2 class="section-title">Understanding Employment Law</h2>
+            
+            <div class="subsection">
+                <h3>Definition and Scope</h3>
+                <p>Employment Law governs the relationship between employers and employees, covering rights, obligations, and protections in the workplace. It includes regulations on hiring, working conditions, wages, benefits, and termination.</p>
+                
+                <div class="example-box">
+                    <strong>Key Areas:</strong>
+                    <span>Minimum wages, working hours, leave policies, social security, anti-discrimination, workplace safety, termination procedures, and dispute resolution.</span>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Major Employment Laws in India</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Industrial Disputes Act, 1947</h4>
+                        <ul>
+                            <li>Regulates industrial disputes</li>
+                            <li>Layoff and retrenchment provisions</li>
+                            <li>Strike and lockout regulations</li>
+                            <li>Unfair labor practices</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Factories Act, 1948</h4>
+                        <ul>
+                            <li>Health and safety standards</li>
+                            <li>Working hours and overtime</li>
+                            <li>Leave and holidays</li>
+                            <li>Welfare facilities</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Minimum Wages Act, 1948</h4>
+                        <ul>
+                            <li>Minimum wage fixation</li>
+                            <li>Different rates for different sectors</li>
+                            <li>Regular wage revisions</li>
+                            <li>Penalties for non-compliance</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Employees' Provident Fund Act, 1952</h4>
+                        <ul>
+                            <li>Provident fund contributions</li>
+                            <li>Pension scheme</li>
+                            <li>Insurance benefits</li>
+                            <li>Retirement benefits</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Employee Rights Section -->
+        <div id="rights" class="content-section">
+            <h2 class="section-title">Employee Rights and Protections</h2>
+            
+            <div class="subsection">
+                <h3>Fundamental Employment Rights</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>Right</th>
+                            <th>Description</th>
+                            <th>Legal Basis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Equal Opportunity</strong></td>
+                            <td>Protection against discrimination based on gender, religion, caste, etc.</td>
+                            <td>Constitution of India, Equal Remuneration Act</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fair Wages</strong></td>
+                            <td>Right to receive minimum wages and timely payment</td>
+                            <td>Minimum Wages Act, Payment of Wages Act</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Safe Workplace</strong></td>
+                            <td>Right to work in safe and healthy conditions</td>
+                            <td>Factories Act, Occupational Safety Acts</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Social Security</strong></td>
+                            <td>Right to provident fund, insurance, and pension benefits</td>
+                            <td>EPF Act, ESI Act, Gratuity Act</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Working Conditions and Benefits</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Working Hours</h4>
+                        <p>Maximum 48 hours per week, 9 hours per day with rest intervals</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Leave Entitlements</h4>
+                        <p>Annual leave, sick leave, maternity leave, and casual leave as per applicable laws</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Overtime Compensation</h4>
+                        <p>Double the ordinary rate of wages for overtime work beyond prescribed hours</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Bonus Payments</h4>
+                        <p>Statutory bonus of 8.33% to 20% of salary for eligible employees</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contracts Section -->
+        <div id="contracts" class="content-section">
+            <h2 class="section-title">Employment Contracts</h2>
+            
+            <div class="subsection">
+                <h3>Types of Employment Contracts</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Permanent Employment</h4>
+                        <ul>
+                            <li>Indefinite duration contract</li>
+                            <li>Full statutory benefits</li>
+                            <li>Notice period for termination</li>
+                            <li>Retrenchment compensation</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Fixed-Term Contract</h4>
+                        <ul>
+                            <li>Specific duration employment</li>
+                            <li>Automatic termination on expiry</li>
+                            <li>Limited statutory benefits</li>
+                            <li>Project-based employment</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Consultancy Agreement</h4>
+                        <ul>
+                            <li>Service provider relationship</li>
+                            <li>No employer-employee relationship</li>
+                            <li>Fee-based compensation</li>
+                            <li>Independent contractor status</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Apprenticeship Contract</h4>
+                        <ul>
+                            <li>Training and skill development</li>
+                            <li>Stipend instead of salary</li>
+                            <li>Limited period engagement</li>
+                            <li>No termination benefits</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Essential Contract Clauses</h3>
+                <div class="example-box">
+                    <strong>Key Contract Elements:</strong>
+                    <ul>
+                        <li>Job title, description, and duties</li>
+                        <li>Compensation structure and payment terms</li>
+                        <li>Working hours and location</li>
+                        <li>Leave and holiday policies</li>
+                        <li>Confidentiality and non-disclosure</li>
+                        <li>Termination conditions and notice period</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Termination Section -->
+        <div id="termination" class="content-section">
+            <h2 class="section-title">Employment Termination</h2>
+            
+            <div class="subsection">
+                <h3>Types of Termination</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>Termination Type</th>
+                            <th>Procedure</th>
+                            <th>Compensation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Voluntary Resignation</strong></td>
+                            <td>Employee submits resignation with notice period</td>
+                            <td>Full settlement of dues</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Retrenchment</strong></td>
+                            <td>Termination due to surplus staff with proper notice</td>
+                            <td>15 days average pay per completed year</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Misconduct Dismissal</strong></td>
+                            <td>Domestic inquiry and show-cause notice</td>
+                            <td>No compensation if proven</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Retirement</strong></td>
+                            <td>Upon reaching retirement age</td>
+                            <td>Gratuity and pension benefits</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Termination Procedures</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>Notice Period</strong>
+                            <p>Serve appropriate notice period or payment in lieu</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>Domestic Inquiry</strong>
+                            <p>For misconduct cases, conduct fair inquiry with principles of natural justice</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>Final Settlement</strong>
+                            <p>Calculate and pay all dues including salary, bonus, gratuity, and leave encashment</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>Experience Certificate</strong>
+                            <p>Issue experience certificate and relieving letter to employee</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disputes Section -->
+        <div id="disputes" class="content-section">
+            <h2 class="section-title">Employment Dispute Resolution</h2>
+            
+            <div class="subsection">
+                <h3>Dispute Resolution Mechanisms</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Internal Grievance Committee</h4>
+                        <p>Mandatory for establishments with 20+ employees to address sexual harassment complaints</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Labor Courts</h4>
+                        <p>Adjudicate rights and claims under various labor laws</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Industrial Tribunals</h4>
+                        <p>Handle industrial disputes including wages, hours, and employment conditions</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>High Courts & Supreme Court</h4>
+                        <p>Appellate jurisdiction over labor court and tribunal decisions</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Common Employment Disputes</h3>
+                <div class="example-box">
+                    <strong>Frequent Dispute Areas:</strong>
+                    <ul>
+                        <li>Wrongful termination and dismissal</li>
+                        <li>Non-payment of wages and bonuses</li>
+                        <li>Discrimination and harassment claims</li>
+                        <li>Unfair labor practices</li>
+                        <li>Contract interpretation disputes</li>
+                        <li>Social security benefit claims</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cases Section -->
+        <div id="cases" class="content-section">
+            <h2 class="section-title">Landmark Employment Cases</h2>
+            
+            <div class="subsection">
+                <h3>Indian Landmark Cases</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">Bangalore Water Supply v. R. Rajappa (1978)</div>
+                        <p>Expanded definition of 'industry' under Industrial Disputes Act, covering wider range of establishments</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Workmen of Firestone Tyre v. Management (1973)</div>
+                        <p>Established principles for retrenchment compensation and procedure under Industrial Disputes Act</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Vishaka v. State of Rajasthan (1997)</div>
+                        <p>Landmark judgment establishing guidelines against sexual harassment at workplace</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Rajasthan State Road Transport v. Krishna Kant (1995)</div>
+                        <p>Clarified jurisdiction between civil courts and labor tribunals in service matters</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">DTC v. DTC Mazdoor Congress (1991)</div>
+                        <p>Important case on termination of employment and principles of natural justice</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Air India v. Nergesh Meerza (1981)</div>
+                        <p>Significant case on gender discrimination in employment and service conditions</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>International Influence Cases</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">Donoghue v. Stevenson (1932) - UK</div>
+                        <p>Established modern negligence law principles that influence employer liability for workplace safety</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Griggs v. Duke Power Co. (1971) - USA</div>
+                        <p>Landmark employment discrimination case establishing 'disparate impact' theory</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">ILO Conventions</div>
+                        <p>International Labor Organization standards influencing Indian labor law reforms and worker protections</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Updates Section -->
+        <div id="recent" class="content-section">
+            <h2 class="section-title">Recent Employment Law Updates</h2>
+            
+            <div class="subsection">
+                <h3>Labor Codes 2020 - Major Reforms</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Code on Wages, 2019</h4>
+                        <ul>
+                            <li>Universal minimum wage coverage</li>
+                            <li>Standardized wage definition</li>
+                            <li>Timely payment requirements</li>
+                            <li>National minimum wage floor</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Industrial Relations Code, 2020</h4>
+                        <ul>
+                            <li>Fixed-term employment provisions</li>
+                            <li>Strike notice requirements</li>
+                            <li>Reskilling fund establishment</li>
+                            <li>Negotiating union criteria</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Occupational Safety Code, 2020</h4>
+                        <ul>
+                            <li>Single license for establishments</li>
+                            <li>Women's night work provisions</li>
+                            <li>Health and safety standards</li>
+                            <li>Contract labor regulations</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Social Security Code, 2020</h4>
+                        <ul>
+                            <li>Universal social security coverage</li>
+                            <li>Gig and platform workers inclusion</li>
+                            <li>National social security board</li>
+                            <li>Expanded benefit schemes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Recent Judicial Developments</h3>
+                <div class="example-box">
+                    <strong>Key Recent Changes (2021-2024):</strong>
+                    <ul>
+                        <li>Supreme Court rulings on gig worker rights and social security</li>
+                        <li>Implementation of labor codes across states</li>
+                        <li>Enhanced maternity benefits and childcare provisions</li>
+                        <li>Digital compliance and e-governance initiatives</li>
+                        <li>Strengthened sexual harassment prevention mechanisms</li>
+                        <li>Remote work regulations and policies</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h3>Need Employment Law Assistance?</h3>
+            <p>Our experienced employment law team provides comprehensive legal support for employment contracts, disputes, compliance, and rights protection. Protecting your employment rights is our priority.</p>
+            <a href="https://nyaysetu-3e8f79.zapier.app/" class="cta-button">Get Employment Legal Help Now</a>
+        </div>
+    </div>
+
+    <script>
+        // Tab navigation functionality
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected section and activate corresponding tab
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+
+            // Scroll to top of content
+            document.querySelector('.container').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize with overview section
+            showSection('overview');
+            
+            // Add keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                    const tabs = document.querySelectorAll('.nav-tab');
+                    const activeTab = document.querySelector('.nav-tab.active');
+                    const currentIndex = Array.from(tabs).indexOf(activeTab);
+                    
+                    let newIndex;
+                    if (e.key === 'ArrowLeft') {
+                        newIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
+                    } else {
+                        newIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
+                    }
+                    
+                    tabs[newIndex].click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

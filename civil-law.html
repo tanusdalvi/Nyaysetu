@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civil Litigation - NYAYSETU</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #1e3c72;
+            --secondary-blue: #2a5298;
+            --accent-gold: #ffd700;
+            --accent-gold-light: #ffed4a;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 5px 20px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+            --border-radius-large: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-medium);
+            backdrop-filter: blur(10px);
+        }
+
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--white);
+            color: var(--primary-blue);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-light);
+        }
+
+        .lang-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .lang-btn.active {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+
+        /* Header */
+        .header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+            padding: 0 2rem;
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+        }
+
+        .nav-tab {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+
+        .nav-tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--accent-gold);
+        }
+
+        /* Content Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+
+        .subsection {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--accent-gold);
+        }
+
+        .subsection h3 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .subsection h4 {
+            color: var(--secondary-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .example-box {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-gold);
+        }
+
+        .example-box strong {
+            color: var(--primary-blue);
+        }
+
+        /* Table Styles */
+        .stages-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+
+        .stages-table th,
+        .stages-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stages-table th {
+            background: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+        }
+
+        .stages-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+
+        /* Laws Grid */
+        .laws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .law-card {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-gold);
+        }
+
+        .law-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .law-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        /* Case Cards */
+        .cases-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .case-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--secondary-blue);
+        }
+
+        .case-title {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Rights List */
+        .rights-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .right-item {
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .right-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        /* Challenges and Solutions */
+        .challenge-item,
+        .solution-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-light);
+        }
+
+        .challenge-item {
+            border-left: 4px solid #ff4757;
+        }
+
+        .solution-item {
+            border-left: 4px solid #2ed573;
+        }
+
+        /* Contact CTA */
+        .contact-cta {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius-large);
+            margin-top: 3rem;
+        }
+
+        .contact-cta h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-button {
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .back-btn {
+                position: static;
+                margin-bottom: 1rem;
+            }
+
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .nav-tabs {
+                padding: 0 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-btn" data-key="nav.back">← Back to Services</a>
+        <h1 data-key="civil.title">Civil Litigation</h1>
+        <p data-key="civil.subtitle">Comprehensive Guide to Civil Legal Proceedings</p>
+    </div>
+
+    <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('basics')" data-key="nav.basics">Basics</button>
+        <button class="nav-tab" onclick="showSection('process')" data-key="nav.process">Process</button>
+        <button class="nav-tab" onclick="showSection('laws')" data-key="nav.laws">Laws & Acts</button>
+        <button class="nav-tab" onclick="showSection('cases')" data-key="nav.cases">Landmark Cases</button>
+        <button class="nav-tab" onclick="showSection('rights')" data-key="nav.rights">Your Rights</button>
+        <button class="nav-tab" onclick="showSection('alternatives')" data-key="nav.alternatives">Alternatives</button>
+        <button class="nav-tab" onclick="showSection('challenges')" data-key="nav.challenges">Challenges & Future</button>
+    </nav>
+
+    <div class="container">
+        <!-- Basics Section -->
+        <div id="basics" class="content-section active">
+            <h2 class="section-title">Understanding Civil Litigation</h2>
+            
+            <div class="subsection">
+                <h3>What is Civil Litigation?</h3>
+                <p>Civil litigation refers to the legal process of resolving disputes between individuals, businesses, or organizations through the court system. Unlike criminal cases, civil litigation deals with private rights and seeks compensation or specific remedies rather than punishment.</p>
+                
+                <div class="example-box">
+                    <strong>Example:</strong> If your neighbor damages your property, it becomes a civil matter. If they assault you, it becomes criminal. Civil cases focus on rights and compensation, not punishment.
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Why Civil Litigation Exists</h3>
+                <ul>
+                    <li><strong>Protect Rights:</strong> Property, contracts, reputation, family rights</li>
+                    <li><strong>Compensate Losses:</strong> Financial or property damages</li>
+                    <li><strong>Prevent Harm:</strong> Through court injunctions</li>
+                    <li><strong>Peaceful Resolution:</strong> Alternative to violence or self-help</li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <h3>Key Parties in Civil Litigation</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Plaintiff/Petitioner</h4>
+                        <p>The person or entity filing the lawsuit and seeking relief from the court.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Defendant/Respondent</h4>
+                        <p>The person or entity being sued and required to respond to the allegations.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Court</h4>
+                        <p>The neutral judicial authority that decides the case based on law and evidence.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Lawyers</h4>
+                        <p>Legal representatives who present arguments and evidence for their clients.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Process Section -->
+        <div id="process" class="content-section">
+            <h2 class="section-title">Civil Litigation Process</h2>
+            
+            <div class="subsection">
+                <h3>Stages of Civil Litigation</h3>
+                <table class="stages-table">
+                    <thead>
+                        <tr>
+                            <th>Stage</th>
+                            <th>Explanation</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1. Pleading</strong></td>
+                            <td>Plaintiff files plaint (written complaint). Defendant files written statement (reply).</td>
+                            <td>You sue builder for not giving flat → you file plaint, builder files written statement.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. Pre-trial</strong></td>
+                            <td>Exchange of documents, evidence, witness lists.</td>
+                            <td>Your lawyer asks builder for project documents.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. Trial</strong></td>
+                            <td>Both sides present evidence, witnesses cross-examined.</td>
+                            <td>You show payment receipts, builder shows excuses.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4. Judgment</strong></td>
+                            <td>Judge gives decision based on evidence and law.</td>
+                            <td>Court orders builder to give flat or refund money.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>5. Appeal</strong></td>
+                            <td>Party unhappy with judgment can appeal to higher court.</td>
+                            <td>Builder appeals decision in High Court.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>6. Execution</strong></td>
+                            <td>Court order enforced by law if voluntary compliance fails.</td>
+                            <td>Court seizes builder's property if refusal to comply.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Laws Section -->
+        <div id="laws" class="content-section">
+            <h2 class="section-title">Civil Laws in India</h2>
+            
+            <div class="laws-grid">
+                <div class="law-card">
+                    <h4>Code of Civil Procedure, 1908 (CPC)</h4>
+                    <p>The primary rulebook for civil cases in India. Key provisions include:</p>
+                    <ul>
+                        <li><strong>Section 9:</strong> Right to file civil cases</li>
+                        <li><strong>Section 11:</strong> Res Judicata (no double jeopardy)</li>
+                        <li><strong>Order XXI:</strong> Execution of court orders</li>
+                        <li><strong>Order XXXVII:</strong> Summary suits for quick relief</li>
+                    </ul>
+                    <div class="example-box">
+                        <strong>Example:</strong> Bounced cheque cases use Order 37 for faster resolution.
+                    </div>
+                </div>
+
+                <div class="law-card">
+                    <h4>Indian Contract Act, 1872</h4>
+                    <p>Governs agreements and contracts requiring offer + acceptance + consideration.</p>
+                    <div class="example-box">
+                        <strong>Example:</strong> You hire caterer for ₹1 lakh who doesn't show up → breach of contract claim.
+                    </div>
+                </div>
+
+                <div class="law-card">
+                    <h4>Specific Relief Act, 1963</h4>
+                    <p>Provides specific performance and injunctive relief when monetary compensation isn't adequate.</p>
+                    <div class="example-box">
+                        <strong>Example:</strong> Court can stop builder from selling your booked flat to someone else.
+                    </div>
+                </div>
+
+                <div class="law-card">
+                    <h4>Indian Evidence Act, 1872</h4>
+                    <p>Defines what constitutes valid proof in court including oral, documentary, and electronic evidence.</p>
+                    <div class="example-box">
+                        <strong>Example:</strong> WhatsApp chats can be evidence in property disputes.
+                    </div>
+                </div>
+
+                <div class="law-card">
+                    <h4>Limitation Act, 1963</h4>
+                    <p>Sets time limits for filing different types of cases:</p>
+                    <ul>
+                        <li>Property cases: 12 years</li>
+                        <li>Contract cases: 3 years</li>
+                    </ul>
+                    <div class="example-box">
+                        <strong>Example:</strong> Money lent in 2010 cannot be claimed in 2025 - it's time-barred.
+                    </div>
+                </div>
+
+                <div class="law-card">
+                    <h4>Consumer Protection Act, 2019</h4>
+                    <p>Protects consumers from unfair trade practices with specialized consumer courts.</p>
+                    <div class="example-box">
+                        <strong>Example:</strong> Defective laptop complaints can be filed in consumer court.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Landmark Cases Section -->
+        <div id="cases" class="content-section">
+            <h2 class="section-title">Landmark Civil Cases</h2>
+            
+            <div class="subsection">
+                <h3>Indian Landmark Cases</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">Kesavananda Bharati v. State of Kerala (1973)</div>
+                        <p>Limited government power and saved Constitution's "basic structure" doctrine.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Maneka Gandhi v. Union of India (1978)</div>
+                        <p>Expanded meaning of "Right to Life" to include fair treatment and due process.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Vishaka v. State of Rajasthan (1997)</div>
+                        <p>Established first workplace sexual harassment guidelines in India.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">MC Mehta v. Union of India (1986)</div>
+                        <p>Industries must take full responsibility for pollution with no excuses.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Shreya Singhal v. Union of India (2015)</div>
+                        <p>Struck down Section 66A IT Act ensuring freedom of speech online.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>International Landmark Cases</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">Brown v. Board of Education (1954) - US</div>
+                        <p>Ended racial segregation in American schools.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Donoghue v. Stevenson (1932) - UK</div>
+                        <p>Established modern negligence law ("snail in ginger beer bottle" case).</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Trail Smelter Case (1941) - International</div>
+                        <p>Pollution dispute between Canada and US setting international environmental precedent.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rights Section -->
+        <div id="rights" class="content-section">
+            <h2 class="section-title">Rights of a Litigant</h2>
+            
+            <div class="rights-list">
+                <div class="right-item">
+                    <div class="right-icon">⚖</div>
+                    <div>
+                        <strong>Right to File Case</strong>
+                        <p>Anyone whose rights are violated can approach court</p>
+                    </div>
+                </div>
+                <div class="right-item">
+                    <div class="right-icon">👨‍⚖</div>
+                    <div>
+                        <strong>Right to Fair Trial</strong>
+                        <p>Unbiased hearing with proper judicial process</p>
+                    </div>
+                </div>
+                <div class="right-item">
+                    <div class="right-icon">🏛</div>
+                    <div>
+                        <strong>Right to Legal Representation</strong>
+                        <p>Can hire advocate or represent yourself</p>
+                    </div>
+                </div>
+                <div class="right-item">
+                    <div class="right-icon">📈</div>
+                    <div>
+                        <strong>Right to Appeal</strong>
+                        <p>If unsatisfied, can approach higher court</p>
+                    </div>
+                </div>
+                <div class="right-item">
+                    <div class="right-icon">🎯</div>
+                    <div>
+                        <strong>Right to Enforce Judgment</strong>
+                        <p>Court ensures you receive awarded compensation</p>
+                    </div>
+                </div>
+                <div class="right-item">
+                    <div class="right-icon">📋</div>
+                    <div>
+                        <strong>Right to Evidence</strong>
+                        <p>Present and examine evidence supporting your case</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alternatives Section -->
+        <div id="alternatives" class="content-section">
+            <h2 class="section-title">Alternative Dispute Resolution (ADR)</h2>
+            
+            <div class="laws-grid">
+                <div class="law-card">
+                    <h4>Arbitration</h4>
+                    <p>Private judge makes binding decision. Faster than courts with enforceable awards.</p>
+                    <div class="example-box">
+                        <strong>Example:</strong> Business contracts often include arbitration clauses.
+                    </div>
+                </div>
+                <div class="law-card">
+                    <h4>Mediation</h4>
+                    <p>Neutral person helps parties reach voluntary agreement. Non-binding but cost-effective.</p>
+                    <div class="example-box">
+                        <strong>Example:</strong> Divorce cases often start with mediation.
+                    </div>
+                </div>
+                <div class="law-card">
+                    <h4>Conciliation</h4>
+                    <p>Similar to mediation but conciliator can actively suggest solutions.</p>
+                </div>
+                <div class="law-card">
+                    <h4>Negotiation</h4>
+                    <p>Direct settlement between parties without third-party intervention.</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Benefits of ADR</h3>
+                <ul>
+                    <li><strong>Speed:</strong> Faster resolution than court litigation</li>
+                    <li><strong>Cost:</strong> Lower expenses than traditional litigation</li>
+                    <li><strong>Privacy:</strong> Confidential proceedings</li>
+                    <li><strong>Flexibility:</strong> Customized solutions possible</li>
+                    <li><strong>Relationships:</strong> Preserves business/personal relationships</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Challenges Section -->
+        <div id="challenges" class="content-section">
+            <h2 class="section-title">Challenges & Future of Civil Litigation</h2>
+            
+            <div class="subsection">
+                <h3>Current Challenges</h3>
+                <div class="challenge-item">
+                    <h4>Delays and Backlog</h4>
+                    <p>Cases can take years due to overburdened court system and procedural complexities.</p>
+                </div>
+                <div class="challenge-item">
+                    <h4>High Costs</h4>
+                    <p>Legal fees, court costs, and time investment make litigation expensive for middle-class.</p>
+                </div>
+                <div class="challenge-item">
+                    <h4>Lack of Awareness</h4>
+                    <p>Many people don't know about consumer courts or their legal rights.</p>
+                </div>
+                <div class="challenge-item">
+                    <h4>Delay Tactics</h4>
+                    <p>Lawyers may use procedural delays to prolong cases unnecessarily.</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Future Innovations</h3>
+                <div class="solution-item">
+                    <h4>E-Courts</h4>
+                    <p>Online case filing, virtual hearings, and digital case management systems.</p>
+                </div>
+                <div class="solution-item">
+                    <h4>Online Dispute Resolution (ODR)</h4>
+                    <p>Small disputes resolved entirely online with video conferences.</p>
+                </div>
+                <div class="solution-item">
+                    <h4>Artificial Intelligence</h4>
+                    <p>AI assistance for case outcome prediction and automated documentation.</p>
+                </div>
+                <div class="solution-item">
+                    <h4>Global Arbitration</h4>
+                    <p>Cross-border business disputes handled outside traditional court systems.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h3>Need Civil Litigation Support?</h3>
+            <p>Our experienced legal team is ready to guide you through every step of the civil litigation process. Get expert advice tailored to your specific situation.</p>
+            <a href="https://nyaysetu-3e8f79.zapier.app/" class="cta-button">Get Free Consultation</a>
+        </div>
+    </div>
+
+    <script>
+        // Translation data for Civil Litigation page
+        const translations = {
+            en: {
+                // Navigation
+                "nav.back": "← Back to Services",
+                "nav.basics": "Basics",
+                "nav.process": "Process",
+                "nav.laws": "Laws & Acts",
+                "nav.cases": "Landmark Cases",
+                "nav.rights": "Your Rights",
+                "nav.alternatives": "Alternatives",
+                "nav.challenges": "Challenges & Future",
+                
+                // Header
+                "civil.title": "Civil Litigation",
+                "civil.subtitle": "Comprehensive Guide to Civil Legal Proceedings",
+                
+                // Content keys will be added as needed
+            },
+            hi: {
+                // Navigation
+                "nav.back": "← सेवाओं पर वापस",
+                "nav.basics": "मूल बातें",
+                "nav.process": "प्रक्रिया",
+                "nav.laws": "कानून और अधिनियम",
+                "nav.cases": "ऐतिहासिक मामले",
+                "nav.rights": "आपके अधिकार",
+                "nav.alternatives": "विकल्प",
+                "nav.challenges": "चुनौतियां और भविष्य",
+                
+                // Header
+                "civil.title": "सिविल लिटिगेशन",
+                "civil.subtitle": "सिविल कानूनी कार्यवाही के लिए व्यापक गाइड",
+            },
+            mr: {
+                // Navigation
+                "nav.back": "← सेवांकडे परत",
+                "nav.basics": "मूलभूत गोष्टी",
+                "nav.process": "प्रक्रिया",
+                "nav.laws": "कायदे आणि अधिनियम",
+                "nav.cases": "ऐतिहासिक प्रकरणे",
+                "nav.rights": "तुमचे हक्क",
+                "nav.alternatives": "पर्याय",
+                "nav.challenges": "आव्हाने आणि भविष्य",
+                
+                // Header
+                "civil.title": "सिव्हिल लिटिगेशन",
+                "civil.subtitle": "सिव्हिल कायदेशीर कार्यवाहीसाठी व्यापक मार्गदर्शक",
+            }
+        };
+
+        // Set default language
+        let currentLang = 'en';
+
+        // Function to change language
+        function changeLanguage(lang) {
+            currentLang = lang;
+            
+            // Update all elements with data-key attribute
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[lang][key]) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = translations[lang][key];
+                    } else {
+                        element.textContent = translations[lang][key];
+                    }
+                }
+            });
+            
+            // Update active language button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+
+            // Store language preference
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        // Add event listeners to language buttons
+        document.querySelectorAll('.lang-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                if (lang === 'hi') {
+                    window.location.href = 'Civil Law Hindi.html';
+                } else if (lang === 'mr') {
+                    window.location.href = 'Civil Law Marathi.html';
+                } else {
+                    changeLanguage(lang);
+                }
+            });
+        });
+
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected section and activate corresponding tab
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+
+            // Scroll to top of content
+            document.querySelector('.container').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Add smooth scrolling for better user experience
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for stored language preference or get from URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const langParam = urlParams.get('lang');
+            const storedLang = localStorage.getItem('preferredLanguage');
+            const preferredLang = langParam || storedLang || 'en';
+            
+            // Initialize with preferred language
+            if (preferredLang !== 'en') {
+                changeLanguage(preferredLang);
+            }
+            
+            // Initialize with basics section
+            showSection('basics');
+            
+            // Add keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                    const tabs = document.querySelectorAll('.nav-tab');
+                    const activeTab = document.querySelector('.nav-tab.active');
+                    const currentIndex = Array.from(tabs).indexOf(activeTab);
+                    
+                    let newIndex;
+                    if (e.key === 'ArrowLeft') {
+                        newIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
+                    } else {
+                        newIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
+                    }
+                    
+                    tabs[newIndex].click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

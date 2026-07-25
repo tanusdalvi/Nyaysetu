@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>आप्रवासन कानून - NYAYSETU</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #1e3c72;
+            --secondary-blue: #2a5298;
+            --accent-gold: #ffd700;
+            --accent-gold-light: #ffed4a;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 5px 20px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+            --border-radius-large: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-medium);
+            backdrop-filter: blur(10px);
+        }
+
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--white);
+            color: var(--primary-blue);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-light);
+        }
+
+        .lang-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .lang-btn.active {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+
+        /* Header */
+        .header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+            padding: 0 2rem;
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+        }
+
+        .nav-tab {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+
+        .nav-tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--accent-gold);
+        }
+
+        /* Content Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+
+        .subsection {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--accent-gold);
+        }
+
+        .subsection h3 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .subsection h4 {
+            color: var(--secondary-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .example-box {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-gold);
+        }
+
+        .example-box strong {
+            color: var(--primary-blue);
+        }
+
+        /* Table Styles */
+        .principles-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+
+        .principles-table th,
+        .principles-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .principles-table th {
+            background: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+        }
+
+        .principles-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+
+        /* Laws Grid */
+        .laws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .law-card {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-gold);
+        }
+
+        .law-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .law-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        /* Visa Cards */
+        .visas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .visa-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--secondary-blue);
+        }
+
+        .visa-title {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Rights List */
+        .rights-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .right-item {
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .right-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        /* Challenges and Solutions */
+        .challenge-item,
+        .solution-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-light);
+        }
+
+        .challenge-item {
+            border-left: 4px solid #ff4757;
+        }
+
+        .solution-item {
+            border-left: 4px solid #2ed573;
+        }
+
+        /* Constitution Cards */
+        .constitution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .article-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--secondary-blue);
+        }
+
+        .article-number {
+            color: var(--primary-blue);
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Process Steps */
+        .process-steps {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .step-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-left: 4px solid var(--accent-gold);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* Contact CTA */
+        .contact-cta {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius-large);
+            margin-top: 3rem;
+        }
+
+        .contact-cta h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-button {
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .back-btn {
+                position: static;
+                margin-bottom: 1rem;
+            }
+
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .nav-tabs {
+                padding: 0 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-btn">← सेवाओं पर वापस</a>
+        <h1>आप्रवासन कानून</h1>
+        <p>भारतीय आप्रवासन कानूनों और प्रक्रियाओं की व्यापक मार्गदर्शिका</p>
+    </div>
+
+    <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('basics')">मूल बातें</button>
+        <button class="nav-tab" onclick="showSection('visas')">वीज़ा प्रकार</button>
+        <button class="nav-tab" onclick="showSection('citizenship')">नागरिकता</button>
+        <button class="nav-tab" onclick="showSection('laws')">कानून और विनियम</button>
+        <button class="nav-tab" onclick="showSection('process')">आवेदन प्रक्रिया</button>
+        <button class="nav-tab" onclick="showSection('rights')">अधिकार और दायित्व</button>
+        <button class="nav-tab" onclick="showSection('recent')">हालिया परिवर्तन</button>
+        <button class="nav-tab" onclick="showSection('challenges')">चुनौतियाँ</button>
+    </nav>
+
+    <div class="container">
+        <!-- Basics Section -->
+        <div id="basics" class="content-section active">
+            <h2 class="section-title">भारतीय आप्रवासन कानून को समझना</h2>
+            
+            <div class="subsection">
+                <h3>परिभाषा और दायरा</h3>
+                <p>भारतीय आप्रवासन कानून भारत में विदेशी नागरिकों के प्रवेश, रहने और प्रस्थान के साथ-साथ भारतीय नागरिकता के अधिग्रहण और हानि को नियंत्रित करता है। इसमें वीज़ा विनियम, नागरिकता कानून और भारत में रहने वाले विदेशियों के लिए प्रक्रियाएं शामिल हैं।</p>
+                
+                <div class="example-box">
+                    <strong>मुख्य अंतर:</strong> 
+                    <span>आप्रवासन कानून सीमाओं के पार लोगों के आवागमन को नियंत्रित करता है, जबकि उत्प्रवासन कानून अन्य देशों में जाने वाले भारतीय नागरिकों के प्रस्थान को नियंत्रित करता है।</span>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>आप्रवासन कानून का उद्देश्य</h3>
+                <ul>
+                    <li><strong>राष्ट्रीय सुरक्षा:</strong> राष्ट्रीय हितों की रक्षा के लिए प्रवेश को नियंत्रित करना</li>
+                    <li><strong>आर्थिक विकास:</strong> कुशल प्रवासन और विदेशी निवेश को सुविधाजनक बनाना</li>
+                    <li><strong>सांस्कृतिक आदान-प्रदान:</strong> पर्यटन और सांस्कृतिक आदान-प्रदान को बढ़ावा देना</li>
+                    <li><strong>पारिवारिक एकता:</strong> परिवार के सदस्यों को पुनर्मिलन की अनुमति देना</li>
+                    <li><strong>मानवीय सुरक्षा:</strong> उत्पीड़न से भाग रहे लोगों को शरण प्रदान करना</li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <h3>मुख्य नियामक निकाय</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>गृह मंत्रालय</h4>
+                        <p>भारत में आप्रवासन नीतियों, नागरिकता मामलों और वीज़ा विनियमों के लिए प्राथमिक प्राधिकरण।</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>विदेशी क्षेत्रीय पंजीकरण कार्यालय (FRRO)</h4>
+                        <p>विदेशियों के पंजीकरण, वीज़ा विस्तार और अन्य आप्रवासन संबंधी सेवाओं को संभालता है।</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>आप्रवासन ब्यूरो</h4>
+                        <p>हवाई अड्डों और सीमा चौकियों पर आप्रवासन नियंत्रण लागू करता है।</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>विदेश मंत्रालय</h4>
+                        <p>विदेश में भारतीय मिशनों के माध्यम से वीज़ा जारी करना और आप्रवासन के कूटनीतिक पहलुओं की देखरेख करता है।</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visas Section -->
+        <div id="visas" class="content-section">
+            <h2 class="section-title">वीज़ा प्रकार और श्रेणियाँ</h2>
+            
+            <div class="subsection">
+                <h3>प्रमुख वीज़ा श्रेणियाँ</h3>
+                <div class="visas-grid">
+                    <div class="visa-card">
+                        <div class="visa-title">पर्यटक वीज़ा</div>
+                        <p>मनोरंजन, दर्शनीय स्थल, दोस्तों या रिश्तेदारों से मिलने के लिए। कोई व्यावसायिक गतिविधि की अनुमति नहीं।</p>
+                    </div>
+                    <div class="visa-card">
+                        <div class="visa-title">व्यापार वीज़ा</div>
+                        <p>व्यापारिक बैठकों, औद्योगिक/व्यावसायिक उद्यम स्थापित करने, या उत्पादों की खरीद/बिक्री के लिए।</p>
+                    </div>
+                    <div class="visa-card">
+                        <div class="visa-title">रोजगार वीज़ा</div>
+                        <p>भारतीय कंपनियों द्वारा नियोजित कुशल पेशेवरों के लिए। न्यूनतम वेतन सीमा आवश्यक है।</p>
+                    </div>
+                    <div class="visa-card">
+                        <div class="visa-title">छात्र वीज़ा</div>
+                        <p>भारत में मान्यता प्राप्त शैक्षणिक संस्थानों में नियमित अध्ययन के लिए।</p>
+                    </div>
+                    <div class="visa-card">
+                        <div class="visa-title">चिकित्सा वीज़ा</div>
+                        <p>भारत में मान्यता प्राप्त/विशेष अस्पतालों में चिकित्सा उपचार के लिए।</p>
+                    </div>
+                    <div class="visa-card">
+                        <div class="visa-title">अनुसंधान वीज़ा</div>
+                        <p>भारतीय संस्थानों में अनुसंधान करने की इच्छा रखने वाले विदेशियों के लिए।</p>
+                    </div>
+                    <div class="visa-card">
+                        <div class="visa-title">सम्मेलन वीज़ा</div>
+                        <p>भारत में सम्मेलन/सेमिनार/कार्यशालाओं में भाग लेने के लिए।</p>
+                    </div>
+                    <div class="visa-card">
+                        <div class="visa-title">प्रवेश वीज़ा</div>
+                        <p>भारतीय मूल के व्यक्तियों और उनके परिवार के सदस्यों के लिए दीर्घकालिक रहने के लिए।</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>ई-वीज़ा सुविधा</h3>
+                <p>भारत 160 से अधिक देशों के नागरिकों के लिए पर्यटन, व्यापार और चिकित्सा उद्देश्यों के लिए ई-वीज़ा सुविधा प्रदान करता है। आवेदन तेज प्रसंस्करण समय के साथ ऑनलाइन पूरा किया जाता है।</p>
+                
+                <div class="example-box">
+                    <strong>ई-वीज़ा श्रेणियाँ:</strong>
+                    <ul>
+                        <li>ई-पर्यटक वीज़ा (1 महीना, 1 वर्ष, 5 वर्ष)</li>
+                        <li>ई-व्यापार वीज़ा</li>
+                        <li>ई-चिकित्सा वीज़ा</li>
+                        <li>ई-चिकित्सा परिचारक वीज़ा</li>
+                        <li>ई-सम्मेलन वीज़ा</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Citizenship Section -->
+        <div id="citizenship" class="content-section">
+            <h2 class="section-title">नागरिकता और प्राकृतिककरण</h2>
+            
+            <div class="subsection">
+                <h3>भारतीय नागरिकता प्राप्त करने के तरीके</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <h4>जन्म से</h4>
+                            <p>26 जनवरी, 1950 को या उसके बाद लेकिन 1 जुलाई, 1987 से पहले भारत में जन्मे व्यक्ति माता-पिता की राष्ट्रीयता की परवाह किए बिना जन्म से नागरिक हैं।</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <h4>वंश से</h4>
+                            <p>26 जनवरी, 1950 को या उसके बाद लेकिन 10 दिसंबर, 1992 से पहले भारत से बाहर जन्मे व्यक्ति, यदि जन्म के समय पिता भारतीय नागरिक था।</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <h4>पंजीकरण द्वारा</h4>
+                            <p>भारतीय मूल के व्यक्तियों, भारतीय नागरिकों के जीवनसाथी और भारतीय नागरिकों के नाबालिग बच्चों के लिए उपलब्ध।</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <h4>प्राकृतिककरण द्वारा</h4>
+                            <p>विदेशी नागरिकता प्राप्त कर सकते हैं यदि वे 12 वर्षों तक भारत में रहे हैं और अन्य योग्यताएं पूरी करते हैं।</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>ओवरसीज सिटीजनशिप ऑफ इंडिया (OCI)</h3>
+                <p>OCI योजना भारतीय मूल के व्यक्तियों और उनके जीवनसाथी को भारत में अनिश्चित काल तक रहने और काम करने की अनुमति देती है। OCI कार्डधारकों को भारत आने के लिए मल्टीपल एंट्री, मल्टी-पर्पज आजीवन वीज़ा मिलता है।</p>
+                
+                <div class="example-box">
+                    <strong>OCI लाभ:</strong>
+                    <ul>
+                        <li>मल्टीपल एंट्री, मल्टी-पर्पज आजीवन वीज़ा</li>
+                        <li>किसी भी लंबाई के रहने के लिए FRRO के साथ पंजीकरण से छूट</li>
+                        <li>वित्तीय, आर्थिक और शैक्षणिक क्षेत्रों में NRI के साथ समानता</li>
+                        <li>शैक्षणिक संस्थानों में प्रवेश के लिए अलग छात्र वीज़ा की आवश्यकता नहीं</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Laws Section -->
+        <div id="laws" class="content-section">
+            <h2 class="section-title">मुख्य आप्रवासन कानून और विनियम</h2>
+            
+            <div class="subsection">
+                <h3>प्राथमिक कानून</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>विदेशी अधिनियम, 1946</h4>
+                        <p>केंद्र सरकार को भारत में विदेशियों के प्रवेश, उपस्थिति और प्रस्थान को नियंत्रित करने का अधिकार देता है।</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>विदेशी पंजीकरण अधिनियम, 1939</h4>
+                        <p>भारत में प्रवेश करने वाले विदेशियों के पंजीकरण और रिकॉर्ड रखने का प्रावधान करता है।</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>नागरिकता अधिनियम, 1955</h4>
+                        <p>भारतीय नागरिकता के अधिग्रहण और समाप्ति को नियंत्रित करता है और OCI योजना शुरू करता है।</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>पासपोर्ट (भारत में प्रवेश) अधिनियम, 1920</h4>
+                        <p>भारत में प्रवेश को नियंत्रित करता है और वैध पासपोर्ट रखने को अनिवार्य करता है।</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>संवैधानिक प्रावधान</h3>
+                <div class="constitution-grid">
+                    <div class="article-card">
+                        <div class="article-number">अनुच्छेद 5</div>
+                        <p>संविधान के प्रारंभ पर नागरिकता।</p>
+                    </div>
+                    <div class="article-card">
+                        <div class="article-number">अनुच्छेद 6</div>
+                        <p>पाकिस्तान से भारत आने वाले कुछ व्यक्तियों की नागरिकता के अधिकार।</p>
+                    </div>
+                    <div class="article-card">
+                        <div class="article-number">अनुच्छेद 7</div>
+                        <p>पाकिस्तान जाने वाले कुछ प्रवासियों की नागरिकता के अधिकार।</p>
+                    </div>
+                    <div class="article-card">
+                        <div class="article-number">अनुच्छेद 8</div>
+                        <p>भारत के बाहर रहने वाले भारतीय मूल के कुछ व्यक्तियों की नागरिकता के अधिकार।</p>
+                    </div>
+                    <div class="article-card">
+                        <div class="article-number">अनुच्छेद 9</div>
+                        <p>स्वेच्छा से किसी विदेशी राज्य की नागरिकता प्राप्त करने वाले व्यक्ति नागरिक नहीं होंगे।</p>
+                    </div>
+                    <div class="article-card">
+                        <div class="article-number">अनुच्छेद 10</div>
+                        <p>नागरिकता के अधिकारों की निरंतरता।</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Process Section -->
+        <div id="process" class="content-section">
+            <h2 class="section-title">वीज़ा आवेदन प्रक्रिया</h2>
+            
+            <div class="subsection">
+                <h3>मानक आवेदन चरण</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <h4>वीज़ा प्रकार निर्धारित करें</h4>
+                            <p>यात्रा के उद्देश्य के आधार पर उपयुक्त वीज़ा श्रेणी की पहचान करें।</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <h4>आवेदन पूरा करें</h4>
+                            <p>सटीक जानकारी के साथ ऑनलाइन आवेदन पत्र भरें।</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <h4>दस्तावेज एकत्र करें</h4>
+                            <p>वीज़ा श्रेणी के अनुसार आवश्यक सहायक दस्तावेज एकत्र करें।</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <h4>आवेदन जमा करें</h4>
+                            <p>ई-वीज़ा के लिए भारतीय मिशन/FRRO या ऑनलाइन आवेदन जमा करें।</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <h4>शुल्क भुगतान करें</h4>
+                            <p>राष्ट्रीयता और वीज़ा प्रकार के आधार पर लागू वीज़ा शुल्क का भुगतान करें।</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">6</div>
+                        <div>
+                            <h4>साक्षात्कार में भाग लें (यदि आवश्यक हो)</h4>
+                            <p>कुछ वीज़ा श्रेणियों के लिए मिशन में व्यक्तिगत साक्षात्कार आवश्यक है।</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">7</div>
+                        <div>
+                            <h4>आवेदन ट्रैक करें</h4>
+                            <p>प्रदान की गई ट्रैकिंग प्रणाली के माध्यम से आवेदन स्थिति की निगरानी करें।</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">8</div>
+                        <div>
+                            <h4>वीज़ा प्राप्त करें</h4>
+                            <p>वीज़ा स्टाम्प के साथ पासपोर्ट प्राप्त करें या ई-मेल के माध्यम से ई-वीज़ा प्राप्त करें।</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>पंजीकरण आवश्यकताएँ</h3>
+                <p>दीर्घकालिक वीज़ा (180 दिनों से अधिक) पर भारत आने वाले विदेशियों को आगमन के 14 दिनों के भीतर FRRO/FRO के साथ पंजीकरण कराना होगा। कुछ राष्ट्रीयताओं को रहने की अवधि की परवाह किए बिना पंजीकरण कराना होगा।</p>
+                
+                <div class="example-box">
+                    <strong>पंजीकरण आवश्यक:</strong>
+                    <ul>
+                        <li>180 दिनों से अधिक के लिए भारत आने वाले सभी विदेशी नागरिक</li>
+                        <li>अफगानिस्तान, चीन और पाकिस्तान के नागरिक (अवधि की परवाह किए बिना)</li>
+                        <li>पाकिस्तानी मूल के सभी विदेशी नागरिक</li>
+                        <li>सभी विदेशी पत्रकार और फोटोग्राफर</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rights Section -->
+        <div id="rights" class="content-section">
+            <h2 class="section-title">विदेशियों के अधिकार और दायित्व</h2>
+            
+            <div class="subsection">
+                <h3>विदेशियों के लिए उपलब्ध मौलिक अधिकार</h3>
+                <div class="rights-list">
+                    <div class="right-item">
+                        <div class="right-icon">✓</div>
+                        <span>कानून के समक्ष समानता (अनुच्छेद 14)</span>
+                    </div>
+                    <div class="right-item">
+                        <div class="right-icon">✓</div>
+                        <span>जीवन और व्यक्तिगत स्वतंत्रता का संरक्षण (अनुच्छेद 21)</span>
+                    </div>
+                    <div class="right-item">
+                        <div class="right-icon">✓</div>
+                        <span>पूर्वव्यापी कानूनों के खिलाफ सुरक्षा (अनुच्छेद 20(1))</span>
+                    </div>
+                    <div class="right-item">
+                        <div class="right-icon">✓</div>
+                        <span>दोहरे दंड के खिलाफ सुरक्षा (अनुच्छेद 20(2))</span>
+                    </div>
+                    <div class="right-item">
+                        <div class="right-icon">✓</div>
+                        <span>आत्म-अभिशंसन के खिलाफ सुरक्षा (अनुच्छेद 20(3))</span>
+                    </div>
+                    <div class="right-item">
+                        <div class="right-icon">✓</div>
+                        <span>अंतःकरण और धर्म की स्वतंत्रता (अनुच्छेद 25)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>विदेशियों के दायित्व</h3>
+                <ul>
+                    <li>भारतीय कानूनों का पालन करें और स्थानीय रीति-रिवाजों का सम्मान करें</li>
+                    <li>राष्ट्रीयता और रहने की अवधि के आधार पर यदि आवश्यक हो तो FRRO के साथ पंजीकरण कराएं</li>
+                    <li>पते में परिवर्तन के बारे में FRRO को सूचित करें</li>
+                    <li>वीज़ा समाप्ति से पहले भारत से प्रस्थान करें</li>
+                    <li>वीज़ा श्रेणी के साथ असंगत गतिविधियों में संलग्न न हों</li>
+                    <li>उचित कार्य वीज़ा के बिना रोजगार न लें</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Recent Changes Section -->
+        <div id="recent" class="content-section">
+            <h2 class="section-title">हालिया परिवर्तन और अपडेट</h2>
+            
+            <div class="subsection">
+                <h3>भारतीय आप्रवासन कानून में मुख्य हालिया अपडेट</h3>
+                
+                <div class="example-box">
+                    <strong>उदारीकृत ई-वीज़ा नीति:</strong>
+                    <span>अधिक देशों के लिए ई-वीज़ा सुविधा का विस्तार और लंबी अवधि के ई-पर्यटक वीज़ा (5 वर्ष) शुरू किए गए।</span>
+                </div>
+
+                <div class="example-box">
+                    <strong>OCI कार्ड नियम:</strong>
+                    <span>OCI कार्डधारकों को अब पत्रकारिता, शोध, मिशनरी कार्य या पर्वतारोहण के लिए विशेष अनुमति की आवश्यकता है।</span>
+                </div>
+
+                <div class="example-box">
+                    <strong>नागरिकता संशोधन अधिनियम, 2019:</strong>
+                    <span>अफगानिस्तान, बांग्लादेश और पाकिस्तान के उत्पीड़ित धार्मिक अल्पसंख्यकों के लिए भारतीय नागरिकता का त्वरित मार्ग प्रदान करता है।</span>
+                </div>
+
+                <div class="example-box">
+                    <strong>FRRO सेवाएं ऑनलाइन:</strong>
+                    <span>पंजीकरण, विस्तार और निकास परमिट सहित अधिकांश FRRO सेवाएं अब ऑनलाइन पोर्टल के माध्यम से उपलब्ध हैं।</span>
+                </div>
+
+                <div class="example-box">
+                    <strong>दीर्घकालिक वीज़ा:</strong>
+                    <span>कुछ श्रेणियों के लिए लंबी अवधि के रोजगार और व्यापार वीज़ा की शुरुआत।</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenges Section -->
+        <div id="challenges" class="content-section">
+            <h2 class="section-title">सामान्य चुनौतियाँ और समाधान</h2>
+            
+            <div class="subsection">
+                <h3>सामान्य आप्रवासन चुनौतियाँ</h3>
+                
+                <div class="challenge-item">
+                    <h4>वीज़ा प्रसंस्करण में देरी</h4>
+                    <p>सुरक्षा मंजूरी या अपूर्ण दस्तावेजीकरण के कारण आवेदनों को कभी-कभी विस्तारित प्रसंस्करण समय का सामना करना पड़ता है।</p>
+                </div>
+
+                <div class="challenge-item">
+                    <h4>वीज़ा विस्तार की जटिलताएँ</h4>
+                    <p>दीर्घकालिक आगंतुकों के लिए वीज़ा विस्तार के लिए सख्त आवश्यकताएँ और दस्तावेजीकरण चुनौतीपूर्ण हो सकते हैं।</p>
+                </div>
+
+                <div class="challenge-item">
+                    <h4>रोजगार वीज़ा प्रतिबंध</h4>
+                    <p>सख्त वेतन सीमाएं और नियोक्ता आवश्यकताएं विदेशियों के लिए रोजगार के अवसरों को सीमित करती हैं।</p>
+                </div>
+
+                <div class="challenge-item">
+                    <h4>ओवरस्टे जुर्माना</h4>
+                    <p>वीज़ा नियमों की गलतफहमी के कारण अनजाने में ओवरस्टे से भारी जुर्माना और भविष्य में प्रवेश प्रतिबंध लग सकता है।</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>व्यावहारिक समाधान</h3>
+                
+                <div class="solution-item">
+                    <h4>शीघ्र आवेदन</h4>
+                    <p>प्रसंस्करण में देरी को ध्यान में रखते हुए नियोजित यात्रा से बहुत पहले वीज़ा के लिए आवेदन करें।</p>
+                </div>
+
+                <div class="solution-item">
+                    <h4>पूर्ण दस्तावेजीकरण</h4>
+                    <p>प्रसंस्करण में देरी से बचने के लिए सभी आवश्यक दस्तावेजों को पूर्ण और सटीक सुनिश्चित करें।</p>
+                </div>
+
+                <div class="solution-item">
+                    <h4>पेशेवर सहायता</h4>
+                    <p>व्यापार स्थापना या दीर्घकालिक रहने जैसे जटिल मामलों के लिए आप्रवासन वकीलों से मार्गदर्शन लें।</p>
+                </div>
+
+                <div class="solution-item">
+                    <h4>अनुपालन निगरानी</h4>
+                    <p>जुर्माने से बचने के लिए वीज़ा समाप्ति तिथियों और पंजीकरण आवश्यकताओं पर नज़र रखें।</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h3>आप्रवासन कानूनी सहायता चाहिए?</h3>
+            <p>हमारे अनुभवी आप्रवासन वकील वीज़ा आवेदन, विस्तार, नागरिकता मामलों और अनुपालन मुद्दों में मदद कर सकते हैं।</p>
+            <a href="https://nyaysetu-3e8f79.zapier.app/" class="cta-button">आप्रवासन वकील से परामर्श करें</a>
+        </div>
+    </div>
+
+    <script>
+        // Section navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update active tab
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>

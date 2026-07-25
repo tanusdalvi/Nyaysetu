@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Injury Law - NYAYSETU</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-blue: #1e3c72;
+            --secondary-blue: #2a5298;
+            --accent-gold: #ffd700;
+            --accent-gold-light: #ffed4a;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 5px 20px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+            --border-radius-large: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-medium);
+            backdrop-filter: blur(10px);
+        }
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--white);
+            color: var(--primary-blue);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-light);
+        }
+        .lang-btn:hover {
+            transform: scale(1.1);
+        }
+        .lang-btn.active {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+        .header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+        .nav-tabs {
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+            padding: 0 2rem;
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+        }
+        .nav-tab {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+        .nav-tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--accent-gold);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+        .subsection {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--accent-gold);
+        }
+        .subsection h3 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .subsection h4 {
+            color: var(--secondary-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        .example-box {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .example-box strong {
+            color: var(--primary-blue);
+        }
+        .principles-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+        .principles-table th,
+        .principles-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .principles-table th {
+            background: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+        }
+        .principles-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+        .laws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .law-card {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-gold);
+        }
+        .law-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        .law-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+        .cases-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .case-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--secondary-blue);
+        }
+        .case-title {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .process-steps {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .step-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .contact-cta {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius-large);
+            margin-top: 3rem;
+        }
+        .contact-cta h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .cta-button {
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+        @media (max-width: 768px) {
+            .back-btn {
+                position: static;
+                margin-bottom: 1rem;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            .nav-tabs {
+                padding: 0 1rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-btn">← Back to Services</a>
+        <h1>Personal Injury Law</h1>
+        <p>Comprehensive Guide to Personal Injury Claims and Compensation</p>
+    </div>
+
+    <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('overview')">Overview</button>
+        <button class="nav-tab" onclick="showSection('types')">Types of Injuries</button>
+        <button class="nav-tab" onclick="showSection('liability')">Liability & Negligence</button>
+        <button class="nav-tab" onclick="showSection('compensation')">Compensation</button>
+        <button class="nav-tab" onclick="showSection('process')">Legal Process</button>
+        <button class="nav-tab" onclick="showSection('cases')">Landmark Cases</button>
+        <button class="nav-tab" onclick="showSection('insurance')">Insurance Claims</button>
+    </nav>
+
+    <div class="container">
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <h2 class="section-title">Understanding Personal Injury Law</h2>
+            
+            <div class="subsection">
+                <h3>Definition and Scope</h3>
+                <p>Personal Injury Law provides legal remedies to individuals who have been physically or emotionally harmed due to the negligence or wrongful conduct of another person, company, government agency, or other entity. It aims to make the injured person whole again through monetary compensation.</p>
+                
+                <div class="example-box">
+                    <strong>Key Principle:</strong> The law is designed to shift the cost of an injury from the victim to the party whose actions caused the injury, providing financial compensation to help victims recover and move forward with their lives.
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Legal Framework in India</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Motor Vehicle Accidents</h4>
+                        <ul>
+                            <li>Motor Vehicles Act, 1988</li>
+                            <li>No-fault liability for accidents</li>
+                            <li>Mandatory insurance requirements</li>
+                            <li>Motor Accident Claims Tribunals (MACT)</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Medical Negligence</h4>
+                        <ul>
+                            <li>Consumer Protection Act, 2019</li>
+                            <li>Indian Medical Council Act</li>
+                            <li>Clinical Establishments Act</li>
+                            <li>Professional negligence standards</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Workplace Injuries</h4>
+                        <ul>
+                            <li>Workmen's Compensation Act, 1923</li>
+                            <li>Employees' State Insurance Act</li>
+                            <li>Factory Act, 1948</li>
+                            <li>Industrial safety regulations</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>General Tort Law</h4>
+                        <ul>
+                            <li>Indian Tort Law principles</li>
+                            <li>Law of Torts under common law</li>
+                            <li>Civil Procedure Code, 1908</li>
+                            <li>Damages and remedies</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Elements of Personal Injury Claims</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>Element</th>
+                            <th>Description</th>
+                            <th>Proof Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Duty of Care</strong></td>
+                            <td>Legal obligation to avoid causing harm to others</td>
+                            <td>Standard of reasonable care in circumstances</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Breach of Duty</strong></td>
+                            <td>Failure to meet the required standard of care</td>
+                            <td>Evidence showing defendant's negligent conduct</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Causation</strong></td>
+                            <td>Direct link between breach and injury</td>
+                            <td>Factual and legal causation establishment</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Damages</strong></td>
+                            <td>Actual harm or injury suffered</td>
+                            <td>Medical records, financial loss documentation</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Types Section -->
+        <div id="types" class="content-section">
+            <h2 class="section-title">Types of Personal Injuries</h2>
+            
+            <div class="subsection">
+                <h3>Motor Vehicle Accidents</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Car Accidents</h4>
+                        <ul>
+                            <li>Collision injuries and fatalities</li>
+                            <li>Hit-and-run cases</li>
+                            <li>Drunk driving accidents</li>
+                            <li>Defective vehicle claims</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Motorcycle Accidents</h4>
+                        <ul>
+                            <li>Higher severity of injuries</li>
+                            <li>Head and spinal injuries</li>
+                            <li>Road condition factors</li>
+                            <li>Protective gear considerations</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Pedestrian Accidents</h4>
+                        <ul>
+                            <li>Crosswalk accidents</li>
+                            <li>Traffic signal violations</li>
+                            <li>Poor visibility conditions</li>
+                            <li>School zone incidents</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Public Transport</h4>
+                        <ul>
+                            <li>Bus and train accidents</li>
+                            <li>Platform injuries</li>
+                            <li>Overcrowding incidents</li>
+                            <li>Commercial vehicle liability</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Medical Malpractice</h3>
+                <div class="example-box">
+                    <strong>Common Types:</strong>
+                    <ul>
+                        <li><strong>Misdiagnosis or Delayed Diagnosis:</strong> Failure to correctly identify medical conditions</li>
+                        <li><strong>Surgical Errors:</strong> Wrong-site surgery, anesthesia mistakes, post-operative complications</li>
+                        <li><strong>Medication Errors:</strong> Wrong prescriptions, dosage mistakes, drug interactions</li>
+                        <li><strong>Birth Injuries:</strong> Delivery complications, cerebral palsy, Erb's palsy</li>
+                        <li><strong>Hospital Negligence:</strong> Infections, falls, inadequate monitoring</li>
+                        <li><strong>Dental Malpractice:</strong> Nerve damage, extraction complications</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Workplace Injuries</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Construction Accidents</h4>
+                        <p>Falls from height, machinery accidents, structural collapses, electrocution, and exposure to hazardous materials.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Industrial Injuries</h4>
+                        <p>Chemical exposure, repetitive strain injuries, machinery malfunctions, and occupational diseases.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Office Injuries</h4>
+                        <p>Slip and fall accidents, ergonomic injuries, workplace violence, and stress-related conditions.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Transportation Jobs</h4>
+                        <p>Commercial driving accidents, railway injuries, maritime accidents, and aviation incidents.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Premises Liability</h3>
+                <div class="example-box">
+                    <strong>Property-Related Injuries:</strong>
+                    <ul>
+                        <li>Slip and fall accidents on wet or uneven surfaces</li>
+                        <li>Inadequate security leading to assault or robbery</li>
+                        <li>Defective staircases, railings, or elevators</li>
+                        <li>Swimming pool accidents and drowning</li>
+                        <li>Dog bites and animal attacks</li>
+                        <li>Falling objects or structural failures</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Liability Section -->
+        <div id="liability" class="content-section">
+            <h2 class="section-title">Liability and Negligence</h2>
+            
+            <div class="subsection">
+                <h3>Types of Liability</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>Liability Type</th>
+                            <th>Definition</th>
+                            <th>Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Negligence</strong></td>
+                            <td>Failure to exercise reasonable care</td>
+                            <td>Distracted driving, medical errors, unsafe premises</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Strict Liability</strong></td>
+                            <td>Liability regardless of fault or intent</td>
+                            <td>Defective products, hazardous activities, animal attacks</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Intentional Torts</strong></td>
+                            <td>Deliberate harmful actions</td>
+                            <td>Assault, battery, false imprisonment</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Vicarious Liability</strong></td>
+                            <td>Responsibility for another's actions</td>
+                            <td>Employer liability, parent-child relationships</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Proving Negligence</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>Establish Duty of Care</strong>
+                            <p>Prove that defendant owed a legal duty to the injured party</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>Show Breach of Duty</strong>
+                            <p>Demonstrate that defendant failed to meet standard of reasonable care</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>Prove Causation</strong>
+                            <p>Establish direct causal link between breach and injury (factual and legal causation)</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>Document Damages</strong>
+                            <p>Provide evidence of actual harm, losses, and impact on victim's life</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Defenses to Personal Injury Claims</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Contributory Negligence</h4>
+                        <p>Plaintiff's own negligence contributed to the injury, reducing compensation proportionally.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Assumption of Risk</h4>
+                        <p>Plaintiff voluntarily assumed known risks associated with the activity.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Act of God</h4>
+                        <p>Injury caused by unforeseeable natural events beyond human control.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Statute of Limitations</h4>
+                        <p>Claim filed after the legally prescribed time limit has expired.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compensation Section -->
+        <div id="compensation" class="content-section">
+            <h2 class="section-title">Compensation and Damages</h2>
+            
+            <div class="subsection">
+                <h3>Types of Damages</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Economic Damages</h4>
+                        <ul>
+                            <li>Medical expenses (past and future)</li>
+                            <li>Lost wages and earning capacity</li>
+                            <li>Property damage costs</li>
+                            <li>Rehabilitation and therapy costs</li>
+                            <li>Assistive devices and home modifications</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Non-Economic Damages</h4>
+                        <ul>
+                            <li>Pain and suffering</li>
+                            <li>Emotional distress and mental anguish</li>
+                            <li>Loss of enjoyment of life</li>
+                            <li>Loss of consortium (spousal relationship)</li>
+                            <li>Disfigurement and scarring</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Punitive Damages</h4>
+                        <ul>
+                            <li>Awarded for gross negligence</li>
+                            <li>Punishment for reckless behavior</li>
+                            <li>Deterrent for similar conduct</li>
+                            <li>Rare in Indian tort law</li>
+                            <li>Exemplary damages in exceptional cases</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Wrongful Death Damages</h4>
+                        <ul>
+                            <li>Funeral and burial expenses</li>
+                            <li>Lost income and benefits</li>
+                            <li>Loss of companionship</li>
+                            <li>Medical expenses before death</li>
+                            <li>Dependency compensation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Compensation Calculation Methods</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Application</th>
+                            <th>Key Factors</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Multiplier Method</strong></td>
+                            <td>Future loss of earnings calculation</td>
+                            <td>Age, life expectancy, income, discount rate</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Structured Settlement</strong></td>
+                            <td>Long-term payment arrangement</td>
+                            <td>Ongoing medical needs, inflation adjustment</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lump Sum Payment</strong></td>
+                            <td>One-time compensation award</td>
+                            <td>Present value of all damages combined</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Just Compensation</strong></td>
+                            <td>Constitutional standard in India</td>
+                            <td>Adequate, fair, and reasonable amount</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Factors Affecting Compensation Amount</h3>
+                <div class="example-box">
+                    <strong>Key Considerations:</strong>
+                    <ul>
+                        <li><strong>Severity of Injury:</strong> Temporary vs permanent, partial vs total disability</li>
+                        <li><strong>Age of Victim:</strong> Younger victims receive higher compensation for lost earning years</li>
+                        <li><strong>Income Level:</strong> Higher earners receive proportionally higher compensation</li>
+                        <li><strong>Medical Prognosis:</strong> Future treatment needs and recovery potential</li>
+                        <li><strong>Impact on Life:</strong> Disability affecting daily activities and quality of life</li>
+                        <li><strong>Degree of Negligence:</strong> Gross negligence may increase compensation</li>
+                        <li><strong>Insurance Coverage:</strong> Available policy limits may affect recovery</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Process Section -->
+        <div id="process" class="content-section">
+            <h2 class="section-title">Legal Process for Personal Injury Claims</h2>
+            
+            <div class="subsection">
+                <h3>Step-by-Step Legal Process</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>Immediate Medical Attention</strong>
+                            <p>Seek prompt medical treatment and maintain detailed medical records</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>Evidence Collection</strong>
+                            <p>Gather photos, witness statements, police reports, and documentation</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>Legal Consultation</strong>
+                            <p>Consult with experienced personal injury lawyer for case evaluation</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>Case Investigation</strong>
+                            <p>Attorney investigates liability, damages, and gathers expert opinions</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <strong>Demand Letter</strong>
+                            <p>Formal demand for compensation sent to defendant or insurance company</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">6</div>
+                        <div>
+                            <strong>Negotiation Process</strong>
+                            <p>Attempt to reach fair settlement through negotiations</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">7</div>
+                        <div>
+                            <strong>Filing Lawsuit</strong>
+                            <p>If settlement fails, file formal lawsuit within limitation period</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">8</div>
+                        <div>
+                            <strong>Discovery Phase</strong>
+                            <p>Exchange of evidence, depositions, and expert witness preparation</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">9</div>
+                        <div>
+                            <strong>Trial or Settlement</strong>
+                            <p>Case resolution through trial verdict or pre-trial settlement</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">10</div>
+                        <div>
+                            <strong>Compensation Recovery</strong>
+                            <p>Collection of awarded compensation and case closure</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Important Legal Deadlines</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Motor Vehicle Accidents</h4>
+                        <p><strong>6 months:</strong> Notice to government vehicles<br>
+                        <strong>2 years:</strong> Filing claim in MACT<br>
+                        <strong>3 years:</strong> Civil suit limitation</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Medical Negligence</h4>
+                        <p><strong>2 years:</strong> From date of knowledge of negligence<br>
+                        <strong>3 years:</strong> General limitation for tort claims</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Workplace Injuries</h4>
+                        <p><strong>2 years:</strong> Workmen's compensation claims<br>
+                        <strong>1 year:</strong> ESI benefits application</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>General Tort Claims</h4>
+                        <p><strong>3 years:</strong> Most personal injury claims<br>
+                        <strong>1 year:</strong> Defamation claims</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cases Section -->
+        <div id="cases" class="content-section">
+            <h2 class="section-title">Landmark Personal Injury Cases</h2>
+            
+            <div class="subsection">
+                <h3>Indian Landmark Cases</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">Jacob Mathew v. State of Punjab (2005)</div>
+                        <p>Supreme Court established standards for medical negligence, requiring proof of gross negligence rather than mere professional error.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Laxman Balkrishna Joshi v. Trimbak Bapu Godbole (1969)</div>
+                        <p>Landmark medical negligence case establishing principles of professional duty and standard of care in medical practice.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">National Insurance Co. Ltd. v. Pranay Sethi (2017)</div>
+                        <p>Supreme Court revised compensation formula for motor accident cases, significantly increasing compensation amounts.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Sarla Verma v. Delhi Transport Corporation (2009)</div>
+                        <p>Established standardized method for calculating compensation in motor accident cases with updated multiplier tables.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Railway Board v. Chandrima Das (2000)</div>
+                        <p>Supreme Court held state liable for criminal acts of its employees, expanding scope of vicarious liability.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Chairman, Railway Board v. Mrs. Chandrima Das (2000)</div>
+                        <p>Compensation awarded for human rights violation, establishing precedent for dignity and reputation damages.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>International Influence Cases</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">Donoghue v. Stevenson (1932) - UK</div>
+                        <p>Established modern negligence law and duty of care principles, influencing tort law globally including India.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Liebeck v. McDonald's Restaurants (1994) - USA</div>
+                        <p>Famous "hot coffee" case highlighting product liability and corporate responsibility for consumer safety.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Brown v. Board of Education (1954) - USA</div>
+                        <p>While primarily civil rights, established principles of institutional liability affecting educational negligence cases.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Insurance Section -->
+        <div id="insurance" class="content-section">
+            <h2 class="section-title">Insurance Claims and Coverage</h2>
+            
+            <div class="subsection">
+                <h3>Types of Insurance Coverage</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Motor Vehicle Insurance</h4>
+                        <ul>
+                            <li>Third-party liability (mandatory)</li>
+                            <li>Comprehensive coverage</li>
+                            <li>Personal accident cover</li>
+                            <li>Passenger liability coverage</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Medical Insurance</h4>
+                        <ul>
+                            <li>Health insurance policies</li>
+                            <li>Mediclaim coverage</li>
+                            <li>Critical illness insurance</li>
+                            <li>Disability insurance</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Professional Liability</h4>
+                        <ul>
+                            <li>Professional indemnity insurance</li>
+                            <li>Medical malpractice coverage</li>
+                            <li>Errors and omissions insurance</li>
+                            <li>Directors and officers insurance</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>General Liability</h4>
+                        <ul>
+                            <li>Public liability insurance</li>
+                            <li>Product liability coverage</li>
+                            <li>Premises liability insurance</li>
+                            <li>Commercial general liability</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Insurance Claim Process</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>Immediate Notification</strong>
+                            <p>Report accident to insurance company within specified time limit</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>Documentation</strong>
+                            <p>Gather all required documents: FIR, medical reports, bills, photos</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>Claim Filing</strong>
+                            <p>Submit formal claim with complete documentation to insurance company</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>Investigation</strong>
+                            <p>Insurance company conducts investigation and assessment of damages</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <strong>Settlement Negotiation</strong>
+                            <p>Negotiate fair compensation amount with insurance adjusters</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">6</div>
+                        <div>
+                            <strong>Dispute Resolution</strong>
+                            <p>If dissatisfied, file complaint with Insurance Ombudsman or courts</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Common Insurance Issues</h3>
+                <div class="example-box">
+                    <strong>Potential Problems:</strong>
+                    <ul>
+                        <li><strong>Coverage Denials:</strong> Policy exclusions, lapsed coverage, material misrepresentation</li>
+                        <li><strong>Delayed Payments:</strong> Slow claim processing, excessive documentation requests</li>
+                        <li><strong>Inadequate Settlements:</strong> Low-ball offers, undervalued claims</li>
+                        <li><strong>Bad Faith Practices:</strong> Unreasonable delays, improper investigation, unfair settlement practices</li>
+                        <li><strong>Coverage Disputes:</strong> Interpretation of policy terms, scope of coverage</li>
+                        <li><strong>Subrogation Issues:</strong> Insurance company's right to recover from third parties</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h3>Need Personal Injury Legal Help?</h3>
+            <p>Our experienced personal injury attorneys provide dedicated representation to help you recover maximum compensation for your injuries. We fight for your rights and ensure you receive the justice you deserve.</p>
+            <a href="https://nyaysetu-3e8f79.zapier.app/" class="cta-button">Get Personal Injury Help Now</a>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected section and activate corresponding tab
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+
+            // Scroll to top of content
+            document.querySelector('.container').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('overview');
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                    const tabs = document.querySelectorAll('.nav-tab');
+                    const activeTab = document.querySelector('.nav-tab.active');
+                    const currentIndex = Array.from(tabs).indexOf(activeTab);
+                    
+                    let newIndex;
+                    if (e.key === 'ArrowLeft') {
+                        newIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
+                    } else {
+                        newIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
+                    }
+                    
+                    tabs[newIndex].click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

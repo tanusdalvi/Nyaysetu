@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>कॉर्पोरेट कानून - न्यायसेतु</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-blue: #1e3c72;
+            --secondary-blue: #2a5298;
+            --accent-gold: #ffd700;
+            --accent-gold-light: #ffed4a;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 5px 20px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+            --border-radius-large: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-medium);
+            backdrop-filter: blur(10px);
+        }
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--white);
+            color: var(--primary-blue);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-light);
+        }
+        .lang-btn:hover {
+            transform: scale(1.1);
+        }
+        .lang-btn.active {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+        /* Header */
+        .header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+        /* Navigation */
+        .nav-tabs {
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+            padding: 0 2rem;
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+        }
+        .nav-tab {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+        .nav-tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--accent-gold);
+        }
+        /* Content Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+        .subsection {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--accent-gold);
+        }
+        .subsection h3 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .subsection h4 {
+            color: var(--secondary-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        .example-box {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .example-box strong {
+            color: var(--primary-blue);
+        }
+        /* Table Styles */
+        .principles-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+        .principles-table th,
+        .principles-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .principles-table th {
+            background: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+        }
+        .principles-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+        /* Laws Grid */
+        .laws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .law-card {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-gold);
+        }
+        .law-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        .law-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+        /* Case Cards */
+        .cases-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .case-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--secondary-blue);
+        }
+        .case-title {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        /* Process Steps */
+        .process-steps {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .step-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        /* Contact CTA */
+        .contact-cta {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius-large);
+            margin-top: 3rem;
+        }
+        .contact-cta h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .cta-button {
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .back-btn {
+                position: static;
+                margin-bottom: 1rem;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            .nav-tabs {
+                padding: 0 1rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="javascript:history.back()" class="back-btn">← सेवाओं पर वापस जाएं</a>
+        <h1>कॉर्पोरेट कानून</h1>
+        <p>व्यापारिक कानूनी मामलों की व्यापक मार्गदर्शिका</p>
+    </div>
+
+    <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('overview')">अवलोकन</button>
+        <button class="nav-tab" onclick="showSection('formation')">कंपनी गठन</button>
+        <button class="nav-tab" onclick="showSection('governance')">कॉर्पोरेट गवर्नेंस</button>
+        <button class="nav-tab" onclick="showSection('compliance')">अनुपालन</button>
+        <button class="nav-tab" onclick="showSection('contracts')">अनुबंध</button>
+        <button class="nav-tab" onclick="showSection('cases')">महत्वपूर्ण मामले</button>
+        <button class="nav-tab" onclick="showSection('regulations')">हालिया विनियम</button>
+    </nav>
+
+    <div class="container">
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <h2 class="section-title">कॉर्पोरेट कानून का परिचय</h2>
+            
+            <div class="subsection">
+                <h3>परिभाषा और क्षेत्र</h3>
+                <p>कॉर्पोरेट कानून निगमों और अन्य व्यावसायिक संस्थाओं के निर्माण, संचालन और विघटन को नियंत्रित करता है। इसमें निगमों के स्वामित्व, संचालन और विनियमन में शामिल सभी पक्षों के अधिकार और दायित्व शामिल हैं, जिनमें शेयरधारक, निदेशक, अधिकारी, कर्मचारी और लेनदार शामिल हैं।</p>
+                
+                <div class="example-box">
+                    <strong>प्रमुख क्षेत्र:</strong> कंपनी पंजीकरण, कॉर्पोरेट गवर्नेंस, विलय और अधिग्रहण, प्रतिभूति कानून, अनुबंध कानून, बौद्धिक संपदा, रोजगार कानून, कर अनुपालन और नियामक अनुपालन।
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>भारत में व्यावसायिक संस्थाओं के प्रकार</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>प्राइवेट लिमिटेड कंपनी</h4>
+                        <ul>
+                            <li>न्यूनतम 2, अधिकतम 200 सदस्य</li>
+                            <li>सीमित देयता संरक्षण</li>
+                            <li>अलग कानूनी इकाई</li>
+                            <li>निवेश के लिए जनता को आमंत्रित नहीं कर सकती</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>पब्लिक लिमिटेड कंपनी</h4>
+                        <ul>
+                            <li>न्यूनतम 7 सदस्य, कोई अधिकतम सीमा नहीं</li>
+                            <li>जनता से पूंजी जुटा सकती है</li>
+                            <li>शेयर बाजार में सूचीबद्ध</li>
+                            <li>कठोर अनुपालन आवश्यकताएं</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>लिमिटेड लायबिलिटी पार्टनरशिप (LLP)</h4>
+                        <ul>
+                            <li>साझेदारी और कंपनी का संकर रूप</li>
+                            <li>न्यूनतम 2 साझेदार आवश्यक</li>
+                            <li>साझेदारों के लिए सीमित देयता</li>
+                            <li>लचीली प्रबंधन संरचना</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>वन पर्सन कंपनी (OPC)</h4>
+                        <ul>
+                            <li>एकल सदस्य वाली कंपनी</li>
+                            <li>सीमित देयता संरक्षण</li>
+                            <li>नामांकित व्यक्ति की आवश्यकता</li>
+                            <li>सरलीकृत अनुपालन</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formation Section -->
+        <div id="formation" class="content-section">
+            <h2 class="section-title">कंपनी गठन प्रक्रिया</h2>
+            
+            <div class="subsection">
+                <h3>चरण-दर-चरण कंपनी पंजीकरण</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">१</div>
+                        <div>
+                            <strong>डिजिटल हस्ताक्षर प्रमाणपत्र (DSC)</strong>
+                            <p>प्रमाणित एजेंसी से सभी निदेशकों और सदस्यों के लिए DSC प्राप्त करें</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">२</div>
+                        <div>
+                            <strong>निदेशक पहचान संख्या (DIN)</strong>
+                            <p>MCA पोर्टल के माध्यम से सभी प्रस्तावित निदेशकों के लिए DIN के लिए आवेदन करें</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">३</div>
+                        <div>
+                            <strong>नाम आरक्षण</strong>
+                            <p>RUN (रिजर्व यूनिक नेम) सेवा के माध्यम से कंपनी का नाम आरक्षित करें</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">४</div>
+                        <div>
+                            <strong>SPICe+ फॉर्म भरना</strong>
+                            <p>आवश्यक दस्तावेजों और शुल्क के साथ SPICe+ फॉर्म भरें</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">५</div>
+                        <div>
+                            <strong>निगमन प्रमाणपत्र</strong>
+                            <p>सत्यापन के बाद MCA से निगमन प्रमाणपत्र प्राप्त करें</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">६</div>
+                        <div>
+                            <strong>निगमन के बाद के अनुपालन</strong>
+                            <p>व्यवसाय प्रारंभ प्रमाणपत्र, बैंक खाता खोलना और प्रारंभिक फाइलिंग</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>आवश्यक दस्तावेज</h3>
+                <div class="example-box">
+                    <strong>आवश्यक दस्तावेज:</strong>
+                    <ul>
+                        <li>सभी निदेशकों के PAN कार्ड और आधार कार्ड</li>
+                        <li>निदेशक और पंजीकृत कार्यालय का पता प्रमाण</li>
+                        <li>मेमोरेंडम ऑफ एसोसिएशन (MoA)</li>
+                        <li>आर्टिकल्स ऑफ एसोसिएशन (AoA)</li>
+                        <li>निदेशक के रूप में कार्य करने की सहमति</li>
+                        <li>अनुपालन की घोषणा</li>
+                        <li>पंजीकृत कार्यालय का प्रमाण</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Governance Section -->
+        <div id="governance" class="content-section">
+            <h2 class="section-title">कॉर्पोरेट गवर्नेंस</h2>
+            
+            <div class="subsection">
+                <h3>निदेशक मंडल</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>निदेशक प्रकार</th>
+                            <th>नियुक्ति</th>
+                            <th>प्रमुख जिम्मेदारियां</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>कार्यकारी निदेशक</strong></td>
+                            <td>निदेशक पदों के साथ पूर्णकालिक कर्मचारी</td>
+                            <td>दैनिक संचालन, नीति कार्यान्वयन, प्रबंधन</td>
+                        </tr>
+                        <tr>
+                            <td><strong>स्वतंत्र निदेशक</strong></td>
+                            <td>भौतिक हित न रखने वाले बाहरी विशेषज्ञ</td>
+                            <td>पर्यवेक्षण, सलाह, ऑडिट समिति में भागीदारी</td>
+                        </tr>
+                        <tr>
+                            <td><strong>गैर-कार्यकारी निदेशक</strong></td>
+                            <td>अंशकालिक, दैनिक संचालन में शामिल नहीं</td>
+                            <td>रणनीतिक मार्गदर्शन, गवर्नेंस पर्यवेक्षण</td>
+                        </tr>
+                        <tr>
+                            <td><strong>नामांकित निदेशक</strong></td>
+                            <td>विशिष्ट हितधारकों द्वारा नियुक्त</td>
+                            <td>नियुक्त करने वाले पक्ष के हितों का प्रतिनिधित्व</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>शेयरधारक अधिकार और बैठकें</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>वार्षिक सामान्य बैठक (AGM)</h4>
+                        <p>वार्षिक खाते पेश करने, लाभांश घोषित करने और निदेशकों का चुनाव करने के लिए अनिवार्य वार्षिक बैठक। वित्तीय वर्ष की समाप्ति के 6 महीने के भीतर आयोजित की जानी चाहिए।</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>असाधारण सामान्य बैठक (EGM)</h4>
+                        <p>शेयरधारक अनुमोदन की आवश्यकता वाले तत्काल मामलों के लिए बुलाई गई विशेष बैठकें, जैसे बड़े लेनदेन या आर्टिकल्स में संशोधन।</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>मतदान अधिकार</h4>
+                        <p>शेयरधारकों को अपनी शेयर पूंजी के आधार पर प्रस्तावों पर मतदान करने, निदेशकों का चुनाव करने और बड़ी कॉर्पोरेट कार्रवाइयों को मंजूरी देने का अधिकार है।</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>सूचना का अधिकार</h4>
+                        <p>वार्षिक रिपोर्ट, वित्तीय विवरण और कंपनी को प्रभावित करने वाली अन्य महत्वपूर्ण जानकारी प्राप्त करने का अधिकार।</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compliance Section -->
+        <div id="compliance" class="content-section">
+            <h2 class="section-title">नियामक अनुपालन</h2>
+            
+            <div class="subsection">
+                <h3>वार्षिक अनुपालन आवश्यकताएं</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">१</div>
+                        <div>
+                            <strong>वार्षिक रिटर्न दाखिल करना (MGT-7)</strong>
+                            <p>कंपनी और सदस्य विवरण वाला वार्षिक रिटर्न AGM के 60 दिनों के भीतर दाखिल करें</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">२</div>
+                        <div>
+                            <strong>वित्तीय विवरण दाखिल करना</strong>
+                            <p>AGM के 30 दिनों के भीतर ऑडिट किए गए वित्तीय विवरण और बोर्ड रिपोर्ट दाखिल करें</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">३</div>
+                        <div>
+                            <strong>आयकर रिटर्न</strong>
+                            <p>निर्धारित तिथियों (आमतौर पर 30 सितंबर) तक कॉर्पोरेट आयकर रिटर्न दाखिल करें</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">४</div>
+                        <div>
+                            <strong>GST रिटर्न</strong>
+                            <p>टर्नओवर और पंजीकरण प्रकार के आधार पर मासिक/त्रैमासिक GST रिटर्न दाखिल करें</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">५</div>
+                        <div>
+                            <strong>बोर्ड बैठकें</strong>
+                            <p>प्रति वर्ष कम से कम 4 बोर्ड बैठकें आयोजित करें जिनके बीच 120 दिनों से अधिक का अंतर न हो</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">६</div>
+                        <div>
+                            <strong>सांविधिक ऑडिट</strong>
+                            <p>सांविधिक ऑडिटर नियुक्त करें और वित्तीय विवरणों का वार्षिक ऑडिट करें</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>प्रमुख नियामक प्राधिकरण</h3>
+                <div class="example-box">
+                    <strong>प्रमुख नियामक:</strong>
+                    <ul>
+                        <li><strong>MCA (कॉर्पोरेट मामलों का मंत्रालय):</strong> कंपनी कानून अनुपालन</li>
+                        <li><strong>SEBI:</strong> सूचीबद्ध कंपनियों के लिए प्रतिभूति बाजार विनियमन</li>
+                        <li><strong>RBI:</strong> बैंकिंग और वित्तीय सेवा विनियमन</li>
+                        <li><strong>CBDT:</strong> आयकर और प्रत्यक्ष कर अनुपालन</li>
+                        <li><strong>GST परिषद:</strong> वस्तु एवं सेवा कर अनुपालन</li>
+                        <li><strong>ROC:</strong> क्षेत्रीय पंजीकरण और अनुपालन पर्यवेक्षण</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contracts Section -->
+        <div id="contracts" class="content-section">
+            <h2 class="section-title">कॉर्पोरेट अनुबंध</h2>
+            
+            <div class="subsection">
+                <h3>कॉर्पोरेट अनुबंधों के प्रकार</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>रोजगार अनुबंध</h4>
+                        <ul>
+                            <li>रोजगार की शर्तें और मुआवजा</li>
+                            <li>गैर-प्रकटीकरण और गैर-प्रतिस्पर्धा खंड</li>
+                            <li>समाप्ति और सेवरेंस प्रावधान</li>
+                            <li>स्टॉक विकल्प और प्रोत्साहन अनुबंध</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>व्यावसायिक अनुबंध</h4>
+                        <ul>
+                            <li>आपूर्ति और वितरण अनुबंध</li>
+                            <li>सेवा स्तर समझौते (SLAs)</li>
+                            <li>संयुक्त उद्यम अनुबंध</li>
+                            <li>लाइसेंस और फ्रेंचाइजिंग अनुबंध</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>वित्तीय अनुबंध</h4>
+                        <ul>
+                            <li>ऋण और क्रेडिट अनुबंध</li>
+                            <li>निवेश और फंडिंग अनुबंध</li>
+                            <li>सुरक्षा और गारंटी दस्तावेज</li>
+                            <li>विलय और अधिग्रहण अनुबंध</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>बौद्धिक संपदा अनुबंध</h4>
+                        <ul>
+                            <li>पेटेंट और ट्रेडमार्क लाइसेंस</li>
+                            <li>कॉपीराइट और सॉफ्टवेयर अनुबंध</li>
+                            <li>प्रौद्योगिकी हस्तांतरण अनुबंध</li>
+                            <li>गोपनीयता और IP असाइनमेंट</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>अनुबंध प्रबंधन की सर्वोत्तम प्रथाएं</h3>
+                <div class="example-box">
+                    <strong>मुख्य विचार:</strong>
+                    <ul>
+                        <li>शर्तों, दायरे और वितरण की स्पष्ट परिभाषा</li>
+                        <li>महत्वपूर्ण अनुबंधों के लिए उचित प्राधिकार और बोर्ड अनुमोदन</li>
+                        <li>जोखिम आवंटन और देयता सीमा खंड</li>
+                        <li>विवाद समाधान तंत्र और शासन कानून</li>
+                        <li>नियमित समीक्षा और नवीनीकरण प्रक्रिया</li>
+                        <li>लागू कानूनों और विनियमों का अनुपालन</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cases Section -->
+        <div id="cases" class="content-section">
+            <h2 class="section-title">महत्वपूर्ण कॉर्पोरेट कानून मामले</h2>
+            
+            <div class="subsection">
+                <h3>भारतीय महत्वपूर्ण मामले</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">सालोमन बनाम सालोमन एंड कं. लि. (1897)</div>
+                        <p>अलग कानूनी इकाई और सीमित देयता के सिद्धांत की स्थापना की, जो भारत सहित दुनिया भर में कॉर्पोरेट कानून के लिए मौलिक है।</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">टाटा कंसल्टेंसी सर्विसेज बनाम आंध्र प्रदेश राज्य (2004)</div>
+                        <p>सॉफ्टवेयर विकास सेवाओं पर सेवा कर लागू करने पर सर्वोच्च न्यायालय का निर्णय, जिसने IT उद्योग पर करों को प्रभावित किया।</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">वोडाफोन इंटरनेशनल होल्डिंग्स BV बनाम भारत संघ (2012)</div>
+                        <p>भारतीय संपत्ति के अप्रत्यक्ष हस्तांतरण से संबंधित एक महत्वपूर्ण कर मामला, जिसके कारण कर कानून में बड़े बदलाव हुए।</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">सत्यम कंप्यूटर सर्विसेज मामला (2009)</div>
+                        <p>एक बड़ा कॉर्पोरेट धोखाधड़ी मामला जिसके कारण कॉर्पोरेट गवर्नेंस नियमों और ऑडिटिंग मानकों में सुधार हुए।</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Regulations Section -->
+        <div id="regulations" class="content-section">
+            <h2 class="section-title">हालिया कॉर्पोरेट विनियम</h2>
+            
+            <div class="subsection">
+                <h3>2023-24 में महत्वपूर्ण परिवर्तन</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>कॉर्पोरेट सामाजिक उत्तरदायित्व (CSR)</h4>
+                        <p>CSR समिति और व्यय के लिए व्यापक अनुपालन आवश्यकताएं। CSR निधियों के दुरुपयोग के लिए जुर्माना और कारावास प्रावधान।</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>कंपनी अधिनियम 2013 संशोधन</h4>
+                        <p>निगमन प्रक्रिया को सरल बनाना, सांविधिक ऑडिटर नियुक्ति प्रक्रिया में सुधार और कंपनी नाम आरक्षण प्रक्रिया को सरल बनाना।</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>SEBI विनियमन</h4>
+                        <p>ESG (पर्यावरण, सामाजिक और गवर्नेंस) प्रकटीकरण आवश्यकताएं, डिजिटल प्रतिभूतियों और क्रिप्टोकरेंसी पर नए नियम।</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>GST संशोधन</h4>
+                        <p>ई-इनवॉइसिंग आवश्यकताएं, HSN कोड और ई-वे बिल नियमों में सुधार, और कर क्रेडिट नियमों में परिवर्तन।</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>आगामी सुधार</h3>
+                <div class="example-box">
+                    <strong>प्रस्तावित परिवर्तन:</strong>
+                    <ul>
+                        <li>कंपनी कानून का और सुधार और सरलीकरण</li>
+                        <li>डिजिटल निगमों और आभासी बैठकों पर नए नियम</li>
+                        <li>क्रिप्टोकरेंसी और डिजिटल संपत्ति विनियमन</li>
+                        <li>कर्ज में डूबी कंपनियों के लिए दिवाला और दिवालियापन संहिता सुधार</li>
+                        <li>कॉर्पोरेट गवर्नेंस पर कोटक समिति की सिफारिशों का कार्यान्वयन</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h3>कॉर्पोरेट कानून सलाह चाहिए?</h3>
+            <p>हमारे अनुभवी कॉर्पोरेट वकील आपकी कंपनी गठन, अनुपालन और व्यावसायिक कानूनी मामलों में सहायता कर सकते हैं।</p>
+            <a href="https://nyaysetu-3e8f79.zapier.app/" class="cta-button">आज ही सलाह लें</a>
+        </div>
+    </div>
+
+    <script>
+        // Tab navigation functionality
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // Language switcher functionality
+        document.querySelectorAll('.lang-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                if (lang === 'mr') {
+                    window.location.href = 'Corporate Law-mr.html';
+                } else if (lang === 'en') {
+                    window.location.href = 'Corporate Law.html';
+                }
+                // For Hindi, we're already here, so no action needed
+            });
+        });
+    </script>
+</body>
+</html>

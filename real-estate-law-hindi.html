@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>रियल एस्टेट कानून - NYAYSETU</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-blue: #1e3c72;
+            --secondary-blue: #2a5298;
+            --accent-gold: #ffd700;
+            --accent-gold-light: #ffed4a;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 5px 20px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+            --border-radius-large: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-medium);
+            backdrop-filter: blur(10px);
+        }
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--white);
+            color: var(--primary-blue);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-light);
+        }
+        .lang-btn:hover {
+            transform: scale(1.1);
+        }
+        .lang-btn.active {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+        .header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+        .nav-tabs {
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+            padding: 0 2rem;
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+        }
+        .nav-tab {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+        .nav-tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--accent-gold);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+        .subsection {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--accent-gold);
+        }
+        .subsection h3 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .subsection h4 {
+            color: var(--secondary-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        .example-box {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .example-box strong {
+            color: var(--primary-blue);
+        }
+        .principles-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+        .principles-table th,
+        .principles-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .principles-table th {
+            background: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+        }
+        .principles-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+        .laws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .law-card {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-gold);
+        }
+        .law-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        .law-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+        .cases-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .case-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--secondary-blue);
+        }
+        .case-title {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .process-steps {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .step-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .contact-cta {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius-large);
+            margin-top: 3rem;
+        }
+        .contact-cta h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .cta-button {
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+        @media (max-width: 768px) {
+            .back-btn {
+                position: static;
+                margin-bottom: 1rem;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            .nav-tabs {
+                padding: 0 1rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body> 
+    <div class="header">
+        <a href="javascript:history.back()" class="back-btn">← सेवाओं पर वापस जाएं</a>
+        <h1>रियल एस्टेट कानून</h1>
+        <p>संपत्ति संबंधी कानूनी मामलों की व्यापक मार्गदर्शिका</p>
+    </div>
+
+    <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('overview')">अवलोकन</button>
+        <button class="nav-tab" onclick="showSection('transactions')">संपत्ति लेनदेन</button>
+        <button class="nav-tab" onclick="showSection('titles')">टाइटल और स्वामित्व</button>
+        <button class="nav-tab" onclick="showSection('disputes')">विवाद</button>
+        <button class="nav-tab" onclick="showSection('regulations')">नियम</button>
+        <button class="nav-tab" onclick="showSection('cases')">मील के पत्थर मामले</button>
+        <button class="nav-tab" onclick="showSection('rera')">RERA अनुपालन</button>
+    </nav>
+
+    <div class="container">
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <h2 class="section-title">रियल एस्टेट कानून को समझना</h2>
+            
+            <div class="subsection">
+                <h3>परिभाषा और दायरा</h3>
+                <p>रियल एस्टेट कानून भूमि और इमारतों सहित वास्तविक संपत्ति के स्वामित्व, उपयोग और हस्तांतरण को नियंत्रित करता है। इसमें संपत्ति लेनदेन, मकान मालिक-किरायेदार संबंध, संपत्ति विकास, ज़ोनिंग विनियम, टाइटल विवाद और रियल एस्टेट वित्तपोषण शामिल हैं। कानून का यह क्षेत्र स्पष्ट संपत्ति अधिकार सुनिश्चित करता है और सुरक्षित रियल एस्टेट लेनदेन को सुविधाजनक बनाता है।</p>
+                
+                <div class="example-box">
+                    <strong>मुख्य क्षेत्र:</strong> संपत्ति खरीद/बिक्री, पट्टा समझौते, टाइटल सत्यापन, संपत्ति विवाद, निर्माण कानून, पर्यावरण अनुपालन, कराधान, और नियामक अनुमोदन।
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>वास्तविक संपत्ति के प्रकार</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>आवासीय संपत्ति</h4>
+                        <ul>
+                            <li>मकान और अपार्टमेंट</li>
+                            <li>कोंडोमिनियम और सहकारी समितियां</li>
+                            <li>आवासीय निर्माण के लिए प्लॉट</li>
+                            <li>किफायती आवास परियोजनाएं</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>वाणिज्यिक संपत्ति</h4>
+                        <ul>
+                            <li>कार्यालय भवन और परिसर</li>
+                            <li>खुदरा स्थान और शॉपिंग सेंटर</li>
+                            <li>गोदाम और औद्योगिक इकाइयां</li>
+                            <li>होटल और आतिथ्य गुण</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>कृषि भूमि</h4>
+                        <ul>
+                            <li>कृषि भूमि और फसल खेती के क्षेत्र</li>
+                            <li>बाग और बागान</li>
+                            <li>चरागाह और चरागाह</li>
+                            <li>कृषि रूपांतरण अधिकार</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>औद्योगिक संपत्ति</h4>
+                        <ul>
+                            <li>विनिर्माण सुविधाएं</li>
+                            <li>औद्योगिक पार्क और एसईजेड</li>
+                            <li>खनन और निष्कर्षण स्थल</li>
+                            <li>बुनियादी ढांचा परियोजनाएं</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>संपत्ति अधिकार और स्वामित्व</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>स्वामित्व प्रकार</th>
+                            <th>विवरण</th>
+                            <th>मुख्य विशेषताएं</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>फ्रीहोल्ड</strong></td>
+                            <td>भूमि और संपत्ति का पूर्ण स्वामित्व</td>
+                            <td>स्थायी स्वामित्व, हस्तांतरणीय, वंशानुगत</td>
+                        </tr>
+                        <tr>
+                            <td><strong>लीजहोल्ड</strong></td>
+                            <td>निर्दिष्ट अवधि के लिए संपत्ति का उपयोग करने का अधिकार</td>
+                            <td>समय-सीमित, नवीकरणीय, पट्टादाता को वापसी</td>
+                        </tr>
+                        <tr>
+                            <td><strong>संयुक्त स्वामित्व</strong></td>
+                            <td>एक ही संपत्ति के कई स्वामी</td>
+                            <td>साझा अधिकार, संयुक्त दायित्व, विभाजन अधिकार</td>
+                        </tr>
+                        <tr>
+                            <td><strong>सहकारी समिति</strong></td>
+                            <td>सदस्य संपत्ति-स्वामी समिति में शेयरों के मालिक हैं</td>
+                            <td>लोकतांत्रिक शासन, हस्तांतरण प्रतिबंध</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Transactions Section -->
+        <div id="transactions" class="content-section">
+            <h2 class="section-title">संपत्ति लेनदेन</h2>
+            
+            <div class="subsection">
+                <h3>संपत्ति खरीद प्रक्रिया</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>संपत्ति खोज और चयन</strong>
+                            <p>आवश्यकताओं और बजट के आधार पर उपयुक्त संपत्तियों की पहचान करें</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>सावधानीपूर्वक जांच</strong>
+                            <p>टाइटल दस्तावेज, अनुमोदन, दायित्व और कानूनी स्थिति सत्यापित करें</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>बिक्री के लिए समझौता</strong>
+                            <p>शर्तों और अग्रिम भुगतान के साथ प्रारंभिक समझौते पर हस्ताक्षर करें</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>ऋण स्वीकृति</strong>
+                            <p>यदि वित्तपोषण हो रहा है तो होम लोन स्वीकृति और संपत्ति मूल्यांकन प्राप्त करें</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <strong>बिक्री विलेख निष्पादन</strong>
+                            <p>पूर्ण भुगतान और कब्जे के साथ पंजीकृत बिक्री विलेख निष्पादित करें</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">6</div>
+                        <div>
+                            <strong>पंजीकरण और स्टांप शुल्क</strong>
+                            <p>अधिकारियों के साथ संपत्ति पंजीकृत करें और लागू करों का भुगतान करें</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">7</div>
+                        <div>
+                            <strong>म्यूटेशन और रिकॉर्ड</strong>
+                            <p>राजस्व रिकॉर्ड अपडेट करें और कब्जा प्रमाण पत्र प्राप्त करें</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>आवश्यक दस्तावेज</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>टाइटल दस्तावेज</h4>
+                        <ul>
+                            <li>बिक्री विलेख या टाइटल विलेख</li>
+                            <li>टाइटल दस्तावेजों की श्रृंखला</li>
+                            <li>विभाजन विलेख (यदि लागू हो)</li>
+                            <li>उपहार विलेख या वंशानुगत कागजात</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>अनुमोदन दस्तावेज</h4>
+                        <ul>
+                            <li>भवन योजना अनुमोदन</li>
+                            <li>अधिभोग प्रमाण पत्र</li>
+                            <li>पर्यावरण मंजूरी</li>
+                            <li>अग्नि सुरक्षा प्रमाण पत्र</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>कर दस्तावेज</h4>
+                        <ul>
+                            <li>संपत्ति कर रसीदें</li>
+                            <li>आयकर रिटर्न</li>
+                            <li>पूंजीगत लाभ गणना</li>
+                            <li>टीडीएस प्रमाण पत्र</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>वित्तीय दस्तावेज</h4>
+                        <ul>
+                            <li>बैंक ऋण दस्तावेज</li>
+                            <li>संपत्ति मूल्यांकन रिपोर्ट</li>
+                            <li>बीमा पॉलिसियां</li>
+                            <li>भुगतान रसीदें</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>सामान्य लेनदेन मुद्दे</h3>
+                <div class="example-box">
+                    <strong>संभावित समस्याएं:</strong>
+                    <ul>
+                        <li><strong>टाइटल दोष:</strong> अस्पष्ट या विवादित स्वामित्व, लंबित मुकदमेबाजी</li>
+                        <li><strong>दायित्व:</strong> मौजूदा बंधक, लेन, या कानूनी दावे</li>
+                        <li><strong>अनुमोदन मुद्दे:</strong> गुम या अमान्य भवन अनुमोदन</li>
+                        <li><strong>माप विसंगतियां:</strong> वास्तविक क्षेत्र दस्तावेजों से भिन्न</li>
+                        <li><strong>लंबित बकाया:</strong> बकाया संपत्ति कर, उपयोगिता बिल</li>
+                        <li><strong>ज़ोनिंग उल्लंघन:</strong> संपत्ति का उपयोग ज़ोनिंग आवश्यकताओं से मेल नहीं खाता</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Title & Ownership Section -->
+        <div id="titles" class="content-section">
+            <h2 class="section-title">टाइटल और स्वामित्व</h2>
+            
+            <div class="subsection">
+                <h3>टाइटल सत्यापन प्रक्रिया</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>दस्तावेज संग्रह</strong>
+                            <p>वर्तमान और पिछले मालिकों से सभी टाइटल दस्तावेज एकत्र करें</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>टाइटल श्रृंखला विश्लेषण</strong>
+                            <p>न्यूनतम 30 वर्षों (अधिमानतः 50+ वर्ष) के लिए स्वामित्व इतिहास का पता लगाएं</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>राजस्व रिकॉर्ड सत्यापन</strong>
+                            <p>राजस्व रिकॉर्ड, सर्वे नंबर और म्यूटेशन प्रविष्टियों की जांच करें</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>दायित्व प्रमाण पत्र</strong>
+                            <p>सभी पंजीकृत लेनदेन सत्यापित करने के लिए ईसी प्राप्त करें</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <strong>भौतिक सत्यापन</strong>
+                            <p>संपत्ति की सीमाओं का सर्वेक्षण करें और दस्तावेजों से तुलना करें</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">6</div>
+                        <div>
+                            <strong>कानूनी राय</strong>
+                            <p>टाइटल की बाजार क्षमता पर वकील की राय प्राप्त करें</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>टाइटल बीमा और सुरक्षा</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>टाइटल बीमा लाभ</h4>
+                        <ul>
+                            <li>टाइटल दोषों के खिलाफ सुरक्षा</li>
+                            <li>कानूनी लागतों के लिए कवरेज</li>
+                            <li>नुकसान के लिए मुआवजा</li>
+                            <li>खरीदारों के लिए मन की शांति</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>सामान्य टाइटल मुद्दे</h4>
+                        <ul>
+                            <li>जाली दस्तावेज</li>
+                            <li>मालिकों का प्रतिरूपण</li>
+                            <li>अज्ञात वारिस</li>
+                            <li>धोखाधड़ी वाले लेनदेन</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>प्रतिकूल कब्जा</h4>
+                        <ul>
+                            <li>12 वर्षों तक निरंतर कब्जा</li>
+                            <li>खुला और शत्रुतापूर्ण कब्जा</li>
+                            <li>अधिकार का दावा</li>
+                            <li>सीमा अधिनियम प्रावधान</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>टाइटल उपचार</h4>
+                        <ul>
+                            <li>शांत टाइटल कार्रवाई</li>
+                            <li>विभाजन वाद</li>
+                            <li>टाइटल की घोषणा</li>
+                            <li>दस्तावेजों का सुधार</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disputes Section -->
+        <div id="disputes" class="content-section">
+            <h2 class="section-title">संपत्ति विवाद</h2>
+            
+            <div class="subsection">
+                <h3>संपत्ति विवादों के प्रकार</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>सीमा विवाद</h4>
+                        <ul>
+                            <li>पड़ोसियों द्वारा अतिक्रमण</li>
+                            <li>सर्वे विसंगतियां</li>
+                            <li>बाड़ और दीवार विवाद</li>
+                            <li>पहुंच अधिकार मुद्दे</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>स्वामित्व विवाद</h4>
+                        <ul>
+                            <li>टाइटल संघर्ष</li>
+                            <li>विरासत विवाद</li>
+                            <li>संयुक्त स्वामित्व मुद्दे</li>
+                            <li>प्रतिकूल कब्जे के दावे</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>मकान मालिक-किरायेदार विवाद</h4>
+                        <ul>
+                            <li>किराया नियंत्रण मुद्दे</li>
+                            <li>निष्कासन कार्यवाही</li>
+                            <li>सुरक्षा जमा विवाद</li>
+                            <li>रखरखाव और मरम्मत के मुद्दे</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>निर्माण विवाद</h4>
+                        <ul>
+                            <li>भवन योजना उल्लंघन</li>
+                            <li>गुणवत्ता और दोष मुद्दे</li>
+                            <li>ठेकेदार भुगतान विवाद</li>
+                            <li>वितरण में देरी</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>विवाद समाधान तंत्र</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>विधि</th>
+                            <th>प्रक्रिया</th>
+                            <th>लाभ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>बातचीत</strong></td>
+                            <td>पक्षों के बीच सीधी चर्चा</td>
+                            <td>लागत प्रभावी, त्वरित, संबंधों को संरक्षित करता है</td>
+                        </tr>
+                        <tr>
+                            <td><strong>मध्यस्थता</strong></td>
+                            <td>तटस्थ तीसरे पक्ष द्वारा सुगम चर्चा</td>
+                            <td>गोपनीय, लचीला, आपसी स्वीकार्य समाधान</td>
+                        </tr>
+                        <tr>
+                            <td><strong>मध्यस्थता</strong></td>
+                            <td>तटस्थ मध्यस्थ द्वारा बाध्यकारी निर्णय</td>
+                            <td>अदालतों की तुलना में तेज, विशेषज्ञ मध्यस्थ, लागू करने योग्य</td>
+                        </tr>
+                        <tr>
+                            <td><strong>मुकदमेबाजी</strong></td>
+                            <td>औपचारिक अदालती कार्यवाही</td>
+                            <td>कानूनी मिसाल, लागू करने योग्य निर्णय, अपील</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>विवादों की रोकथाम</h3>
+                <div class="example-box">
+                    <strong>सर्वोत्तम अभ्यास:</strong>
+                    <ul>
+                        <li><strong>पूर्ण दस्तावेजीकरण:</strong> पूर्ण और सटीक रिकॉर्ड बनाए रखें</li>
+                        <li><strong>स्पष्ट समझौते:</strong> विशिष्ट शर्तों के साथ विस्तृत अनुबंध</li>
+                        <li><strong>नियमित सर्वेक्षण:</strong> आवधिक सीमा सत्यापन</li>
+                        <li><strong>पेशेवर सलाह:</strong> वकीलों और सर्वेक्षकों से परामर्श लें</li>
+                        <li><strong>बीमा कवरेज:</strong> टाइटल और संपत्ति बीमा</li>
+                        <li><strong>अनुपालन:</strong> सभी कानूनी और नियामक आवश्यकताओं का पालन करें</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Regulations Section -->
+        <div id="regulations" class="content-section">
+            <h2 class="section-title">रियल एस्टेट नियम</h2>
+            
+            <div class="subsection">
+                <h3>मुख्य नियामक कानून</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>भूमि अधिग्रहण अधिनियम, 1894</h4>
+                        <p>सार्वजनिक उद्देश्यों के लिए भूमि अधिग्रहण के लिए प्रक्रियाएं</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>रजिस्ट्रेशन अधिनियम, 1908</h4>
+                        <p>संपत्ति लेनदेन के पंजीकरण के लिए आवश्यकताएं</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>भारतीय स्टाम्प अधिनियम, 1899</h4>
+                        <p>संपत्ति दस्तावेजों पर स्टाम्प शुल्क का भुगतान</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>सीमा अधिनियम, 1963</h4>
+                        <p>संपत्ति विवादों के लिए सीमा अवधि</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>RERA अधिनियम, 2016</h4>
+                        <p>रियल एस्टेट विकास और विनियमन</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>भूमि सुधार कानून</h4>
+                        <p>राज्य-विशिष्ट भूमि सीलिंग और किरायेदारी कानून</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>निर्माण और विकास नियम</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>नियम</th>
+                            <th>आवश्यकता</th>
+                            <th>अनुपालन</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>भवन अनुमोदन</strong></td>
+                            <td>निर्माण शुरू करने से पहले नगरपालिका अनुमोदन</td>
+                            <td>वास्तुकला योजनाओं, संरचनात्मक डिजाइनों का प्रस्तुतीकरण</td>
+                        </tr>
+                        <tr>
+                            <td><strong>पर्यावरण मंजूरी</strong></td>
+                            <td>बड़ी परियोजनाओं के लिए ईसी</td>
+                            <td>पर्यावरण प्रभाव आकलन, शमन योजना</td>
+                        </tr>
+                        <tr>
+                            <td><strong>अग्नि सुरक्षा</strong></td>
+                            <td>अग्नि सुरक्षा प्रमाण पत्र</td>
+                            <td>अग्नि उपकरण, निकास प्रणाली, निकास मार्ग</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ज़ोनिंग विनियम</strong></td>
+                            <td>भूमि उपयोग प्रतिबंध</td>
+                            <td>संपत्ति का उपयोग ज़ोनिंग नियमों के अनुरूप होना चाहिए</td>
+                        </tr>
+                        <tr>
+                            <td><strong>FSI/FAR सीमा</strong></td>
+                            <td>अधिकतम निर्माण क्षेत्र</td>
+                            <td>भूमि क्षेत्र के आधार पर निर्माण सीमा</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Case Studies Section -->
+        <div id="cases" class="content-section">
+            <h2 class="section-title">मील के पत्थर संपत्ति मामले</h2>
+            
+            <div class="subsection">
+                <h3>महत्वपूर्ण न्यायिक निर्णय</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">वी.एस. चंद्रा बनाम उत्तर प्रदेश राज्य</div>
+                        <p><strong>मुद्दा:</strong> भूमि अधिग्रहण में सार्वजनिक उद्देश्य</p>
+                        <p><strong>निर्णय:</strong> अदालतों के पास सार्वजनिक उद्देश्य की जांच करने की शक्ति है</p>
+                        <p><strong>प्रभाव:</strong> भूमि अधिग्रहण को न्यायिक समीक्षा के अधीन किया गया</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">आईआरसीओ बनाम वी.एस. ग्राम पंचायत</div>
+                        <p><strong>मुद्दा:</strong> ग्रामीण क्षेत्रों में संपत्ति अधिकार</p>
+                        <p><strong>निर्णय:</strong> ग्राम सभाओं को भूमि अधिकारों पर अधिकार दिया गया</p>
+                        <p><strong>प्रभाव:</strong> सामुदायिक भूमि अधिकारों को मान्यता दी गई</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">सुप्रीम कोर्ट RERA मामला</div>
+                        <p><strong>मुद्दा:</strong> RERA अधिनियम की संवैधानिक वैधता</p>
+                        <p><strong>निर्णय:</strong> अधिनियम को संवैधानिक रूप से मान्य ठहराया गया</p>
+                        <p><strong>प्रभाव:</strong> रियल एस्टेट विनियमन को मजबूत किया गया</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">प्रतिकूल कब्जा मामला</div>
+                        <p><strong>मुद्दा:</strong> 12 वर्षों के निरंतर कब्जे के बाद स्वामित्व</p>
+                        <p><strong>निर्णय:</strong> प्रतिकूल कब्जे के माध्यम से टाइटल प्रदान किया गया</p>
+                        <p><strong>प्रभाव:</strong> प्रतिकूल कब्जे के दावों के लिए स्पष्ट मानदंड स्थापित किए गए</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RERA Compliance Section -->
+        <div id="rera" class="content-section">
+            <h2 class="section-title">RERA अनुपालन</h2>
+            
+            <div class="subsection">
+                <h3>RERA आवश्यकताएं</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>पंजीकरण</strong>
+                            <p>RERA के साथ सभी रियल एस्टेट परियोजनाओं और एजेंटों का पंजीकरण</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>परियोजना विवरण</strong>
+                            <p>RERA वेबसाइट पर विस्तृत परियोजना जानकारी का प्रकटीकरण</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>विशेष बैंक खाता</strong>
+                            <p>परियोजना निधियों के लिए अलग एस्क्रो खाता</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>निर्माण समयसीमा</strong>
+                            <p>पूर्व-घोषित समयसीमा के भीतर निर्माण पूरा करना</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <strong>गुणवत्ता मानक</strong>
+                            <p>निर्दिष्ट निर्माण गुणवत्ता और मानकों का अनुपालन</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">6</div>
+                        <div>
+                            <strong>खरीदार अधिकार</strong>
+                            <p>समय पर संपत्ति वितरण और दोषों के लिए मुआवजा</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>RERA लाभ</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>खरीदारों के लिए</h4>
+                        <ul>
+                            <li>पारदर्शिता और जवाबदेही</li>
+                            <li>समय पर संपत्ति वितरण</li>
+                            <li>गुणवत्ता आश्वासन</li>
+                            <li>शिकायत निवारण तंत्र</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>डेवलपर्स के लिए</h4>
+                        <ul>
+                            <li>मानकीकृत प्रक्रियाएं</li>
+                            <li>विश्वसनीयता और विश्वास</li>
+                            <li>विवादों में कमी</li>
+                            <li>संस्थागत वित्तपोषण तक पहुंच</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>बाजार के लिए</h4>
+                        <ul>
+                            <li>संगठित क्षेत्र का विकास</li>
+                            <li>विदेशी निवेश को बढ़ावा</li>
+                            <li>मानकीकृत प्रथाएं</li>
+                            <li>विश्वास और विश्वसनीयता</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h3>संपत्ति कानूनी सलाह की आवश्यकता है?</h3>
+            <p>हमारे अनुभवी रियल एस्टेट वकील आपकी संपत्ति संबंधी कानूनी आवश्यकताओं में सहायता कर सकते हैं</p>
+            <a href="https://nyaysetu-3e8f79.zapier.app/" class="cta-button">अभी परामर्श बुक करें</a>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update active tab
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Language switcher functionality
+        document.querySelectorAll('.lang-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                if (lang === 'mr') {
+                    window.location.href = 'Real Estate Marathi.html';
+                } else if (lang === 'en') {
+                    window.location.href = 'Real Estate English.html';
+                }
+                // For Hindi, we're already on the page
+            });
+        });
+    </script>
+</body>
+</html>

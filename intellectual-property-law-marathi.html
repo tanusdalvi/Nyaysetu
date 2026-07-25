@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>बौद्धिक संपदा कायदा - NYAYSETU</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-blue: #1e3c72;
+            --secondary-blue: #2a5298;
+            --accent-gold: #ffd700;
+            --accent-gold-light: #ffed4a;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 5px 20px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+            --border-radius-large: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-medium);
+            backdrop-filter: blur(10px);
+        }
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--white);
+            color: var(--primary-blue);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-light);
+        }
+        .lang-btn:hover {
+            transform: scale(1.1);
+        }
+        .lang-btn.active {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+        /* Header */
+        .header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+        /* Navigation */
+        .nav-tabs {
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+            padding: 0 2rem;
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+        }
+        .nav-tab {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+        .nav-tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--accent-gold);
+        }
+        /* Content Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+        .subsection {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--accent-gold);
+        }
+        .subsection h3 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .subsection h4 {
+            color: var(--secondary-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        .example-box {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .example-box strong {
+            color: var(--primary-blue);
+        }
+        /* Table Styles */
+        .principles-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+        .principles-table th,
+        .principles-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .principles-table th {
+            background: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+        }
+        .principles-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+        /* Laws Grid */
+        .laws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .law-card {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-gold);
+        }
+        .law-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        .law-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+        /* Case Cards */
+        .cases-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .case-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--secondary-blue);
+        }
+        .case-title {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        /* Process Steps */
+        .process-steps {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .step-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        /* Contact CTA */
+        .contact-cta {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius-large);
+            margin-top: 3rem;
+        }
+        .contact-cta h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .cta-button {
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .back-btn {
+                position: static;
+                margin-bottom: 1rem;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            .nav-tabs {
+                padding: 0 1rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+   
+    <div class="header">
+        <a href="javascript:history.back()" class="back-btn">← सेवांवर परत जा</a>
+        <h1>बौद्धिक संपदा कायदा</h1>
+        <p>भारतातील बौद्धिक संपदा हक्क आणि संरक्षणाची संपूर्ण मार्गदर्शिका</p>
+    </div>
+
+    <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('overview')">विहंगावलोकन</button>
+        <button class="nav-tab" onclick="showSection('types')">बौद्धिक संपदेचे प्रकार</button>
+        <button class="nav-tab" onclick="showSection('registration')">नोंदणी प्रक्रिया</button>
+        <button class="nav-tab" onclick="showSection('enforcement')">अंमलबजावणी</button>
+        <button class="nav-tab" onclick="showSection('cases')">महत्त्वाचे खटले</button>
+        <button class="nav-tab" onclick="showSection('international')">आंतरराष्ट्रीय बौद्धिक संपदा</button>
+        <button class="nav-tab" onclick="showSection('recent')">अलीकडील अद्यतने</button>
+    </nav>
+
+    <div class="container">
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <h2 class="section-title">बौद्धिक संपदा कायद्याची समज</h2>
+            
+            <div class="subsection">
+                <h3>व्याख्या आणि व्याप्ती</h3>
+                <p>बौद्धिक संपदा (आयपी) मनाच्या निर्मितींचा संदर्भ देते, जसे की शोध; साहित्यिक आणि कलात्मक कामे; डिझाइन; आणि व्यापारात वापरले जाणारे चिन्हे, नावे आणि प्रतिमा. आयपी कायद्याद्वारे पेटंट, कॉपीराइट, ट्रेडमार्क इ. मार्गे संरक्षित आहे, जे निर्मात्यांना त्यांच्या शोध किंवा निर्मितींमधून ओळख किंवा आर्थिक लाभ मिळविण्यास सक्षम करते.</p>
+                
+                <div class="example-box">
+                    <strong>मुख्य क्षेत्रे:</strong>
+                    <span>पेटंट, कॉपीराइट, ट्रेडमार्क, औद्योगिक डिझाइन, भौगोलिक संकेत, व्यापार गुपिते, आणि वनस्पती जाती संरक्षण.</span>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>भारतातील प्रमुख बौद्धिक संपदा कायदे</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>पेटंट कायदा, १९७०</h4>
+                        <ul>
+                            <li>शोधांसाठी संरक्षण</li>
+                            <li>२०-वर्ष संरक्षण कालावधी</li>
+                            <li>उत्पादन आणि प्रक्रिया पेटंट</li>
+                            <li>अनिवार्य परवानाकरण तरतुदी</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>कॉपीराइट कायदा, १९५७</h4>
+                        <ul>
+                            <li>साहित्यिक आणि कलात्मक कामांसाठी संरक्षण</li>
+                            <li>आयुष्य अधिक ६० वर्ष संरक्षण</li>
+                            <li>संगणक प्रोग्राम संरक्षण</li>
+                            <li>नैतिक आणि आर्थिक हक्क</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>ट्रेडमार्क कायदा, १९९९</h4>
+                        <ul>
+                            <li>ब्रँड आणि लोगोसाठी संरक्षण</li>
+                            <li>१०-वर्ष नूतनीकरणीय संरक्षण</li>
+                            <li>सेवा चिन्ह संरक्षण</li>
+                            <li>प्रसिद्ध ट्रेडमार्क ओळख</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>डिझाइन कायदा, २०००</h4>
+                        <ul>
+                            <li>औद्योगिक डिझाइनसाठी संरक्षण</li>
+                            <li>१०-वर्ष नूतनीकरणीय संरक्षण</li>
+                            <li>सौंदर्यदृष्ट्या स्वरूप संरक्षण</li>
+                            <li>नवीनता आणि मूळत्व आवश्यकता</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Types of IP Section -->
+        <div id="types" class="content-section">
+            <h2 class="section-title">बौद्धिक संपदेचे प्रकार</h2>
+            
+            <div class="subsection">
+                <h3>प्रमुख बौद्धिक संपदा श्रेण्या</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>बौद्धिक संपदा प्रकार</th>
+                            <th>वर्णन</th>
+                            <th>उदाहरणे</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>पेटंट</strong></td>
+                            <td>नवीन, शोधक आणि औद्योगिकदृष्ट्या लागू शोधांसाठी दिलेले विशेष हक्क</td>
+                            <td>औषधीय औषधे, यंत्रसामग्री, सॉफ्टवेअर अल्गोरिदम</td>
+                        </tr>
+                        <tr>
+                            <td><strong>कॉपीराइट</strong></td>
+                            <td>मूळ साहित्यिक, नाट्य, संगीत, कलात्मक कामे आणि संगणक प्रोग्राम्ससाठी संरक्षण</td>
+                            <td>पुस्तके, संगीत, चित्रपट, सॉफ्टवेअर, चित्रे</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ट्रेडमार्क</strong></td>
+                            <td>एका उद्योगाच्या वस्तू किंवा सेवा इतरांपासून वेगळ्या करण्यास सक्षम चिन्हे</td>
+                            <td>ब्रँड नावे, लोगो, घोषवाक्ये, पॅकेजिंग</td>
+                        </tr>
+                        <tr>
+                            <td><strong>औद्योगिक डिझाइन</strong></td>
+                            <td>एखाद्या वस्तूच्या सजावटीय किंवा सौंदर्यदृष्ट्या बाबीसाठी संरक्षण</td>
+                            <td>फर्निचर डिझाइन, उत्पादन आकार, वस्त्र नमुने</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>इतर बौद्धिक संपदा हक्क</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>भौगोलिक संकेत</h4>
+                        <p>उत्पादनांवर वापरले जाणारे चिन्हे ज्यांची विशिष्ट भौगोलिक उत्पत्ती असते आणि त्या उत्पत्तीमुळे गुण किंवा प्रतिष्ठा असते</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>व्यापार गुपिते</h4>
+                        <p>गोपनीय व्यवसाय माहिती जी स्पर्धात्मक फायदा प्रदान करते, गोपनीयतेद्वारे नोंदणीशिवाय संरक्षित</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>वनस्पती जाती</h4>
+                        <p>वनस्पती जाती संरक्षण कायद्याअंतर्गत प्रजनकांच्या हक्कांद्वारे नवीन वनस्पती जातींसाठी संरक्षण</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>सेमीकंडक्टर लेआउट</h4>
+                        <p>सेमीकंडक्टर आयसी लेआउट डिझाइन कायद्याअंतर्गत एकात्म सर्किट्सच्या मूळ लेआउट डिझाइनसाठी संरक्षण</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registration Process Section -->
+        <div id="registration" class="content-section">
+            <h2 class="section-title">बौद्धिक संपदा नोंदणी प्रक्रिया</h2>
+            
+            <div class="subsection">
+                <h3>पेटंट नोंदणी प्रक्रिया</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>पेटंट शोध</strong>
+                            <p>शोधाची नवीनता आणि पेटंटक्षमता तपासण्यासाठी पूर्वकला शोध करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>अर्ज दाखल करणे</strong>
+                            <p>भारतीय पेटंट कार्यालयात संपूर्ण तपशील, दावे आणि सारांशासह पेटंट अर्ज दाखल करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>प्रकाशन</strong>
+                            <p>दाखल करण्याच्या तारखेपासून किंवा प्राधान्य तारखेपासून १८ महिन्यांनंतर अर्ज प्रकाशित</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>तपासणी</strong>
+                            <p>दाखल करण्याच्या तारखेपासून ४८ महिन्यांच्या आत तपासणीची विनंती करा; तपासक अर्जाचे पुनरावलोकन करतो</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <strong>मंजुरी</strong>
+                            <p>सर्व आवश्यकता पूर्ण झाल्यास पेटंट मंजूर; दाखल करण्याच्या तारखेपासून २० वर्षांसाठी वैध</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>ट्रेडमार्क नोंदणी प्रक्रिया</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>ट्रेडमार्क शोध</strong>
+                            <p>विद्यमान ट्रेडमार्कसह उपलब्धता आणि साधर्म्य तपासण्यासाठी शोध करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>अर्ज दाखल करणे</strong>
+                            <p>योग्य वर्ग(े) आणि सहाय्यक कागदपत्रेसह ट्रेडमार्क अर्ज दाखल करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>तपासणी</strong>
+                            <p>तपासक ट्रेडमार्क कायदा आवश्यकतांचे पालन करण्यासाठी अर्जाचे पुनरावलोकन करतो</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>प्रकाशन</strong>
+                            <p>तृतीय पक्षांकडून विरोधासाठी ट्रेडमार्क्स जर्नलमध्ये प्रकाशित अर्ज</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <strong>नोंदणी</strong>
+                            <p>विरोध नसल्यास किंवा विरोध पक्षात निकालल्यास ट्रेडमार्क नोंदणीकृत; १० वर्षांसाठी वैध, नूतनीकरणीय</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enforcement Section -->
+        <div id="enforcement" class="content-section">
+            <h2 class="section-title">बौद्धिक संपदा अंमलबजावणी यंत्रणा</h2>
+            
+            <div class="subsection">
+                <h3>नागरी उपाय</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>प्रतिबंध</h4>
+                        <p>उल्लंघन क्रियाकलाप त्वरित थांबवण्यासाठी न्यायालयीन आदेश</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>नुकसानभरपाई</h4>
+                        <p>उल्लंघनामुळे झालेल्या नुकसानीसाठी आर्थिक भरपाई</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>नफ्याचा हिशोब</h4>
+                        <p>अनधिकृत वापरातून झालेला नफा परत देण्यासाठी उल्लंघनकर्ता बांधील</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>अँटन पिलर आदेश</h4>
+                        <p>पूर्वसूचनेशिवाय उल्लंघनकर्त्याच्या परिसराची शोध घेण्यास परवानगी देणारे एकतर्फी आदेश</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>फौजदारी उपाय</h3>
+                <div class="example-box">
+                    <p>व्यावसायिक प्रमाणात हेतुपुरस्सर ट्रेडमार्क बनावट किंवा कॉपीराइट चोरीसाठी फौजदारी कारवाई सुरू केली जाऊ शकते. उपायांमध्ये समाविष्ट आहेत:</p>
+                    <ul>
+                        <li>३ वर्षांपर्यंत कारावास आणि दंड</li>
+                        <li>उल्लंघनकारी वस्तूंचा जप्ती</li>
+                        <li>उल्लंघनासाठी वापरलेल्या उपकरणांची शोध आणि जप्ती</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>सीमा उपाय</h3>
+                <p>कस्टम अधिकाऱ्यांना बौद्धिक संपदा हक्क (आयातित वस्तू) अंमलबजावणी नियम, २००७ अंतर्गत संशयित उल्लंघनकारी वस्तूंची मंजुरी निलंबित करता येते. हक्कधारक वाढीव संरक्षणासाठी कस्टमकडे त्यांचे बौद्धिक संपदा हक्क नोंदवू शकतात.</p>
+            </div>
+        </div>
+
+        <!-- Landmark Cases Section -->
+        <div id="cases" class="content-section">
+            <h2 class="section-title">भारतातील महत्त्वाचे बौद्धिक संपदा खटले</h2>
+            
+            <div class="subsection">
+                <h3>पेटंट खटले</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">नोवार्टिस वि. भारत संघ (२०१३)</div>
+                        <p>सर्वोच्च न्यायालयाने कर्करोग औषध ग्लिवेकसाठी पेटंट नाकारले, पेटंट कायद्याच्या कलम ३(ड) अंतर्गत वाढीव नावीन्यतेच्या पेटंटक्षमतेसाठी कठोर मानके स्थापित केली.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">बायर वि. नॅटको (२०१२)</div>
+                        <p>कर्करोग औषध नेक्सावरसाठी भारतात प्रथमच अनिवार्य परवाना दिला, औषधांपर्यंत सवलतीच्या प्रवेशासाठी नजीर निर्माण केली.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>कॉपीराइट खटले</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">युनिव्हर्सिटी ऑफ ऑक्सफर्ड वि. रमेश्वरी (२०१६)</div>
+                        <p>दिल्ली उच्च न्यायालयाने शैक्षणिक प्रकाशनांच्या कॉपीराइट उल्लंघनासाठी लक्षणीय नुकसानभरपाई मंजूर केली, शैक्षणिक कॉपीराइटचे महत्त्व भर दिले.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">सुपर कॅसेट्स वि. हमार टीवी (२०१०)</div>
+                        <p>संगीत कामांच्या कॉपीराइट उल्लंघन खटल्यांमध्ये नुकसानभरपाईची गणना करण्यासाठी तत्त्वे स्थापित केली.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>ट्रेडमार्क खटले</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">कॅडिला वि. कॅडिला फार्मास्युटिकल्स (२००१)</div>
+                        <p>सर्वोच्च न्यायालयाने सार्वजनिक आरोग्य परिणामांचा विचार करून औषधी ट्रेडमार्कमधील भ्रामक साधर्म्य निश्चित करण्यासाठी तत्त्वे नमूद केली.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">टोयोटा वि. प्रियस ऑटो (२०१८)</div>
+                        <p>सर्वोच्च न्यायालयाने भारतीय बाजारात मर्यादित वापर असूनही भारतात टोयोटाच्या प्रियस मार्कची ट्रान्स-बॉर्डर प्रतिष्ठा मान्यता दिली.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- International IP Section -->
+        <div id="international" class="content-section">
+            <h2 class="section-title">आंतरराष्ट्रीय बौद्धिक संपदा संरक्षण</h2>
+            
+            <div class="subsection">
+                <h3>आंतरराष्ट्रीय करार</h3>
+                <p>भारत अनेक आंतरराष्ट्रीय बौद्धिक संपदा करारांचा सदस्य आहे जे बौद्धिक संपदा हक्कांच्या जागतिक संरक्षणास सुलभ करतात:</p>
+                
+                <div class="example-box">
+                    <ul>
+                        <li><strong>पॅरिस करार (१९९८)</strong> - औद्योगिक संपदेचे संरक्षण</li>
+                        <li><strong>बर्न करार (१९२८)</strong> - साहित्यिक आणि कलात्मक कामांचे संरक्षण</li>
+                        <li><strong>पीसीटी (१९९८)</strong> - आंतरराष्ट्रीय पेटंट अर्ज</li>
+                        <li><strong>ट्रिप्स करार (१९९५)</strong> - बौद्धिक संपदा संरक्षणासाठी किमान मानके</li>
+                        <li><strong>माद्रिद प्रोटोकॉल (२०१३)</strong> - आंतरराष्ट्रीय ट्रेडमार्क नोंदणी</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>आंतरराष्ट्रीय दाखल प्रणाली</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>पीसीटी - पेटंट सहकार्य करार</h4>
+                        <p>एकच आंतरराष्ट्रीय पेटंट अर्ज ज्यामुळे अनेक देशांमध्ये संरक्षण मिळू शकते. भारतीय अर्जदार प्राप्त कार्यालय म्हणून भारतीय पेटंट कार्यालयातून दाखल करू शकतात.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>माद्रिद प्रणाली - आंतरराष्ट्रीय ट्रेडमार्क</h4>
+                        <p>अनेक सदस्य देशांमध्ये ट्रेडमार्क नोंदणी करण्यासाठी एकच अर्ज. भारतीय ट्रेडमार्क मालक उत्पत्ती कार्यालय म्हणून भारतीय ट्रेडमार्क नोंदणीकर्त्यामार्फत दाखल करू शकतात.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Updates Section -->
+        <div id="recent" class="content-section">
+            <h2 class="section-title">भारतातील अलीकडील बौद्धिक संपदा घडामोडी</h2>
+            
+            <div class="subsection">
+                <h3>धोरण उपक्रम</h3>
+                <div class="example-box">
+                    <ul>
+                        <li>राष्ट्रीय आयपीआर धोरण २०१६: आयपी निर्मिती, संरक्षण आणि व्यावसायीकरणासाठी व्यापक रचना</li>
+                        <li>आयपी जागरूकता कार्यक्रम: एमएसएमई, स्टार्टअप आणि शैक्षणिक संस्थांमध्ये आयपी जागरूकता वाढवण्यासाठी सरकारी उपक्रम</li>
+                        <li>फी सवलत: स्टार्टअप, लहान संस्था आणि शैक्षणिक संस्थांसाठी पेटंट आणि ट्रेडमार्क दाखल करण्यासाठी ८०% फी कपात</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>डिजिटल उपक्रम</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>ई-दाखल पोर्टल</h4>
+                        <p>डिजिटल स्वाक्षरीसह पेटंट, ट्रेडमार्क, डिझाइन आणि भौगोलिक संकेतांसाठी संपूर्ण ऑनलाइन दाखल प्रणाली.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>एमएसएमईसाठी आयपीआर साधनसंच</h4>
+                        <p>एमएसएमईंना त्यांचे बौद्धिक संपदा हक्क समजून घेण्यास, संरक्षित करण्यास आणि अंमलात आणण्यास मदत करण्यासाठी ऑनलाइन स्रोत.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>न्यायिक घडामोडी</h3>
+                <div class="example-box">
+                    <ul>
+                        <li>व्यावसायिक न्यायालये: आयपी विवादांच्या द्रुत निराकरणासाठी विशेष व्यावसायिक न्यायालयांची स्थापना</li>
+                        <li>डायनामिक प्रतिबंध: नवीन वेबसाइट्स आणि यूआरएल कव्हर करून ऑनलाइन चोरीशी लढण्यासाठी न्यायालयांद्वारे डायनामिक प्रतिबंध देणे</li>
+                        <li>दिल्ली उच्च न्यायालयात आयपी विभाग: कौशल्य आणि कार्यक्षमता सुनिश्चित करण्यासाठी आयपी बाबतींची सुनावणी करण्यासाठी विशेष विभाग</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h3>बौद्धिक संपदेसंबंधी मदत हवी आहे?</h3>
+            <p>आमचे कायदेशीर तज्ञ आपल्या बौद्धिक संपदा हक्कांच्या नोंदणी, संरक्षण आणि अंमलबजावणीत मदत करू शकतात.</p>
+            <a href="https://nyaysetu-3e8f79.zapier.app/" class="cta-button">आमच्या आयपी तज्ञांशी सल्लामसलत करा →</a>
+        </div>
+    </div>
+
+    <script>
+        // Language switching functionality
+        function switchLanguage(lang) {
+            // Update active language button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Redirect to appropriate language page
+            if (lang === 'en') {
+                window.location.href = 'intellectual-property-law-en.html';
+            } else if (lang === 'hi') {
+                window.location.href = 'intellectual-property-law-hi.html';
+            } else {
+                window.location.href = 'intellectual-property-law-mr.html';
+            }
+        }
+
+        // Section navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update active tab
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>

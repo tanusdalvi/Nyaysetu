@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Law - NYAYSETU</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-blue: #1e3c72;
+            --secondary-blue: #2a5298;
+            --accent-gold: #ffd700;
+            --accent-gold-light: #ffed4a;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 5px 20px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+            --border-radius-large: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-medium);
+            backdrop-filter: blur(10px);
+        }
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--white);
+            color: var(--primary-blue);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-light);
+        }
+        .lang-btn:hover {
+            transform: scale(1.1);
+        }
+        .lang-btn.active {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+        /* Header */
+        .header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+        /* Navigation */
+        .nav-tabs {
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+            padding: 0 2rem;
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+        }
+        .nav-tab {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+        .nav-tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--accent-gold);
+        }
+        /* Content Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+        .subsection {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--accent-gold);
+        }
+        .subsection h3 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .subsection h4 {
+            color: var(--secondary-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        .example-box {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .example-box strong {
+            color: var(--primary-blue);
+        }
+        /* Table Styles */
+        .principles-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+        .principles-table th,
+        .principles-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .principles-table th {
+            background: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+        }
+        .principles-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+        /* Laws Grid */
+        .laws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .law-card {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-gold);
+        }
+        .law-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        .law-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+        /* Case Cards */
+        .cases-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .case-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--secondary-blue);
+        }
+        .case-title {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        /* Process Steps */
+        .process-steps {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .step-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        /* Contact CTA */
+        .contact-cta {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius-large);
+            margin-top: 3rem;
+        }
+        .contact-cta h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .cta-button {
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .back-btn {
+                position: static;
+                margin-bottom: 1rem;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            .nav-tabs {
+                padding: 0 1rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-btn">← Back to Services</a>
+        <h1>Corporate Law</h1>
+        <p>Comprehensive Guide to Business Legal Matters</p>
+    </div>
+
+    <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('overview')">Overview</button>
+        <button class="nav-tab" onclick="showSection('formation')">Company Formation</button>
+        <button class="nav-tab" onclick="showSection('governance')">Corporate Governance</button>
+        <button class="nav-tab" onclick="showSection('compliance')">Compliance</button>
+        <button class="nav-tab" onclick="showSection('contracts')">Contracts</button>
+        <button class="nav-tab" onclick="showSection('cases')">Landmark Cases</button>
+        <button class="nav-tab" onclick="showSection('regulations')">Recent Regulations</button>
+    </nav>
+
+    <div class="container">
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <h2 class="section-title">Understanding Corporate Law</h2>
+            
+            <div class="subsection">
+                <h3>Definition and Scope</h3>
+                <p>Corporate Law governs the formation, operation, and dissolution of corporations and other business entities. It encompasses the rights and obligations of all parties involved in owning, operating, and regulating corporations, including shareholders, directors, officers, employees, and creditors.</p>
+                
+                <div class="example-box">
+                    <strong>Key Areas:</strong> Company registration, corporate governance, mergers & acquisitions, securities law, contract law, intellectual property, employment law, tax compliance, and regulatory compliance.
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Types of Business Entities in India</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Private Limited Company</h4>
+                        <ul>
+                            <li>Minimum 2, Maximum 200 members</li>
+                            <li>Limited liability protection</li>
+                            <li>Separate legal entity</li>
+                            <li>Cannot invite public for investment</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Public Limited Company</h4>
+                        <ul>
+                            <li>Minimum 7 members, no maximum limit</li>
+                            <li>Can raise capital from public</li>
+                            <li>Listed on stock exchanges</li>
+                            <li>Strict compliance requirements</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Limited Liability Partnership (LLP)</h4>
+                        <ul>
+                            <li>Hybrid of partnership and company</li>
+                            <li>Minimum 2 partners required</li>
+                            <li>Limited liability for partners</li>
+                            <li>Flexible management structure</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>One Person Company (OPC)</h4>
+                        <ul>
+                            <li>Single member company</li>
+                            <li>Limited liability protection</li>
+                            <li>Nominee requirement</li>
+                            <li>Simplified compliance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formation Section -->
+        <div id="formation" class="content-section">
+            <h2 class="section-title">Company Formation Process</h2>
+            
+            <div class="subsection">
+                <h3>Step-by-Step Company Registration</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>Digital Signature Certificate (DSC)</strong>
+                            <p>Obtain DSC for all directors and subscribers from certified agencies</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>Director Identification Number (DIN)</strong>
+                            <p>Apply for DIN for all proposed directors through MCA portal</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>Name Reservation</strong>
+                            <p>Reserve company name through RUN (Reserve Unique Name) service</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>SPICe+ Form Filing</strong>
+                            <p>File SPICe+ form along with required documents and fees</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <strong>Certificate of Incorporation</strong>
+                            <p>Receive Certificate of Incorporation from MCA after verification</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">6</div>
+                        <div>
+                            <strong>Post-Incorporation Compliance</strong>
+                            <p>Commence business certificate, bank account opening, and initial filings</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Required Documents</h3>
+                <div class="example-box">
+                    <strong>Documents Required:</strong>
+                    <ul>
+                        <li>PAN Card and Aadhaar Card of all directors</li>
+                        <li>Address proof of directors and registered office</li>
+                        <li>Memorandum of Association (MoA)</li>
+                        <li>Articles of Association (AoA)</li>
+                        <li>Consent to act as director</li>
+                        <li>Declaration of compliance</li>
+                        <li>Registered office proof</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Governance Section -->
+        <div id="governance" class="content-section">
+            <h2 class="section-title">Corporate Governance</h2>
+            
+            <div class="subsection">
+                <h3>Board of Directors</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>Director Type</th>
+                            <th>Appointment</th>
+                            <th>Key Responsibilities</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Executive Directors</strong></td>
+                            <td>Full-time employees with board positions</td>
+                            <td>Daily operations, strategy execution, management</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Independent Directors</strong></td>
+                            <td>External experts without material interest</td>
+                            <td>Oversight, advice, audit committee participation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Non-Executive Directors</strong></td>
+                            <td>Part-time, not involved in daily operations</td>
+                            <td>Strategic guidance, governance oversight</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nominee Directors</strong></td>
+                            <td>Appointed by specific stakeholders</td>
+                            <td>Represent appointing party's interests</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Shareholder Rights and Meetings</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Annual General Meeting (AGM)</h4>
+                        <p>Mandatory yearly meeting to present annual accounts, declare dividends, and elect directors. Must be held within 6 months of financial year end.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Extraordinary General Meeting (EGM)</h4>
+                        <p>Special meetings called for urgent matters requiring shareholder approval, such as major transactions or amendments to articles.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Voting Rights</h4>
+                        <p>Shareholders have rights to vote on resolutions, elect directors, and approve major corporate actions based on their shareholding.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Information Rights</h4>
+                        <p>Right to receive annual reports, financial statements, and other material information affecting the company.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compliance Section -->
+        <div id="compliance" class="content-section">
+            <h2 class="section-title">Regulatory Compliance</h2>
+            
+            <div class="subsection">
+                <h3>Annual Compliance Requirements</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>Annual Return Filing (MGT-7)</strong>
+                            <p>File annual return within 60 days of AGM containing company and member details</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>Financial Statement Filing</strong>
+                            <p>File audited financial statements and board report within 30 days of AGM</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>Income Tax Returns</strong>
+                            <p>File corporate income tax returns by due date (usually September 30)</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>GST Returns</strong>
+                            <p>File monthly/quarterly GST returns depending on turnover and registration type</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <strong>Board Meetings</strong>
+                            <p>Conduct minimum 4 board meetings per year with gap not exceeding 120 days</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">6</div>
+                        <div>
+                            <strong>Statutory Audit</strong>
+                            <p>Appoint statutory auditors and conduct annual audit of financial statements</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Key Regulatory Bodies</h3>
+                <div class="example-box">
+                    <strong>Major Regulators:</strong>
+                    <ul>
+                        <li><strong>MCA (Ministry of Corporate Affairs):</strong> Company law compliance</li>
+                        <li><strong>SEBI:</strong> Securities market regulation for listed companies</li>
+                        <li><strong>RBI:</strong> Banking and financial services regulation</li>
+                        <li><strong>CBDT:</strong> Income tax and direct tax compliance</li>
+                        <li><strong>GST Council:</strong> Goods and Services Tax compliance</li>
+                        <li><strong>ROC:</strong> Regional registration and compliance monitoring</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contracts Section -->
+        <div id="contracts" class="content-section">
+            <h2 class="section-title">Corporate Contracts</h2>
+            
+            <div class="subsection">
+                <h3>Types of Corporate Contracts</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Employment Contracts</h4>
+                        <ul>
+                            <li>Terms of employment and compensation</li>
+                            <li>Non-disclosure and non-compete clauses</li>
+                            <li>Termination and severance provisions</li>
+                            <li>Stock option and incentive agreements</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Commercial Contracts</h4>
+                        <ul>
+                            <li>Supply and distribution agreements</li>
+                            <li>Service level agreements (SLAs)</li>
+                            <li>Joint venture agreements</li>
+                            <li>Licensing and franchising contracts</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Financial Contracts</h4>
+                        <ul>
+                            <li>Loan and credit agreements</li>
+                            <li>Investment and funding agreements</li>
+                            <li>Security and guarantee documents</li>
+                            <li>Merger and acquisition agreements</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Intellectual Property Contracts</h4>
+                        <ul>
+                            <li>Patent and trademark licenses</li>
+                            <li>Copyright and software agreements</li>
+                            <li>Technology transfer agreements</li>
+                            <li>Confidentiality and IP assignment</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Contract Management Best Practices</h3>
+                <div class="example-box">
+                    <strong>Key Considerations:</strong>
+                    <ul>
+                        <li>Clear definition of terms, scope, and deliverables</li>
+                        <li>Proper authority and board approval for significant contracts</li>
+                        <li>Risk allocation and limitation of liability clauses</li>
+                        <li>Dispute resolution mechanisms and governing law</li>
+                        <li>Regular review and renewal processes</li>
+                        <li>Compliance with applicable laws and regulations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cases Section -->
+        <div id="cases" class="content-section">
+            <h2 class="section-title">Landmark Corporate Law Cases</h2>
+            
+            <div class="subsection">
+                <h3>Indian Landmark Cases</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">Salomon v. Salomon & Co. Ltd. (1897)</div>
+                        <p>Established the principle of separate legal entity and limited liability, fundamental to corporate law worldwide including India.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Tata Consultancy Services v. State of Andhra Pradesh (2004)</div>
+                        <p>Supreme Court ruling on service tax applicability to software development services, impacting IT industry taxation.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Vodafone International Holdings BV v. Union of India (2012)</div>
+                        <p>Landmark tax case regarding indirect transfer of Indian assets, leading to significant changes in tax law.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Satyam Computer Services Case (2009)</div>
+                        <p>Major corporate fraud case that led to strengthening of corporate governance norms and auditing standards.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Maneka Gandhi v. Union of India (1978)</div>
+                        <p>Though constitutional, significantly impacted corporate due process requirements and administrative law compliance.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Kesoram Industries v. CWT (1966)</div>
+                        <p>Established principles for corporate personality and taxation of companies distinct from shareholders.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>International Influence Cases</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">Enron Corporation Scandal (2001)</div>
+                        <p>Led to Sarbanes-Oxley Act in US and influenced corporate governance reforms globally including India.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Cadbury Committee Report (1992)</div>
+                        <p>UK corporate governance report that influenced modern governance practices and compliance standards worldwide.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Parmalat Scandal (2003)</div>
+                        <p>European corporate fraud case that highlighted importance of independent auditing and transparency.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Regulations Section -->
+        <div id="regulations" class="content-section">
+            <h2 class="section-title">Recent Regulatory Changes</h2>
+            
+            <div class="subsection">
+                <h3>Companies Act 2013 - Major Reforms</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Enhanced Corporate Governance</h4>
+                        <ul>
+                            <li>Mandatory independent directors for large companies</li>
+                            <li>Board evaluation and performance requirements</li>
+                            <li>Audit committee mandatory for prescribed companies</li>
+                            <li>Related party transaction regulations</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Corporate Social Responsibility (CSR)</h4>
+                        <ul>
+                            <li>Mandatory CSR spending for large companies</li>
+                            <li>2% of average net profit requirement</li>
+                            <li>CSR committee formation mandatory</li>
+                            <li>Annual CSR reporting requirements</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Increased Transparency</h4>
+                        <ul>
+                            <li>Electronic filing and digital signatures</li>
+                            <li>Public access to company information</li>
+                            <li>Enhanced disclosure requirements</li>
+                            <li>Whistleblower protection mechanisms</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Stricter Penalties</h4>
+                        <ul>
+                            <li>Higher monetary penalties for non-compliance</li>
+                            <li>Criminal liability for serious violations</li>
+                            <li>Director disqualification provisions</li>
+                            <li>Compounding of offenses mechanism</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Recent Amendments and Updates</h3>
+                <div class="example-box">
+                    <strong>Key Recent Changes (2021-2024):</strong>
+                    <ul>
+                        <li><strong>Decriminalization:</strong> Several compliance defaults converted to civil liability</li>
+                        <li><strong>Digital Compliance:</strong> Enhanced e-governance and digital filing processes</li>
+                        <li><strong>Startup Exemptions:</strong> Relaxed compliance requirements for startups and small companies</li>
+                        <li><strong>CSR Amendments:</strong> Updated CSR rules and implementation guidelines</li>
+                        <li><strong>LLP Act Updates:</strong> Simplified LLP incorporation and compliance procedures</li>
+                        <li><strong>Producer Company Rules:</strong> Enhanced provisions for producer company operations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Emerging Areas of Corporate Law</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>ESG Compliance</h4>
+                        <p>Environmental, Social, and Governance factors becoming mandatory for listed companies and large corporations.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Data Protection</h4>
+                        <p>Personal Data Protection Bill and cybersecurity requirements impacting corporate operations.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Competition Law</h4>
+                        <p>Strengthened anti-trust regulations and merger control mechanisms under Competition Act.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Insolvency & Bankruptcy</h4>
+                        <p>IBC Code providing structured mechanism for corporate insolvency resolution and liquidation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h3>Need Corporate Law Assistance?</h3>
+            <p>Our experienced corporate law team provides comprehensive legal support for business formation, compliance, contracts, and governance. Protecting your business interests is our priority.</p>
+            <a href="https://nyaysetu-3e8f79.zapier.app/" class="cta-button">Get Corporate Legal Help Now</a>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected section and activate corresponding tab
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+
+            // Scroll to top of content
+            document.querySelector('.container').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Add smooth scrolling for better user experience
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize with overview section
+            showSection('overview');
+            
+            // Add keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                    const tabs = document.querySelectorAll('.nav-tab');
+                    const activeTab = document.querySelector('.nav-tab.active');
+                    const currentIndex = Array.from(tabs).indexOf(activeTab);
+                    
+                    let newIndex;
+                    if (e.key === 'ArrowLeft') {
+                        newIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
+                    } else {
+                        newIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
+                    }
+                    
+                    tabs[newIndex].click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

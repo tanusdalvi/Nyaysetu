@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Immigration Law - NYAYSETU</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #1e3c72;
+            --secondary-blue: #2a5298;
+            --accent-gold: #ffd700;
+            --accent-gold-light: #ffed4a;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 5px 20px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+            --border-radius-large: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-medium);
+            backdrop-filter: blur(10px);
+        }
+
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--white);
+            color: var(--primary-blue);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-light);
+        }
+
+        .lang-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .lang-btn.active {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+
+        /* Header */
+        .header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+            padding: 0 2rem;
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+        }
+
+        .nav-tab {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+
+        .nav-tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--accent-gold);
+        }
+
+        /* Content Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+
+        .subsection {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--accent-gold);
+        }
+
+        .subsection h3 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .subsection h4 {
+            color: var(--secondary-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .example-box {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-gold);
+        }
+
+        .example-box strong {
+            color: var(--primary-blue);
+        }
+
+        /* Table Styles */
+        .principles-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+
+        .principles-table th,
+        .principles-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .principles-table th {
+            background: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+        }
+
+        .principles-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+
+        /* Laws Grid */
+        .laws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .law-card {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-gold);
+        }
+
+        .law-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .law-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        /* Visa Cards */
+        .visas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .visa-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--secondary-blue);
+        }
+
+        .visa-title {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Rights List */
+        .rights-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .right-item {
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .right-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        /* Challenges and Solutions */
+        .challenge-item,
+        .solution-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-light);
+        }
+
+        .challenge-item {
+            border-left: 4px solid #ff4757;
+        }
+
+        .solution-item {
+            border-left: 4px solid #2ed573;
+        }
+
+        /* Constitution Cards */
+        .constitution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .article-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--secondary-blue);
+        }
+
+        .article-number {
+            color: var(--primary-blue);
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Process Steps */
+        .process-steps {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .step-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-left: 4px solid var(--accent-gold);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* Contact CTA */
+        .contact-cta {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius-large);
+            margin-top: 3rem;
+        }
+
+        .contact-cta h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-button {
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .back-btn {
+                position: static;
+                margin-bottom: 1rem;
+            }
+
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .nav-tabs {
+                padding: 0 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="javascript:history.back()" class="back-btn">← Back to Services</a>
+        <h1>Immigration Law</h1>
+        <p>Comprehensive Guide to Indian Immigration Laws and Procedures</p>
+    </div>
+
+    <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('basics')">Basics</button>
+        <button class="nav-tab" onclick="showSection('visas')">Visa Types</button>
+        <button class="nav-tab" onclick="showSection('citizenship')">Citizenship</button>
+        <button class="nav-tab" onclick="showSection('laws')">Laws & Regulations</button>
+        <button class="nav-tab" onclick="showSection('process')">Application Process</button>
+        <button class="nav-tab" onclick="showSection('rights')">Rights & Obligations</button>
+        <button class="nav-tab" onclick="showSection('recent')">Recent Changes</button>
+        <button class="nav-tab" onclick="showSection('challenges')">Challenges</button>
+    </nav>
+
+    <div class="container">
+        <!-- Basics Section -->
+        <div id="basics" class="content-section active">
+            <h2 class="section-title">Understanding Indian Immigration Law</h2>
+            
+            <div class="subsection">
+                <h3>Definition and Scope</h3>
+                <p>Indian Immigration Law governs the entry, stay, and exit of foreign nationals in India, as well as the acquisition and loss of Indian citizenship. It encompasses visa regulations, citizenship laws, and procedures for foreigners residing in India.</p>
+                
+                <div class="example-box">
+                    <strong>Key Distinction:</strong> 
+                    <span>Immigration law regulates the movement of people across borders, while emigration law governs the departure of Indian citizens to other countries.</span>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Purpose of Immigration Law</h3>
+                <ul>
+                    <li><strong>National Security:</strong> Regulating entry to protect national interests</li>
+                    <li><strong>Economic Development:</strong> Facilitating skilled migration and foreign investment</li>
+                    <li><strong>Cultural Exchange:</strong> Promoting tourism and cultural interactions</li>
+                    <li><strong>Family Unity:</strong> Allowing family members to reunite</li>
+                    <li><strong>Humanitarian Protection:</strong> Providing refuge to those fleeing persecution</li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <h3>Key Regulatory Bodies</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Ministry of Home Affairs</h4>
+                        <p>Primary authority for immigration policies, citizenship matters, and visa regulations in India.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Foreigners Regional Registration Office (FRRO)</h4>
+                        <p>Handles registration of foreigners, visa extensions, and other immigration-related services.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Bureau of Immigration</h4>
+                        <p>Manages immigration checkpoints at airports and border crossings, implementing immigration controls.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Ministry of External Affairs</h4>
+                        <p>Oversees visa issuance through Indian missions abroad and diplomatic aspects of immigration.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visas Section -->
+        <div id="visas" class="content-section">
+            <h2 class="section-title">Visa Types and Categories</h2>
+            
+            <div class="subsection">
+                <h3>Major Visa Categories</h3>
+                <div class="visas-grid">
+                    <div class="visa-card">
+                        <div class="visa-title">Tourist Visa</div>
+                        <p>For recreation, sightseeing, casual visit to meet friends or relatives. No business activities permitted.</p>
+                    </div>
+                    <div class="visa-card">
+                        <div class="visa-title">Business Visa</div>
+                        <p>For business meetings, establishing industrial/business ventures, or purchasing/selling products.</p>
+                    </div>
+                    <div class="visa-card">
+                        <div class="visa-title">Employment Visa</div>
+                        <p>For skilled professionals employed by Indian companies. Requires minimum salary threshold.</p>
+                    </div>
+                    <div class="visa-card">
+                        <div class="visa-title">Student Visa</div>
+                        <p>For pursuing regular studies at recognized educational institutions in India.</p>
+                    </div>
+                    <div class="visa-card">
+                        <div class="visa-title">Medical Visa</div>
+                        <p>For medical treatment at recognized/specialized hospitals in India.</p>
+                    </div>
+                    <div class="visa-card">
+                        <div class="visa-title">Research Visa</div>
+                        <p>For foreigners seeking to conduct research in Indian institutions.</p>
+                    </div>
+                    <div class="visa-card">
+                        <div class="visa-title">Conference Visa</div>
+                        <p>For attending conferences/seminars/workshops in India.</p>
+                    </div>
+                    <div class="visa-card">
+                        <div class="visa-title">Entry Visa</div>
+                        <p>For persons of Indian origin and their family members for long-term stay.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>e-Visa Facility</h3>
+                <p>India offers e-Visa facility for citizens of over 160 countries for tourism, business, and medical purposes. The application is completed online with faster processing times.</p>
+                
+                <div class="example-box">
+                    <strong>e-Visa Categories:</strong>
+                    <ul>
+                        <li>e-Tourist Visa (1 month, 1 year, 5 years)</li>
+                        <li>e-Business Visa</li>
+                        <li>e-Medical Visa</li>
+                        <li>e-Medical Attendant Visa</li>
+                        <li>e-Conference Visa</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Citizenship Section -->
+        <div id="citizenship" class="content-section">
+            <h2 class="section-title">Citizenship and Naturalization</h2>
+            
+            <div class="subsection">
+                <h3>Ways to Acquire Indian Citizenship</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <h4>By Birth</h4>
+                            <p>Persons born in India on or after January 26, 1950, but before July 1, 1987, are citizens by birth regardless of parents' nationality.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <h4>By Descent</h4>
+                            <p>Persons born outside India on or after January 26, 1950, but before December 10, 1992, if father was Indian citizen at time of birth.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <h4>By Registration</h4>
+                            <p>Available to persons of Indian origin, spouses of Indian citizens, and minor children of Indian citizens.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <h4>By Naturalization</h4>
+                            <p>Foreigners can acquire citizenship if they have resided in India for 12 years and meet other qualifications.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Overseas Citizenship of India (OCI)</h3>
+                <p>OCI scheme allows persons of Indian origin and their spouses to live and work in India indefinitely. OCI cardholders enjoy multiple entry, multi-purpose lifelong visa to visit India.</p>
+                
+                <div class="example-box">
+                    <strong>OCI Benefits:</strong>
+                    <ul>
+                        <li>Multiple entry, multi-purpose lifelong visa</li>
+                        <li>Exemption from registration with FRRO for any length of stay</li>
+                        <li>Parity with NRIs in financial, economic and educational fields</li>
+                        <li>No separate student visa required for admission in educational institutions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Laws Section -->
+        <div id="laws" class="content-section">
+            <h2 class="section-title">Key Immigration Laws and Regulations</h2>
+            
+            <div class="subsection">
+                <h3>Primary Legislation</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>The Foreigners Act, 1946</h4>
+                        <p>Empowers the central government to regulate the entry, presence, and departure of foreigners in India.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>The Registration of Foreigners Act, 1939</h4>
+                        <p>Provides for the registration of foreigners entering India and maintaining records.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>The Citizenship Act, 1955</h4>
+                        <p>Governs acquisition and termination of Indian citizenship and introduces OCI scheme.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>The Passport (Entry into India) Act, 1920</h4>
+                        <p>Regulates entry into India and mandates possession of valid passports.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Constitutional Provisions</h3>
+                <div class="constitution-grid">
+                    <div class="article-card">
+                        <div class="article-number">Article 5</div>
+                        <p>Citizenship at the commencement of the Constitution.</p>
+                    </div>
+                    <div class="article-card">
+                        <div class="article-number">Article 6</div>
+                        <p>Rights of citizenship of certain persons who have migrated to India from Pakistan.</p>
+                    </div>
+                    <div class="article-card">
+                        <div class="article-number">Article 7</div>
+                        <p>Rights of citizenship of certain migrants to Pakistan.</p>
+                    </div>
+                    <div class="article-card">
+                        <div class="article-number">Article 8</div>
+                        <p>Rights of citizenship of certain persons of Indian origin residing outside India.</p>
+                    </div>
+                    <div class="article-card">
+                        <div class="article-number">Article 9</div>
+                        <p>Persons voluntarily acquiring citizenship of a foreign State not to be citizens.</p>
+                    </div>
+                    <div class="article-card">
+                        <div class="article-number">Article 10</div>
+                        <p>Continuance of the rights of citizenship.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Process Section -->
+        <div id="process" class="content-section">
+            <h2 class="section-title">Visa Application Process</h2>
+            
+            <div class="subsection">
+                <h3>Standard Application Steps</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <h4>Determine Visa Type</h4>
+                            <p>Identify the appropriate visa category based on purpose of visit.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <h4>Complete Application</h4>
+                            <p>Fill the online application form with accurate information.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <h4>Gather Documents</h4>
+                            <p>Collect required supporting documents as per visa category.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <h4>Submit Application</h4>
+                            <p>Submit application at Indian Mission/FRRO or online for e-Visa.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <h4>Pay Fees</h4>
+                            <p>Pay the applicable visa fee based on nationality and visa type.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">6</div>
+                        <div>
+                            <h4>Attend Interview (if required)</h4>
+                            <p>Some visa categories require personal interview at Mission.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">7</div>
+                        <div>
+                            <h4>Track Application</h4>
+                            <p>Monitor application status through provided tracking system.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">8</div>
+                        <div>
+                            <h4>Receive Visa</h4>
+                            <p>Collect passport with visa stamp or receive e-Visa via email.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Registration Requirements</h3>
+                <p>Foreigners visiting India on long-term visas (more than 180 days) must register with the FRRO/FRO within 14 days of arrival. Certain nationals must register irrespective of duration of stay.</p>
+                
+                <div class="example-box">
+                    <strong>Registration Required For:</strong>
+                    <ul>
+                        <li>All foreign nationals visiting India for more than 180 days</li>
+                        <li>Citizens of Afghanistan, China, and Pakistan (irrespective of duration)</li>
+                        <li>Foreign nationals of Pakistani origin</li>
+                        <li>All foreign journalists and photographers</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rights Section -->
+        <div id="rights" class="content-section">
+            <h2 class="section-title">Rights and Obligations of Foreigners</h2>
+            
+            <div class="subsection">
+                <h3>Fundamental Rights Available to Foreigners</h3>
+                <div class="rights-list">
+                    <div class="right-item">
+                        <div class="right-icon">✓</div>
+                        <span>Equality before law (Article 14)</span>
+                    </div>
+                    <div class="right-item">
+                        <div class="right-icon">✓</div>
+                        <span>Protection of life and personal liberty (Article 21)</span>
+                    </div>
+                    <div class="right-item">
+                        <div class="right-icon">✓</div>
+                        <span>Protection against ex post facto laws (Article 20(1))</span>
+                    </div>
+                    <div class="right-item">
+                        <div class="right-icon">✓</div>
+                        <span>Protection against double jeopardy (Article 20(2))</span>
+                    </div>
+                    <div class="right-item">
+                        <div class="right-icon">✓</div>
+                        <span>Protection against self-incrimination (Article 20(3))</span>
+                    </div>
+                    <div class="right-item">
+                        <div class="right-icon">✓</div>
+                        <span>Freedom of conscience and religion (Article 25)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Obligations of Foreigners</h3>
+                <ul>
+                    <li>Comply with Indian laws and respect local customs</li>
+                    <li>Register with FRRO if required based on nationality and duration of stay</li>
+                    <li>Inform FRRO about change of address</li>
+                    <li>Depart India before visa expiry</li>
+                    <li>Not engage in activities inconsistent with visa category</li>
+                    <li>Not take up employment without appropriate work visa</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Recent Changes Section -->
+        <div id="recent" class="content-section">
+            <h2 class="section-title">Recent Changes and Updates</h2>
+            
+            <div class="subsection">
+                <h3>Key Recent Updates in Indian Immigration Law</h3>
+                
+                <div class="example-box">
+                    <strong>Liberalized e-Visa Policy:</strong>
+                    <span>Expanded e-Visa facility to more countries and introduced longer duration e-Tourist visas (5 years).</span>
+                </div>
+
+                <div class="example-box">
+                    <strong>OCI Card Rules:</strong>
+                    <span>OCI cardholders now need special permission for journalism, research, missionary work, or mountaineering.</span>
+                </div>
+
+                <div class="example-box">
+                    <strong>Citizenship Amendment Act, 2019:</strong>
+                    <span>Provides accelerated pathway to Indian citizenship for persecuted religious minorities from Afghanistan, Bangladesh, and Pakistan.</span>
+                </div>
+
+                <div class="example-box">
+                    <strong>FRRO Services Online:</strong>
+                    <span>Most FRRO services including registration, extension, and exit permits now available through online portal.</span>
+                </div>
+
+                <div class="example-box">
+                    <strong>Long-term Visas:</strong>
+                    <span>Introduction of longer duration employment and business visas for certain categories.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenges Section -->
+        <div id="challenges" class="content-section">
+            <h2 class="section-title">Common Challenges and Solutions</h2>
+            
+            <div class="subsection">
+                <h3>Common Immigration Challenges</h3>
+                
+                <div class="challenge-item">
+                    <h4>Visa Processing Delays</h4>
+                    <p>Applications sometimes face extended processing times due to security clearances or incomplete documentation.</p>
+                </div>
+
+                <div class="challenge-item">
+                    <h4>Visa Extension Complications</h4>
+                    <p>Strict requirements and documentation for visa extensions can be challenging for long-term visitors.</p>
+                </div>
+
+                <div class="challenge-item">
+                    <h4>Employment Visa Restrictions</h4>
+                    <p>Stringent salary thresholds and employer requirements limit employment opportunities for foreigners.</p>
+                </div>
+
+                <div class="challenge-item">
+                    <h4>Overstay Penalties</h4>
+                    <p>Unintentional overstays due to misunderstanding of visa rules can lead to heavy fines and future entry bans.</p>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Practical Solutions</h3>
+                
+                <div class="solution-item">
+                    <h4>Early Application</h4>
+                    <p>Apply for visas well in advance of planned travel to account for processing delays.</p>
+                </div>
+
+                <div class="solution-item">
+                    <h4>Complete Documentation</h4>
+                    <p>Ensure all required documents are complete and accurate to avoid processing delays.</p>
+                </div>
+
+                <div class="solution-item">
+                    <h4>Professional Assistance</h4>
+                    <p>Seek guidance from immigration lawyers for complex cases like business setup or long-term stays.</p>
+                </div>
+
+                <div class="solution-item">
+                    <h4>Compliance Monitoring</h4>
+                    <p>Keep track of visa expiry dates and registration requirements to avoid penalties.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h3>Need Immigration Legal Assistance?</h3>
+            <p>Our experienced immigration lawyers can help with visa applications, extensions, citizenship matters, and compliance issues.</p>
+            <a href="https://nyaysetu-3e8f79.zapier.app/" class="cta-button">Consult an Immigration Lawyer</a>
+        </div>
+    </div>
+
+    <script>
+        // Section navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update active tab
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>

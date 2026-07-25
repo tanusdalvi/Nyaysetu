@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="mr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>वैयक्तिक जखम कायदा - न्यायसेतू</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-blue: #1e3c72;
+            --secondary-blue: #2a5298;
+            --accent-gold: #ffd700;
+            --accent-gold-light: #ffed4a;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 5px 20px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+            --border-radius-large: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-medium);
+            backdrop-filter: blur(10px);
+        }
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--white);
+            color: var(--primary-blue);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-light);
+        }
+        .lang-btn:hover {
+            transform: scale(1.1);
+        }
+        .lang-btn.active {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+        .header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+        .nav-tabs {
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+            padding: 0 2rem;
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+        }
+        .nav-tab {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+        .nav-tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--accent-gold);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+        .subsection {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--accent-gold);
+        }
+        .subsection h3 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .subsection h4 {
+            color: var(--secondary-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        .example-box {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .example-box strong {
+            color: var(--primary-blue);
+        }
+        .principles-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+        .principles-table th,
+        .principles-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .principles-table th {
+            background: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+        }
+        .principles-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+        .laws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .law-card {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-gold);
+        }
+        .law-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        .law-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+        .cases-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .case-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--secondary-blue);
+        }
+        .case-title {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .process-steps {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .step-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .contact-cta {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius-large);
+            margin-top: 3rem;
+        }
+        .contact-cta h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .cta-button {
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+        @media (max-width: 768px) {
+            .back-btn {
+                position: static;
+                margin-bottom: 1rem;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            .nav-tabs {
+                padding: 0 1rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body> 
+    <div class="header">
+        <a href="javascript:history.back()" class="back-btn">← सेवांमध्ये परत</a>
+        <h1>वैयक्तिक जखम कायदा</h1>
+        <p>वैयक्तिक जखम दावे आणि भरपाईचा व्यापक मार्गदर्शक</p>
+    </div>
+
+    <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('overview')">विहंगावलोकन</button>
+        <button class="nav-tab" onclick="showSection('types')">जखमांच्या प्रकार</button>
+        <button class="nav-tab" onclick="showSection('liability')">दायित्व आणि दुर्लक्ष</button>
+        <button class="nav-tab" onclick="showSection('compensation')">भरपाई</button>
+        <button class="nav-tab" onclick="showSection('process')">कायदेशीर प्रक्रिया</button>
+        <button class="nav-tab" onclick="showSection('cases')">महत्त्वाचे खटले</button>
+        <button class="nav-tab" onclick="showSection('insurance')">विमा दावे</button>
+    </nav>
+
+    <div class="container">
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <h2 class="section-title">वैयक्तिक जखम कायद्याची समज</h2>
+            
+            <div class="subsection">
+                <h3>व्याख्या आणि व्याप्ती</h3>
+                <p>वैयक्तिक जखम कायदा अशा व्यक्तींना कायदेशीर उपाययोजना प्रदान करतो ज्यांना दुसऱ्या व्यक्ती, कंपनी, सरकारी यंत्रणा किंवा इतर घटकाच्या दुर्लक्ष किंवा चुकीच्या वर्तनामुळे शारीरिक किंवा भावनिक हानी झाली आहे. याचा उद्देश जखमी व्यक्तीला आर्थिक भरपाईद्वारे पुन्हा पूर्ण करण्याचा आहे.</p>
+                
+                <div class="example-box">
+                    <strong>मुख्य तत्त्व:</strong> कायदा जखमाचा खर्च पीडितांकडून तो पक्षाकडे हस्तांतरित करण्यासाठी डिझाइन केला गेला आहे ज्याच्या कृतींनी जखम घडवली, आर्थिक भरपाई देऊन पीडितांना बरे व्हावे आणि जीवन पुढे चालू ठेवण्यास मदत करणे.
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>भारतातील कायदेशीर चौकट</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>मोटार वाहन अपघात</h4>
+                        <ul>
+                            <li>मोटार वाहन कायदा, १९८८</li>
+                            <li>अपघातांसाठी नो-फॉल्ट जबाबदारी</li>
+                            <li>अनिवार्य विमा आवश्यकता</li>
+                            <li>मोटार अपघात दावा ट्रिब्यूनल (MACT)</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>वैद्यकीय दुर्लक्ष</h4>
+                        <ul>
+                            <li>ग्राहक संरक्षण कायदा, २०१९</li>
+                            <li>भारतीय वैद्यकीय परिषद कायदा</li>
+                            <li>क्लिनिकल स्थापन कायदा</li>
+                            <li>व्यावसायिक दुर्लक्ष मानके</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>कार्यस्थळ जखम</h4>
+                        <ul>
+                            <li>कामगार भरपाई कायदा, १९२३</li>
+                            <li>कर्मचाऱ्यांचे राज्य विमा कायदा</li>
+                            <li>फॅक्टरी कायदा, १९४८</li>
+                            <li>उद्योग सुरक्षा नियम</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>सामान्य टॉर्ट कायदा</h4>
+                        <ul>
+                            <li>भारतीय टॉर्ट कायदा तत्त्वे</li>
+                            <li>कॉमन लॉ अंतर्गत टॉर्टचा कायदा</li>
+                            <li>सिविल प्रक्रिया संहिता, १९०८</li>
+                            <li>नुकसान आणि उपाय</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>वैयक्तिक जखम दाव्यांचे घटक</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>घटक</th>
+                            <th>वर्णन</th>
+                            <th>आवश्यक पुरावा</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>देखभालाची जबाबदारी</strong></td>
+                            <td>इतरांना हानी टाळण्याची कायदेशीर जबाबदारी</td>
+                            <td>परिस्थितींमध्ये योग्य देखभाल मानक</td>
+                        </tr>
+                        <tr>
+                            <td><strong>जबाबदारीचा भंग</strong></td>
+                            <td>आवश्यक देखभाल मानक पूर्ण करण्यात अपयश</td>
+                            <td>प्रतिवादीच्या दुर्लक्ष वर्तनाचा पुरावा</td>
+                        </tr>
+                        <tr>
+                            <td><strong>कारणता</strong></td>
+                            <td>भंग आणि जखम यांच्यातील थेट संबंध</td>
+                            <td>तथ्यात्मक आणि कायदेशीर कारणता स्थापना</td>
+                        </tr>
+                        <tr>
+                            <td><strong>नुकसान</strong></td>
+                            <td>पीडिताच्या जीवनावर वास्तविक हानी किंवा जखम</td>
+                            <td>वैद्यकीय रेकॉर्ड, आर्थिक नुकसान दस्तऐवजीकरण</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Types Section -->
+        <div id="types" class="content-section">
+            <h2 class="section-title">वैयक्तिक जखमांचे प्रकार</h2>
+            
+            <div class="subsection">
+                <h3>मोटार वाहन अपघात</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>कार अपघात</h4>
+                        <ul>
+                            <li>टक्कर जखम आणि मृत्यू</li>
+                            <li>हिट-अँड-रन प्रकरणे</li>
+                            <li>मद्यप्रवृत्त ड्रायव्हिंग अपघात</li>
+                            <li>दोषपूर्ण वाहन दावे</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>मोटारसायकल अपघात</h4>
+                        <ul>
+                            <li>जखमांची उच्च तीव्रता</li>
+                            <li>डोके आणि मेरुरज्जू जखम</li>
+                            <li>रस्त्याची स्थिती घटक</li>
+                            <li>संरक्षक उपकरण विचार</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>पादचारी अपघात</h4>
+                        <ul>
+                            <li>क्रॉसवॉक अपघात</li>
+                            <li>ट्रॅफिक सिग्नल उल्लंघन</li>
+                            <li>खराब दृश्यमानता स्थिती</li>
+                            <li>शाळा झोन घटना</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>सार्वजनिक वाहतूक</h4>
+                        <ul>
+                            <li>बस आणि ट्रेन अपघात</li>
+                            <li>प्लॅटफॉर्म जखम</li>
+                            <li>गर्दीच्या घटना</li>
+                            <li>व्यावसायिक वाहन जबाबदारी</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>वैद्यकीय कुप्रथा</h3>
+                <div class="example-box">
+                    <strong>सामान्य प्रकार:</strong>
+                    <ul>
+                        <li><strong>चूक निदान किंवा विलंबित निदान:</strong> वैद्यकीय स्थितींची योग्य ओळखण्यात अपयश</li>
+                        <li><strong>शस्त्रक्रिया त्रुटी:</strong> चुकीच्या-साइट शस्त्रक्रिया, अॅनेस्थेशिया चूका, पोस्ट-ऑपरेटिव्ह गुंतागुंती</li>
+                        <li><strong>औषध त्रुटी:</strong> चुकीची प्रिस्क्रिप्शन, डोस चूका, ड्रग इंटरॅक्शन</li>
+                        <li><strong>जन्म जखम:</strong> डिलिव्हरी गुंतागुंती, सेरेब्रल पाल्सी, एर्ब्स पाल्सी</li>
+                        <li><strong>रुग्णालय दुर्लक्ष:</strong> संसर्ग, पडणे, अपर्याप्त निरीक्षण</li>
+                        <li><strong>दात वैद्यकीय कुप्रथा:</strong> मज्जातंतू नुकसान, काढणे गुंतागुंती</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>कार्यस्थळ जखम</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>बांधकाम अपघात</h4>
+                        <p>उंचीवरून पडणे, मशिनरी अपघात, रचनात्मक कोसळणे, वीजेचा धक्का, आणि धोकादायक साहित्य संपर्कात.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>उद्योग जखम</h4>
+                        <p>रासायनिक संपर्क, पुनरावृत्त ताण जखम, मशिनरी खराबी, आणि व्यावसायिक रोग.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>ऑफिस जखम</h4>
+                        <p>घसरून पडणे अपघात, एर्गोनॉमिक जखम, कार्यस्थळ हिंसा, आणि ताण-संबंधित स्थिती.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>वाहतूक नोकऱ्या</h4>
+                        <p>व्यावसायिक ड्रायव्हिंग अपघात, रेल्वे जखम, समुद्री अपघात, आणि विमानन घटना.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>जागा जबाबदारी</h3>
+                <div class="example-box">
+                    <strong>मालमत्ता-संबंधित जखम:</strong>
+                    <ul>
+                        <li>ओल्या किंवा असमान पृष्ठभागावर घसरून पडणे अपघात</li>
+                        <li>हल्ला किंवा लूटसाठी अपर्याप्त सुरक्षा</li>
+                        <li>दोषपूर्ण जिने, रेलिंग, किंवा लिफ्ट</li>
+                        <li>स्विमिंग पूल अपघात आणि बुडणे</li>
+                        <li>कुत्र्याचे चावणे आणि प्राणी हल्ले</li>
+                        <li>पडणाऱ्या वस्तू किंवा रचनात्मक अपयश</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Liability Section -->
+        <div id="liability" class="content-section">
+            <h2 class="section-title">जबाबदारी आणि दुर्लक्ष</h2>
+            
+            <div class="subsection">
+                <h3>जबाबदारीचे प्रकार</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>जबाबदारी प्रकार</th>
+                            <th>व्याख्या</th>
+                            <th>उदाहरणे</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>दुर्लक्ष</strong></td>
+                            <td>योग्य देखभाल करण्यात अपयश</td>
+                            <td>व्याकुल ड्रायव्हिंग, वैद्यकीय त्रुटी, असुरक्षित जागा</td>
+                        </tr>
+                        <tr>
+                            <td><strong>कठोर जबाबदारी</strong></td>
+                            <td>दोष किंवा हेतूच्या परवाहावरील जबाबदारी</td>
+                            <td>दोषपूर्ण उत्पादने, धोकादायक क्रियाकलाप, प्राणी हल्ले</td>
+                        </tr>
+                        <tr>
+                            <td><strong>हेतुपुरस्सर टॉर्ट</strong></td>
+                            <td>जाणीवपूर्वक हानिकारक कृत्ये</td>
+                            <td>हल्ला, बॅटरी, चुकीची कैद</td>
+                        </tr>
+                        <tr>
+                            <td><strong>विकरियस जबाबदारी</strong></td>
+                            <td>दुसऱ्याच्या कृत्यांसाठी जबाबदारी</td>
+                            <td>नियोक्ता जबाबदारी, पालक-बालक संबंध</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>दुर्लक्ष सिद्ध करणे</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">१</div>
+                        <div>
+                            <strong>देखभालाची जबाबदारी स्थापित करा</strong>
+                            <p>सिद्ध करा की प्रतिवादीला जखमी पक्षाकडे कायदेशीर जबाबदारी होती</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">२</div>
+                        <div>
+                            <strong>जबाबदारीचा भंग दाखवा</strong>
+                            <p>दाखवा की प्रतिवादीने योग्य देखभाल मानक पूर्ण केले नाही</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">३</div>
+                        <div>
+                            <strong>कारणता सिद्ध करा</strong>
+                            <p>भंग आणि जखम यांच्यात थेट कारण संबंध स्थापित करा (तथ्यात्मक आणि कायदेशीर कारणता)</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">४</div>
+                        <div>
+                            <strong>नुकसान दस्तऐवजीकरण करा</strong>
+                            <p>वास्तविक हानी, नुकसानी आणि पीडिताच्या जीवनावर परिणामाचा पुरावा द्या</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>वैयक्तिक जखम दाव्यांचे बचाव</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>योगदानपूर्ण दुर्लक्ष</h4>
+                        <p>पीडिताचे स्वतःचे दुर्लक्ष जखमीत योगदान दिले, भरपाई आनुपातिकरित्या कमी करणे.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>जोखीमचा अंदाज</h4>
+                        <p>पीडिताने स्वेच्छेने ज्ञात जोखमी स्वीकारल्या ज्या क्रियाकलापाशी जोडल्या गेल्या.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>दैवी कृत्य</h4>
+                        <p>जखम मानवी नियंत्रणाव्यतिरिक्त अप्रत्यक्षित नैसर्गिक घटनांमुळे झाली.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>मर्यादा कालावधी कायदा</h4>
+                        <p>दावा कायदेशीर निर्धारित वेळ मर्यादेनंतर दाखल केला गेला.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compensation Section -->
+        <div id="compensation" class="content-section">
+            <h2 class="section-title">भरपाई आणि नुकसान</h2>
+            
+            <div class="subsection">
+                <h3>नुकसानाचे प्रकार</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>आर्थिक नुकसान</h4>
+                        <ul>
+                            <li>वैद्यकीय खर्च (भूतकाळ आणि भविष्य)</li>
+                            <li>गमावलेली मजुरी आणि कमाई क्षमता</li>
+                            <li>मालमत्ता नुकसान खर्च</li>
+                            <li>पुनर्वसन आणि थेरपी खर्च</li>
+                            <li>सहाय्यक उपकरण आणि घर बदल</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>गैर-आर्थिक नुकसान</h4>
+                        <ul>
+                            <li>वेदना आणि त्रास</li>
+                            <li>भावनिक तणाव आणि मानसिक यातना</li>
+                            <li>जीवनाचा आनंद गमावणे</li>
+                            <li>कॉन्सोर्टियमचे नुकसान (पती-पत्नी संबंध)</li>
+                            <li>विकृती आणि जखम</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>दंडात्मक नुकसान</h4>
+                        <ul>
+                            <li>घोर दुर्लक्षासाठी प्रदान केले जाते</li>
+                            <li>लापरवाह वर्तनासाठी शिक्षा</li>
+                            <li>समान वर्तनासाठी प्रतिबंधक</li>
+                            <li>भारतीय टॉर्ट कायद्यात दुर्मीळ</li>
+                            <li>असाधारण प्रकरणांमध्ये उदाहरणीय नुकसान</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>अन्यायपूर्ण मृत्यू नुकसान</h4>
+                        <ul>
+                            <li>अंत्यसंस्कार आणि दफन खर्च</li>
+                            <li>गमावलेली उत्पन्न आणि लाभ</li>
+                            <li>साथीदाराचे नुकसान</li>
+                            <li>मृत्यूपूर्व वैद्यकीय खर्च</li>
+                            <li>अधिकृत भरपाई</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>भरपाई गणना पद्धती</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>पद्धत</th>
+                            <th>अनुप्रयोग</th>
+                            <th>मुख्य घटक</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>मल्टिप्लायर पद्धत</strong></td>
+                            <td>भविष्यातील उत्पन्न नुकसान गणना</td>
+                            <td>वय, आयुष्य अपेक्षा, उत्पन्न, सवलत दर</td>
+                        </tr>
+                        <tr>
+                            <td><strong>संरचित सेटलमेंट</strong></td>
+                            <td>दीर्घकालीन भुगतान व्यवस्था</td>
+                            <td>चालू वैद्यकीय गरजा, महागाई समायोजन</td>
+                        </tr>
+                        <tr>
+                            <td><strong>एकरकमी भुगतान</strong></td>
+                            <td>एकदाच भरपाई पुरस्कार</td>
+                            <td>सर्व नुकसानींचे वर्तमान मूल्य एकत्रित</td>
+                        </tr>
+                        <tr>
+                            <td><strong>न्याय्य भरपाई</strong></td>
+                            <td>भारतातील घटनात्मक मानक</td>
+                            <td>पुरेशी, योग्य आणि वाजवी रक्कम</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>भरपाई रकमेला प्रभावित करणारे घटक</h3>
+                <div class="example-box">
+                    <strong>मुख्य विचार:</strong>
+                    <ul>
+                        <li><strong>जखमाची तीव्रता:</strong> तात्पुरती विरुद्ध शाश्वत, आंशिक विरुद्ध एकूण अपंगत्व</li>
+                        <li><strong>पीडिताचे वय:</strong> तरुण पीडितांना गमावलेल्या कमाई वर्षांसाठी उच्च भरपाई</li>
+                        <li><strong>उत्पन्न पातळी:</strong> उच्च कमावणाऱ्यांना आनुपातिक उच्च भरपाई</li>
+                        <li><strong>वैद्यकीय पूर्वानुमान:</strong> भविष्यातील उपचार गरजा आणि रिकव्हरी क्षमता</li>
+                        <li><strong>जीवनावर परिणाम:</strong> दैनंदिन क्रियाकलाप आणि जीवन गुणवत्ता प्रभावित करणारे अपंगत्व</li>
+                        <li><strong>दुर्लक्षाची डिग्री:</strong> घोर दुर्लक्ष भरपाई वाढवू शकते</li>
+                        <li><strong>विमा कव्हरेज:</strong> उपलब्ध धोरण मर्यादा रिकव्हरी प्रभावित करू शकतात</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Process Section -->
+        <div id="process" class="content-section">
+            <h2 class="section-title">वैयक्तिक जखम दाव्यांसाठी कायदेशीर प्रक्रिया</h2>
+            
+            <div class="subsection">
+                <h3>पायरीवार कायदेशीर प्रक्रिया</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">१</div>
+                        <div>
+                            <strong>तात्काळ वैद्यकीय लक्ष</strong>
+                            <p>त्वरित वैद्यकीय उपचार घ्या आणि तपशीलवार वैद्यकीय रेकॉर्ड राखा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">२</div>
+                        <div>
+                            <strong>पुरावा संकलन</strong>
+                            <p>छायाचित्रे, साक्षीदार विधाने, पोलिस अहवाल, आणि दस्तऐवजीकरण गोळा करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">३</div>
+                        <div>
+                            <strong>कायदेशीर सल्ला</strong>
+                            <p>प्रकरण मूल्यमापनासाठी अनुभवी वैयक्तिक जखम वकीलाशी सल्लामसलत करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">४</div>
+                        <div>
+                            <strong>प्रकरण तपास</strong>
+                            <p>वकील जबाबदारी, नुकसान तपासतो आणि तज्ज्ञ मते गोळा करतो</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">५</div>
+                        <div>
+                            <strong>मागणी पत्र</strong>
+                            <p>प्रतिवादी किंवा विमा कंपनीला भरपाईची औपचारिक मागणी पाठवा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">६</div>
+                        <div>
+                            <strong>वाटाघाटी प्रक्रिया</strong>
+                            <p>वाटाघाटीद्वारे योग्य सेटलमेंट मिळवण्याचा प्रयत्न करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">७</div>
+                        <div>
+                            <strong>खटला दाखल करणे</strong>
+                            <p>जर सेटलमेंट अपयशी ठरले तर मर्यादा कालावधीत औपचारिक खटला दाखल करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">८</div>
+                        <div>
+                            <strong>शोध टप्पा</strong>
+                            <p>पुरावा देवाणघेवाण, जमा, आणि तज्ज्ञ साक्षीदार तयारी</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">९</div>
+                        <div>
+                            <strong>खटला किंवा सेटलमेंट</strong>
+                            <p>खटला निकाल किंवा पूर्व-खटला सेटलमेंटद्वारे प्रकरण निराकरण</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">१०</div>
+                        <div>
+                            <strong>भरपाई वसुली</strong>
+                            <p>पुरस्कृत भरपाई संकलन आणि प्रकरण बंद</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>महत्त्वाचे कायदेशीर मुदत मर्यादा</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>मोटार वाहन अपघात</h4>
+                        <p><strong>६ महिने:</strong> सरकारी वाहनांना सूचना<br>
+                        <strong>२ वर्षे:</strong> MACT मध्ये दावा दाखल<br>
+                        <strong>३ वर्षे:</strong> सिविल खटला मर्यादा</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>वैद्यकीय दुर्लक्ष</h4>
+                        <p><strong>२ वर्षे:</strong> दुर्लक्षाची जाणीव तारखेपासून<br>
+                        <strong>३ वर्षे:</strong> टॉर्ट दाव्यांसाठी सामान्य मर्यादा</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>कार्यस्थळ जखम</h4>
+                        <p><strong>२ वर्षे:</strong> कामगार भरपाई दावे<br>
+                        <strong>१ वर्ष:</strong> ESI लाभ अर्ज</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>सामान्य टॉर्ट दावे</h4>
+                        <p><strong>३ वर्षे:</strong> बहुतेक वैयक्तिक जखम दावे<br>
+                        <strong>१ वर्ष:</strong> बदनामी दावे</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cases Section -->
+        <div id="cases" class="content-section">
+            <h2 class="section-title">महत्त्वाचे वैयक्तिक जखम खटले</h2>
+            
+            <div class="subsection">
+                <h3>भारतीय महत्त्वाचे खटले</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">जेकब मॅथ्यू विरुद्ध पंजाब राज्य (२००५)</div>
+                        <p>सुप्रीम कोर्टाने वैद्यकीय दुर्लक्षासाठी मानके स्थापित केली, ज्यात फक्त व्यावसायिक त्रुटी ऐवजी घोर दुर्लक्षाचा पुरावा आवश्यक.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">लक्ष्मण बळकृष्ण जोशी विरुद्ध त्रिंबक बापू गोडबोले (१९६९)</div>
+                        <p>वैद्यकीय दुर्लक्षाचा महत्त्वाचा खटला जो वैद्यकीय सरावात व्यावसायिक जबाबदारी आणि देखभाल मानकाचे तत्त्वे स्थापित करतो.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">नॅशनल इन्शुरन्स कंपनी लि. विरुद्ध प्रणय सेठी (२०१७)</div>
+                        <p>सुप्रीम कोर्टाने मोटार अपघात खटल्यांसाठी भरपाई सूत्र सुधारले, भरपाई रकमेला मोठ्या प्रमाणात वाढ केली.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">सरला वर्मा विरुद्ध दिल्ली ट्रान्सपोर्ट कॉर्पोरेशन (२००९)</div>
+                        <p>मोटार अपघात खटल्यांमध्ये भरपाई गणनेची मानकीकृत पद्धत स्थापित केली, अपडेटेड मल्टिप्लायर तक्त्यांसह.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">रेल्वे बोर्ड विरुद्ध चंद्रिमा दास (२०००)</div>
+                        <p>सुप्रीम कोर्टाने राज्याला त्याच्या कर्मचाऱ्यांच्या गुन्हेगारी कृत्यांसाठी जबाबदार धरले, विकरियस जबाबदारीचा व्याप्ती विस्तारित केला.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">रेल्वे बोर्डाचे अध्यक्ष विरुद्ध श्रीमती चंद्रिमा दास (२०००)</div>
+                        <p>मानवाधिकार उल्लंघनासाठी भरपाई दिली, सन्मान आणि प्रतिष्ठा नुकसानासाठी निदर्शक स्थापित केला.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>आंतरराष्ट्रीय प्रभाव खटले</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">डोनोग्यू विरुद्ध स्टीव्हनसन (१९३२) - यूके</div>
+                        <p>आधुनिक दुर्लक्ष कायदा आणि देखभाल जबाबदारी तत्त्वे स्थापित केली, भारतासह जागतिक टॉर्ट कायद्यावर प्रभाव टाकला.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">लीबेक विरुद्ध मॅकडोनाल्ड्स रेस्टॉरंट्स (१९९४) - अमेरिका</div>
+                        <p>प्रसिद्ध "गरम कॉफी" खटला उत्पाद जबाबदारी आणि ग्राहक सुरक्षेसाठी कॉर्पोरेट जबाबदारी उजागर करतो.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">ब्राउन विरुद्ध बोर्ड ऑफ एज्युकेशन (१९५४) - अमेरिका</div>
+                        <p>प्रामुख्याने नागरी हक्क, संस्थात्मक जबाबदारी तत्त्वे स्थापित केली जी शैक्षणिक दुर्लक्ष खटल्यांना प्रभावित करतात.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Insurance Section -->
+        <div id="insurance" class="content-section">
+            <h2 class="section-title">विमा दावे आणि कव्हरेज</h2>
+            
+            <div class="subsection">
+                <h3>विमा कव्हरेजचे प्रकार</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>मोटार वाहन विमा</h4>
+                        <ul>
+                            <li>तिसऱ्या पक्ष जबाबदारी (अनिवार्य)</li>
+                            <li>व्यापक कव्हरेज</li>
+                            <li>वैयक्तिक अपघात कव्हर</li>
+                            <li>प्रवासी जबाबदारी कव्हरेज</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>वैद्यकीय विमा</h4>
+                        <ul>
+                            <li>आरोग्य विमा धोरणे</li>
+                            <li>मेडिक्लेम कव्हरेज</li>
+                            <li>गंभीर आजार विमा</li>
+                            <li>अपंगत्व विमा</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>व्यावसायिक जबाबदारी</h4>
+                        <ul>
+                            <li>व्यावसायिक भरपाई विमा</li>
+                            <li>वैद्यकीय कुप्रथा कव्हरेज</li>
+                            <li>त्रुटी आणि चूक विमा</li>
+                            <li>मंडळ आणि अधिकारी विमा</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>सामान्य जबाबदारी</h4>
+                        <ul>
+                            <li>सार्वजनिक जबाबदारी विमा</li>
+                            <li>उत्पाद जबाबदारी कव्हरेज</li>
+                            <li>जागा जबाबदारी विमा</li>
+                            <li>व्यावसायिक सामान्य जबाबदारी</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>विमा दावा प्रक्रिया</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">१</div>
+                        <div>
+                            <strong>तात्काळ सूचना</strong>
+                            <p>निर्धारित वेळ मर्यादेत अपघात विमा कंपनीला रिपोर्ट करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">२</div>
+                        <div>
+                            <strong>दस्तऐवजीकरण</strong>
+                            <p>सर्व आवश्यक दस्तऐवज गोळा करा: FIR, वैद्यकीय अहवाल, बिले, छायाचित्रे</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">३</div>
+                        <div>
+                            <strong>दावा दाखल करणे</strong>
+                            <p>विमा कंपनीला पूर्ण दस्तऐवजीकरणासह औपचारिक दावा जमा करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">४</div>
+                        <div>
+                            <strong>तपास</strong>
+                            <p>विमा कंपनी नुकसान तपास आणि मूल्यमापन करते</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">५</div>
+                        <div>
+                            <strong>सेटलमेंट वाटाघाटी</strong>
+                            <p>विमा समायोजकांसोबत योग्य भरपाई रकमेवर वाटाघाटी करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">६</div>
+                        <div>
+                            <strong>विवाद निराकरण</strong>
+                            <p>जर असमाधानी झाल्यास, विमा अधिकाऱ्य किंवा न्यायालयात तक्रार दाखल करा</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>सामान्य विमा समस्या</h3>
+                <div class="example-box">
+                    <strong>संभाव्य समस्या:</strong>
+                    <ul>
+                        <li><strong>कव्हरेज नकार:</strong> धोरण वगळणे, समाप्त कव्हरेज, मूळ चुकीची माहिती</li>
+                        <li><strong>विलंबित भुगतान:</strong> मंद दावा प्रक्रिया, अतिरिक्त दस्तऐवजीकरण विनंती</li>
+                        <li><strong>अपर्याप्त सेटलमेंट:</strong> कमी-बॉल ऑफर, कमी मूल्यांकित दावे</li>
+                        <li><strong>वाईट विश्वास प्रथा:</strong> अयोग्य विलंब, अयोग्य तपास, अन्याय्य सेटलमेंट प्रथा</li>
+                        <li><strong>कव्हरेज विवाद:</strong> धोरण अटींची व्याख्या, कव्हरेज व्याप्ती</li>
+                        <li><strong>सबरोगेशन समस्या:</strong> विमा कंपनीचा तिसऱ्या पक्षांकडून वसुलीचा अधिकार</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h3>वैयक्तिक जखम कायदेशीर मदत हवी?</h3>
+            <p>आमचे अनुभवी वैयक्तिक जखम वकील तुमच्या जखमांसाठी कमाल भरपाई मिळवण्यासाठी समर्पित प्रतिनिधित्व प्रदान करतात. आम्ही तुमच्या हक्कांसाठी लढतो आणि खात्री करतो की तुम्हाला तुम्ही पात्र असलेला न्याय मिळेल.</p>
+            <a href="https://nyaysetu-3e8f79.zapier.app/" class="cta-button">आता वैयक्तिक जखम मदत घ्या</a>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected section and activate corresponding tab
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+
+            // Scroll to top of content
+            document.querySelector('.container').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('overview');
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                    const tabs = document.querySelectorAll('.nav-tab');
+                    const activeTab = document.querySelector('.nav-tab.active');
+                    const currentIndex = Array.from(tabs).indexOf(activeTab);
+                    
+                    let newIndex;
+                    if (e.key === 'ArrowLeft') {
+                        newIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
+                    } else {
+                        newIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
+                    }
+                    
+                    tabs[newIndex].click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

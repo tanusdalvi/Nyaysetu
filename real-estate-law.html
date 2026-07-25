@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Law - NYAYSETU</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-blue: #1e3c72;
+            --secondary-blue: #2a5298;
+            --accent-gold: #ffd700;
+            --accent-gold-light: #ffed4a;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 5px 20px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+            --border-radius-large: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-medium);
+            backdrop-filter: blur(10px);
+        }
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--white);
+            color: var(--primary-blue);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-light);
+        }
+        .lang-btn:hover {
+            transform: scale(1.1);
+        }
+        .lang-btn.active {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+        .header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+        .nav-tabs {
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+            padding: 0 2rem;
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+        }
+        .nav-tab {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+        .nav-tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--accent-gold);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+        .subsection {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--accent-gold);
+        }
+        .subsection h3 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .subsection h4 {
+            color: var(--secondary-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        .example-box {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .example-box strong {
+            color: var(--primary-blue);
+        }
+        .principles-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+        .principles-table th,
+        .principles-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .principles-table th {
+            background: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+        }
+        .principles-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+        .laws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .law-card {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-gold);
+        }
+        .law-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        .law-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+        .cases-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .case-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--secondary-blue);
+        }
+        .case-title {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .process-steps {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .step-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .contact-cta {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius-large);
+            margin-top: 3rem;
+        }
+        .contact-cta h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .cta-button {
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+        @media (max-width: 768px) {
+            .back-btn {
+                position: static;
+                margin-bottom: 1rem;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            .nav-tabs {
+                padding: 0 1rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="javascript:history.back()" class="back-btn">← Back to Services</a>
+        <h1>Real Estate Law</h1>
+        <p>Comprehensive Guide to Property Legal Matters</p>
+    </div>
+
+    <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('overview')">Overview</button>
+        <button class="nav-tab" onclick="showSection('transactions')">Property Transactions</button>
+        <button class="nav-tab" onclick="showSection('titles')">Title & Ownership</button>
+        <button class="nav-tab" onclick="showSection('disputes')">Disputes</button>
+        <button class="nav-tab" onclick="showSection('regulations')">Regulations</button>
+        <button class="nav-tab" onclick="showSection('cases')">Landmark Cases</button>
+        <button class="nav-tab" onclick="showSection('rera')">RERA Compliance</button>
+    </nav>
+
+    <div class="container">
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <h2 class="section-title">Understanding Real Estate Law</h2>
+            
+            <div class="subsection">
+                <h3>Definition and Scope</h3>
+                <p>Real Estate Law governs the ownership, use, and transfer of real property including land and buildings. It encompasses property transactions, landlord-tenant relations, property development, zoning regulations, title disputes, and real estate financing. This area of law ensures clear property rights and facilitates secure real estate transactions.</p>
+                
+                <div class="example-box">
+                    <strong>Key Areas:</strong> Property purchase/sale, lease agreements, title verification, property disputes, construction laws, environmental compliance, taxation, and regulatory approvals.
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Types of Real Property</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Residential Property</h4>
+                        <ul>
+                            <li>Houses and apartments</li>
+                            <li>Condominiums and cooperatives</li>
+                            <li>Plots for residential construction</li>
+                            <li>Affordable housing projects</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Commercial Property</h4>
+                        <ul>
+                            <li>Office buildings and complexes</li>
+                            <li>Retail spaces and shopping centers</li>
+                            <li>Warehouses and industrial units</li>
+                            <li>Hotels and hospitality properties</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Agricultural Land</h4>
+                        <ul>
+                            <li>Farmland and crop cultivation areas</li>
+                            <li>Orchards and plantations</li>
+                            <li>Grazing land and pastures</li>
+                            <li>Agricultural conversion rights</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Industrial Property</h4>
+                        <ul>
+                            <li>Manufacturing facilities</li>
+                            <li>Industrial parks and SEZ</li>
+                            <li>Mining and extraction sites</li>
+                            <li>Infrastructure projects</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Property Rights and Ownership</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>Ownership Type</th>
+                            <th>Description</th>
+                            <th>Key Features</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Freehold</strong></td>
+                            <td>Absolute ownership of land and property</td>
+                            <td>Perpetual ownership, transferable, inheritable</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Leasehold</strong></td>
+                            <td>Right to use property for specified period</td>
+                            <td>Time-limited, renewable, reversion to lessor</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Joint Ownership</strong></td>
+                            <td>Multiple parties owning same property</td>
+                            <td>Shared rights, joint liability, partition rights</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cooperative Society</strong></td>
+                            <td>Members own shares in property-owning society</td>
+                            <td>Democratic governance, transfer restrictions</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Transactions Section -->
+        <div id="transactions" class="content-section">
+            <h2 class="section-title">Property Transactions</h2>
+            
+            <div class="subsection">
+                <h3>Property Purchase Process</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>Property Search and Selection</strong>
+                            <p>Identify suitable properties based on requirements and budget</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>Due Diligence</strong>
+                            <p>Verify title documents, approvals, encumbrances, and legal status</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>Agreement to Sell</strong>
+                            <p>Execute preliminary agreement with terms and advance payment</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>Loan Approval</strong>
+                            <p>Obtain home loan approval and property valuation if financing</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <strong>Sale Deed Execution</strong>
+                            <p>Execute registered sale deed with full payment and possession</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">6</div>
+                        <div>
+                            <strong>Registration and Stamp Duty</strong>
+                            <p>Register property with authorities and pay applicable taxes</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">7</div>
+                        <div>
+                            <strong>Mutation and Records</strong>
+                            <p>Update revenue records and obtain possession certificate</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Essential Documents</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Title Documents</h4>
+                        <ul>
+                            <li>Sale deed or title deed</li>
+                            <li>Chain of title documents</li>
+                            <li>Partition deed (if applicable)</li>
+                            <li>Gift deed or inheritance papers</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Approval Documents</h4>
+                        <ul>
+                            <li>Building plan approval</li>
+                            <li>Occupancy certificate</li>
+                            <li>Environment clearance</li>
+                            <li>Fire safety certificate</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Tax Documents</h4>
+                        <ul>
+                            <li>Property tax receipts</li>
+                            <li>Income tax returns</li>
+                            <li>Capital gains calculations</li>
+                            <li>TDS certificates</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Financial Documents</h4>
+                        <ul>
+                            <li>Bank loan documents</li>
+                            <li>Property valuation report</li>
+                            <li>Insurance policies</li>
+                            <li>Payment receipts</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Common Transaction Issues</h3>
+                <div class="example-box">
+                    <strong>Potential Problems:</strong>
+                    <ul>
+                        <li><strong>Title Defects:</strong> Unclear or disputed ownership, pending litigation</li>
+                        <li><strong>Encumbrances:</strong> Existing mortgages, liens, or legal claims</li>
+                        <li><strong>Approval Issues:</strong> Missing or invalid building approvals</li>
+                        <li><strong>Measurement Discrepancies:</strong> Actual area differs from documents</li>
+                        <li><strong>Pending Dues:</strong> Outstanding property taxes, utility bills</li>
+                        <li><strong>Zoning Violations:</strong> Property use not matching zoning requirements</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Title & Ownership Section -->
+        <div id="titles" class="content-section">
+            <h2 class="section-title">Title and Ownership</h2>
+            
+            <div class="subsection">
+                <h3>Title Verification Process</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>Document Collection</strong>
+                            <p>Gather all title documents from current and previous owners</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>Chain of Title Analysis</strong>
+                            <p>Trace ownership history for minimum 30 years (preferably 50+)</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>Revenue Record Verification</strong>
+                            <p>Check revenue records, survey numbers, and mutation entries</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>Encumbrance Certificate</strong>
+                            <p>Obtain EC to verify all registered transactions</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <strong>Physical Verification</strong>
+                            <p>Survey the property boundaries and compare with documents</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">6</div>
+                        <div>
+                            <strong>Legal Opinion</strong>
+                            <p>Obtain lawyer's opinion on marketability of title</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Title Insurance and Protection</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Title Insurance Benefits</h4>
+                        <ul>
+                            <li>Protection against title defects</li>
+                            <li>Coverage for legal costs</li>
+                            <li>Compensation for losses</li>
+                            <li>Peace of mind for buyers</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Common Title Issues</h4>
+                        <ul>
+                            <li>Forged documents</li>
+                            <li>Impersonation of owners</li>
+                            <li>Undisclosed heirs</li>
+                            <li>Fraudulent transactions</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Adverse Possession</h4>
+                        <ul>
+                            <li>Continuous possession for 12 years</li>
+                            <li>Open and hostile occupation</li>
+                            <li>Claim of right</li>
+                            <li>Limitation Act provisions</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Title Remedies</h4>
+                        <ul>
+                            <li>Quiet title action</li>
+                            <li>Partition suits</li>
+                            <li>Declaration of title</li>
+                            <li>Rectification of documents</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disputes Section -->
+        <div id="disputes" class="content-section">
+            <h2 class="section-title">Property Disputes</h2>
+            
+            <div class="subsection">
+                <h3>Types of Property Disputes</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Boundary Disputes</h4>
+                        <ul>
+                            <li>Encroachment by neighbors</li>
+                            <li>Survey discrepancies</li>
+                            <li>Fence and wall disputes</li>
+                            <li>Access rights issues</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Ownership Disputes</h4>
+                        <ul>
+                            <li>Title conflicts</li>
+                            <li>Inheritance disputes</li>
+                            <li>Joint ownership issues</li>
+                            <li>Adverse possession claims</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Landlord-Tenant Disputes</h4>
+                        <ul>
+                            <li>Rent control issues</li>
+                            <li>Eviction proceedings</li>
+                            <li>Security deposit disputes</li>
+                            <li>Maintenance and repair issues</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Construction Disputes</h4>
+                        <ul>
+                            <li>Building plan violations</li>
+                            <li>Quality and defects issues</li>
+                            <li>Contractor payment disputes</li>
+                            <li>Delay in delivery</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Dispute Resolution Mechanisms</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Process</th>
+                            <th>Advantages</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Negotiation</strong></td>
+                            <td>Direct discussion between parties</td>
+                            <td>Cost-effective, quick, preserves relationships</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mediation</strong></td>
+                            <td>Neutral third-party facilitated discussion</td>
+                            <td>Confidential, flexible, mutually acceptable solutions</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Arbitration</strong></td>
+                            <td>Binding decision by neutral arbitrator</td>
+                            <td>Faster than courts, expert arbitrators, enforceable</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Litigation</strong></td>
+                            <td>Formal court proceedings</td>
+                            <td>Legal precedent, enforceable judgments, appeals</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Prevention of Disputes</h3>
+                <div class="example-box">
+                    <strong>Best Practices:</strong>
+                    <ul>
+                        <li><strong>Thorough Documentation:</strong> Maintain complete and accurate records</li>
+                        <li><strong>Clear Agreements:</strong> Detailed contracts with specific terms</li>
+                        <li><strong>Regular Surveys:</strong> Periodic boundary verification</li>
+                        <li><strong>Professional Advice:</strong> Consult lawyers and surveyors</li>
+                        <li><strong>Insurance Coverage:</strong> Title and property insurance</li>
+                        <li><strong>Compliance:</strong> Follow all legal and regulatory requirements</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Regulations Section -->
+        <div id="regulations" class="content-section">
+            <h2 class="section-title">Real Estate Regulations</h2>
+            
+            <div class="subsection">
+                <h3>Key Regulatory Laws</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Registration Act, 1908</h4>
+                        <ul>
+                            <li>Mandatory registration of property transfers</li>
+                            <li>Stamp duty and registration fees</li>
+                            <li>Document execution requirements</li>
+                            <li>Legal validity of registered documents</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Transfer of Property Act, 1882</h4>
+                        <ul>
+                            <li>Rules for property transfer</li>
+                            <li>Sale, mortgage, lease provisions</li>
+                            <li>Rights and obligations of parties</li>
+                            <li>Conditions and warranties</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Urban Land Ceiling Act</h4>
+                        <ul>
+                            <li>Limits on urban land holding</li>
+                            <li>Acquisition of excess land</li>
+                            <li>Exemptions and exceptions</li>
+                            <li>State-wise variations</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Environmental Laws</h4>
+                        <ul>
+                            <li>Environment clearance requirements</li>
+                            <li>Coastal regulation zone rules</li>
+                            <li>Forest land conversion</li>
+                            <li>Pollution control measures</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Building and Development Regulations</h3>
+                <div class="example-box">
+                    <strong>Key Requirements:</strong>
+                    <ul>
+                        <li><strong>Building Bye-laws:</strong> Local authority regulations for construction</li>
+                        <li><strong>Floor Area Ratio (FAR):</strong> Maximum built-up area allowed</li>
+                        <li><strong>Setbacks:</strong> Minimum distances from property boundaries</li>
+                        <li><strong>Height Restrictions:</strong> Maximum permissible building height</li>
+                        <li><strong>Parking Requirements:</strong> Mandatory parking space provisions</li>
+                        <li><strong>Fire Safety:</strong> Fire prevention and safety measures</li>
+                        <li><strong>Accessibility:</strong> Provisions for disabled persons</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Tax Implications</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>Tax Type</th>
+                            <th>Applicable Rate</th>
+                            <th>Paid By</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Stamp Duty</strong></td>
+                            <td>State-specific rates (3-7% typically)</td>
+                            <td>Buyer</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Registration Fee</strong></td>
+                            <td>1% of property value (usually)</td>
+                            <td>Buyer</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Capital Gains Tax</strong></td>
+                            <td>20% (LTCG) / Slab rates (STCG)</td>
+                            <td>Seller</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TDS</strong></td>
+                            <td>1% on property value above ₹50 lakhs</td>
+                            <td>Buyer (on behalf of seller)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Property Tax</strong></td>
+                            <td>Based on annual rental value</td>
+                            <td>Owner</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Cases Section -->
+        <div id="cases" class="content-section">
+            <h2 class="section-title">Landmark Real Estate Cases</h2>
+            
+            <div class="subsection">
+                <h3>Indian Landmark Cases</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">M.S. Narayana Menon v. State of Kerala (2006)</div>
+                        <p>Supreme Court ruling on property rights, establishing that rights in property cannot be taken away except by authority of law.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Sarla Verma v. Delhi Development Authority (2007)</div>
+                        <p>Important case on compensation for land acquisition, establishing fair compensation principles.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Karnataka Board of Wakf v. Government of India (2004)</div>
+                        <p>Supreme Court case clarifying ownership rights and religious property management.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Dagdu v. Rahimbi (2002)</div>
+                        <p>Established principles of adverse possession and requirements for claiming title through possession.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Hemaji Waghaji Jat v. Bhikhabhai Khengarbhai Harijan (2009)</div>
+                        <p>Supreme Court ruling on agricultural land ceiling laws and their constitutional validity.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">DLF Universal Ltd. v. Directorate of Town and Country Planning (2008)</div>
+                        <p>Important case on builder obligations and regulatory compliance in real estate development.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Property Rights Jurisprudence</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">Vidya Devi v. State of Himachal Pradesh (2020)</div>
+                        <p>Recent Supreme Court judgment on women's property rights and inheritance, strengthening gender equality in property ownership.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Benami Transactions (Prohibition) Amendment Act Cases</div>
+                        <p>Multiple cases interpreting the amended Benami law and its impact on property transactions.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">RERA Implementation Cases</div>
+                        <p>Various state high court and Supreme Court cases interpreting RERA provisions and implementation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RERA Section -->
+        <div id="rera" class="content-section">
+            <h2 class="section-title">RERA Compliance</h2>
+            
+            <div class="subsection">
+                <h3>Real Estate (Regulation and Development) Act, 2016</h3>
+                <p>RERA aims to regulate the real estate sector and protect the interests of homebuyers by ensuring transparency, accountability, and efficiency in real estate transactions.</p>
+                
+                <div class="example-box">
+                    <strong>Key Objectives:</strong>
+                    <ul>
+                        <li>Protect interests of homebuyers</li>
+                        <li>Promote transparency in real estate sector</li>
+                        <li>Ensure timely completion of projects</li>
+                        <li>Create efficient dispute resolution mechanism</li>
+                        <li>Establish real estate regulatory authority in each state</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>RERA Compliance Requirements</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Project Registration</h4>
+                        <ul>
+                            <li>Mandatory for projects above 500 sq.m</li>
+                            <li>Detailed project information disclosure</li>
+                            <li>Quarterly progress reports</li>
+                            <li>Financial details and approvals</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Agent Registration</h4>
+                        <ul>
+                            <li>Real estate agents must register</li>
+                            <li>Qualification and experience requirements</li>
+                            <li>Annual renewal process</li>
+                            <li>Code of conduct compliance</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Buyer Protections</h4>
+                        <ul>
+                            <li>Right to accurate project information</li>
+                            <li>Penalty for project delays</li>
+                            <li>5-year structural defect warranty</li>
+                            <li>Standardized sale agreements</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Financial Regulations</h4>
+                        <ul>
+                            <li>70% of funds in escrow account</li>
+                            <li>Funds used only for project</li>
+                            <li>Regular financial reporting</li>
+                            <li>Audit and compliance checks</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>RERA Dispute Resolution</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>Filing Complaint</strong>
+                            <p>Submit complaint to RERA authority with supporting documents</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>Notice and Response</strong>
+                            <p>Authority issues notice to respondent for reply</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>Hearing Process</strong>
+                            <p>Authority conducts hearings and examines evidence</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>Order and Penalty</strong>
+                            <p>Authority passes order with penalties or remedies</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <strong>Appeal Process</strong>
+                            <p>Appeals can be filed with appellate tribunal</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>RERA Benefits and Impact</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>Stakeholder</th>
+                            <th>Benefits</th>
+                            <th>Obligations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Homebuyers</strong></td>
+                            <td>Transparent information, timely delivery, quality assurance</td>
+                            <td>Due diligence, compliance with payment terms</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Developers</strong></td>
+                            <td>Credibility, investor confidence, standardized processes</td>
+                            <td>Registration, disclosures, escrow compliance</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Agents</strong></td>
+                            <td>Professional recognition, standardized practices</td>
+                            <td>Registration, ethical conduct, accurate information</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Investors</strong></td>
+                            <td>Transparency, reduced risk, legal recourse</td>
+                            <td>Due diligence, compliance with regulations</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h3>Need Real Estate Legal Assistance?</h3>
+            <p>Our experienced real estate attorneys provide comprehensive legal services for property transactions, disputes, and regulatory compliance. Protecting your property interests is our priority.</p>
+            <a href="https://nyaysetu-3e8f79.zapier.app/" class="cta-button">Get Real Estate Legal Help Now</a>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+
+            document.querySelector('.container').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('overview');
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                    const tabs = document.querySelectorAll('.nav-tab');
+                    const activeTab = document.querySelector('.nav-tab.active');
+                    const currentIndex = Array.from(tabs).indexOf(activeTab);
+                    
+                    let newIndex;
+                    if (e.key === 'ArrowLeft') {
+                        newIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
+                    } else {
+                        newIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
+                    }
+                    
+                    tabs[newIndex].click();
+                }
+            });
+        });
+    </script>
+</body>

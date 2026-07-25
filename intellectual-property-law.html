@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intellectual Property Law - NYAYSETU</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-blue: #1e3c72;
+            --secondary-blue: #2a5298;
+            --accent-gold: #ffd700;
+            --accent-gold-light: #ffed4a;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 5px 20px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+            --border-radius-large: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-medium);
+            backdrop-filter: blur(10px);
+        }
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--white);
+            color: var(--primary-blue);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-light);
+        }
+        .lang-btn:hover {
+            transform: scale(1.1);
+        }
+        .lang-btn.active {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+        /* Header */
+        .header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+        /* Navigation */
+        .nav-tabs {
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+            padding: 0 2rem;
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+        }
+        .nav-tab {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+        .nav-tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--accent-gold);
+        }
+        /* Content Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+        .subsection {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--accent-gold);
+        }
+        .subsection h3 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .subsection h4 {
+            color: var(--secondary-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        .example-box {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .example-box strong {
+            color: var(--primary-blue);
+        }
+        /* Table Styles */
+        .principles-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+        .principles-table th,
+        .principles-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .principles-table th {
+            background: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+        }
+        .principles-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+        /* Laws Grid */
+        .laws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .law-card {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-gold);
+        }
+        .law-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        .law-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+        /* Case Cards */
+        .cases-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .case-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--secondary-blue);
+        }
+        .case-title {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        /* Process Steps */
+        .process-steps {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .step-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        /* Contact CTA */
+        .contact-cta {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius-large);
+            margin-top: 3rem;
+        }
+        .contact-cta h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .cta-button {
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .back-btn {
+                position: static;
+                margin-bottom: 1rem;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            .nav-tabs {
+                padding: 0 1rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body> 
+    <div class="header">
+        <a href="javascript:history.back()" class="back-btn">← Back to Services</a>
+        <h1>Intellectual Property Law</h1>
+        <p>Comprehensive Guide to IP Rights and Protection in India</p>
+    </div>
+
+    <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('overview')">Overview</button>
+        <button class="nav-tab" onclick="showSection('types')">Types of IP</button>
+        <button class="nav-tab" onclick="showSection('registration')">Registration Process</button>
+        <button class="nav-tab" onclick="showSection('enforcement')">Enforcement</button>
+        <button class="nav-tab" onclick="showSection('cases')">Landmark Cases</button>
+        <button class="nav-tab" onclick="showSection('international')">International IP</button>
+        <button class="nav-tab" onclick="showSection('recent')">Recent Updates</button>
+    </nav>
+
+    <div class="container">
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <h2 class="section-title">Understanding Intellectual Property Law</h2>
+            
+            <div class="subsection">
+                <h3>Definition and Scope</h3>
+                <p>Intellectual Property (IP) refers to creations of the mind, such as inventions; literary and artistic works; designs; and symbols, names and images used in commerce. IP is protected by law through patents, copyright, trademarks, etc., which enable creators to earn recognition or financial benefit from their inventions or creations.</p>
+                
+                <div class="example-box">
+                    <strong>Key Areas:</strong>
+                    <span>Patents, Copyrights, Trademarks, Industrial Designs, Geographical Indications, Trade Secrets, and Plant Varieties Protection.</span>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Major IP Laws in India</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Patents Act, 1970</h4>
+                        <ul>
+                            <li>Protection for inventions</li>
+                            <li>20-year protection term</li>
+                            <li>Product and process patents</li>
+                            <li>Compulsory licensing provisions</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Copyright Act, 1957</h4>
+                        <ul>
+                            <li>Protection for literary and artistic works</li>
+                            <li>Life plus 60 years protection</li>
+                            <li>Computer programs protection</li>
+                            <li>Moral and economic rights</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Trademarks Act, 1999</h4>
+                        <ul>
+                            <li>Protection for brands and logos</li>
+                            <li>10-year renewable protection</li>
+                            <li>Service marks protection</li>
+                            <li>Well-known trademark recognition</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Designs Act, 2000</h4>
+                        <ul>
+                            <li>Protection for industrial designs</li>
+                            <li>10-year renewable protection</li>
+                            <li>Aesthetic appearance protection</li>
+                            <li>Novelty and originality requirements</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Types of IP Section -->
+        <div id="types" class="content-section">
+            <h2 class="section-title">Types of Intellectual Property</h2>
+            
+            <div class="subsection">
+                <h3>Major IP Categories</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>IP Type</th>
+                            <th>Description</th>
+                            <th>Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Patents</strong></td>
+                            <td>Exclusive rights granted for inventions that are new, inventive, and industrially applicable</td>
+                            <td>Pharmaceutical drugs, machinery, software algorithms</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Copyright</strong></td>
+                            <td>Protection for original literary, dramatic, musical, artistic works and computer programs</td>
+                            <td>Books, music, films, software, paintings</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Trademarks</strong></td>
+                            <td>Signs capable of distinguishing goods or services of one enterprise from others</td>
+                            <td>Brand names, logos, slogans, packaging</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Industrial Designs</strong></td>
+                            <td>Protection for the ornamental or aesthetic aspect of an article</td>
+                            <td>Furniture designs, product shapes, textile patterns</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Other IP Rights</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Geographical Indications</h4>
+                        <p>Signs used on products that have a specific geographical origin and possess qualities or reputation due to that origin</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Trade Secrets</h4>
+                        <p>Confidential business information that provides competitive advantage, protected without registration through confidentiality</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Plant Varieties</h4>
+                        <p>Protection for new plant varieties through breeders' rights under the Protection of Plant Varieties Act</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Semiconductor Layouts</h4>
+                        <p>Protection for original layout designs of integrated circuits under the Semiconductor IC Layout Design Act</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registration Process Section -->
+        <div id="registration" class="content-section">
+            <h2 class="section-title">IP Registration Process</h2>
+            
+            <div class="subsection">
+                <h3>Patent Registration Process</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>Patent Search</strong>
+                            <p>Conduct prior art search to check novelty and patentability of invention</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>Application Filing</strong>
+                            <p>File patent application with complete specification, claims and abstract at Indian Patent Office</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>Publication</strong>
+                            <p>Application published after 18 months from filing date or priority date</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>Examination</strong>
+                            <p>Request examination within 48 months from filing date; examiner reviews application</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <strong>Grant</strong>
+                            <p>Patent granted if all requirements met; valid for 20 years from filing date</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Trademark Registration Process</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>Trademark Search</strong>
+                            <p>Conduct search to check availability and similarity with existing trademarks</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>Application Filing</strong>
+                            <p>File trademark application with appropriate class(es) and supporting documents</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>Examination</strong>
+                            <p>Examiner reviews application for compliance with trademark law requirements</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>Publication</strong>
+                            <p>Application published in Trademarks Journal for opposition by third parties</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <strong>Registration</strong>
+                            <p>Trademark registered if no opposition or opposition decided in favor; valid for 10 years, renewable</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enforcement Section -->
+        <div id="enforcement" class="content-section">
+            <h2 class="section-title">IP Enforcement Mechanisms</h2>
+            
+            <div class="subsection">
+                <h3>Civil Remedies</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Injunctions</h4>
+                        <p>Court orders to stop infringement activities immediately</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Damages</h4>
+                        <p>Monetary compensation for losses suffered due to infringement</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Account of Profits</h4>
+                        <p>Infringer required to surrender profits made from unauthorized use</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Anton Piller Orders</h4>
+                        <p>Ex parte orders allowing search of infringer's premises without prior notice</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Criminal Remedies</h3>
+                <div class="example-box">
+                    <p>Criminal action can be initiated for willful trademark counterfeiting or copyright piracy on a commercial scale. Remedies include:</p>
+                    <ul>
+                        <li>Imprisonment up to 3 years and fines</li>
+                        <li>Seizure of infringing goods</li>
+                        <li>Search and seizure of equipment used for infringement</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Border Measures</h3>
+                <p>Customs authorities can suspend clearance of suspected infringing goods under the Intellectual Property Rights (Imported Goods) Enforcement Rules, 2007. Rights holders can record their IP rights with Customs for enhanced protection.</p>
+            </div>
+        </div>
+
+        <!-- Landmark Cases Section -->
+        <div id="cases" class="content-section">
+            <h2 class="section-title">Landmark IP Cases in India</h2>
+            
+            <div class="subsection">
+                <h3>Patent Cases</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">Novartis v. Union of India (2013)</div>
+                        <p>Supreme Court rejected patent for cancer drug Glivec, establishing strict standards for patentability of incremental innovations under Section 3(d) of Patents Act.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Bayer v. Natco (2012)</div>
+                        <p>First compulsory license granted in India for cancer drug Nexavar, setting precedent for affordable access to medicines.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Copyright Cases</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">University of Oxford v. Rameshwari (2016)</div>
+                        <p>Delhi High Court granted significant damages for copyright infringement of academic publications, emphasizing importance of educational copyright.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Super Cassettes v. Hamar TV (2010)</div>
+                        <p>Established principles for calculation of damages in copyright infringement cases of musical works.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Trademark Cases</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">Cadila v. Cadila Pharmaceuticals (2001)</div>
+                        <p>Supreme Court laid down principles for determining deceptive similarity in pharmaceutical trademarks, considering public health implications.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Toyota v. Prius Auto (2018)</div>
+                        <p>Supreme Court recognized trans-border reputation of Toyota's Prius mark in India, despite limited use in Indian market.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- International IP Section -->
+        <div id="international" class="content-section">
+            <h2 class="section-title">International IP Protection</h2>
+            
+            <div class="subsection">
+                <h3>International Treaties</h3>
+                <p>India is a member of several international IP treaties that facilitate global protection of intellectual property rights:</p>
+                
+                <div class="example-box">
+                    <ul>
+                        <li><strong>Paris Convention (1998)</strong> - Protection of industrial property</li>
+                        <li><strong>Berne Convention (1928)</strong> - Protection of literary and artistic works</li>
+                        <li><strong>PCT (1998)</strong> - International patent applications</li>
+                        <li><strong>TRIPS Agreement (1995)</strong> - Minimum standards for IP protection</li>
+                        <li><strong>Madrid Protocol (2013)</strong> - International trademark registration</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>International Filing Systems</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>PCT - Patent Cooperation Treaty</h4>
+                        <p>Single international patent application that can lead to protection in multiple countries. Indian applicants can file through Indian Patent Office as receiving office.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Madrid System - International Trademarks</h4>
+                        <p>Single application to register trademark in multiple member countries. Indian trademark owners can file through Indian Trademark Registry as office of origin.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Updates Section -->
+        <div id="recent" class="content-section">
+            <h2 class="section-title">Recent IP Developments in India</h2>
+            
+            <div class="subsection">
+                <h3>Policy Initiatives</h3>
+                <div class="example-box">
+                    <ul>
+                        <li>National IPR Policy 2016: Comprehensive framework for IP creation, protection and commercialization</li>
+                        <li>IP Awareness Programs: Government initiatives to increase IP awareness among MSMEs, startups and educational institutions</li>
+                        <li>Fee Concessions: 80% fee reduction for startups, small entities and educational institutions for patent and trademark filings</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Digital Initiatives</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>E-Filing Portal</h4>
+                        <p>Complete online filing system for patents, trademarks, designs and geographical indications with digital signatures.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>IPR Toolkit for MSMEs</h4>
+                        <p>Online resource to help MSMEs understand, protect and enforce their intellectual property rights.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Judicial Developments</h3>
+                <div class="example-box">
+                    <ul>
+                        <li>Commercial Courts: Establishment of specialized commercial courts for faster resolution of IP disputes</li>
+                        <li>Dynamic Injunctions: Courts granting dynamic injunctions to combat online piracy by covering new websites and URLs</li>
+                        <li>IP Division in Delhi High Court: Special division for hearing IP matters to ensure expertise and efficiency</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h3>Need Help with Intellectual Property?</h3>
+            <p>Our legal experts can assist with registration, protection and enforcement of your intellectual property rights.</p>
+            <a href="https://nyaysetu-3e8f79.zapier.app/" class="cta-button">Consult Our IP Experts →</a>
+        </div>
+    </div>
+
+    <script>
+        // Language switching functionality
+        function switchLanguage(lang) {
+            // Update active language button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Redirect to appropriate language page
+            if (lang === 'hi') {
+                window.location.href = 'intellectual-property-law-hi.html';
+            } else if (lang === 'mr') {
+                window.location.href = 'intellectual-property-law-mr.html';
+            } else {
+                window.location.href = 'intellectual-property-law-en.html';
+            }
+        }
+
+        // Section navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update active tab
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>

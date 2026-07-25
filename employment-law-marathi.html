@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>रोजगार कायदा - NYAYSETU</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-blue: #1e3c72;
+            --secondary-blue: #2a5298;
+            --accent-gold: #ffd700;
+            --accent-gold-light: #ffed4a;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 5px 20px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+            --border-radius-large: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-medium);
+            backdrop-filter: blur(10px);
+        }
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--white);
+            color: var(--primary-blue);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-light);
+        }
+        .lang-btn:hover {
+            transform: scale(1.1);
+        }
+        .lang-btn.active {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+        /* Header */
+        .header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+        /* Navigation */
+        .nav-tabs {
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+            padding: 0 2rem;
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+        }
+        .nav-tab {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+        .nav-tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--accent-gold);
+        }
+        /* Content Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+        .subsection {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--accent-gold);
+        }
+        .subsection h3 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .subsection h4 {
+            color: var(--secondary-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        .example-box {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .example-box strong {
+            color: var(--primary-blue);
+        }
+        /* Table Styles */
+        .principles-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+        .principles-table th,
+        .principles-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .principles-table th {
+            background: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+        }
+        .principles-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+        /* Laws Grid */
+        .laws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .law-card {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-gold);
+        }
+        .law-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        .law-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+        /* Case Cards */
+        .cases-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .case-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--secondary-blue);
+        }
+        .case-title {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        /* Process Steps */
+        .process-steps {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .step-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        /* Contact CTA */
+        .contact-cta {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius-large);
+            margin-top: 3rem;
+        }
+        .contact-cta h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .cta-button {
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .back-btn {
+                position: static;
+                margin-bottom: 1rem;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            .nav-tabs {
+                padding: 0 1rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-btn">← सेवांवर परत जा</a>
+        <h1>रोजगार कायदा</h1>
+        <p>रोजगार हक्क आणि नियमांचा व्यापक मार्गदर्शक</p>
+    </div>
+
+    <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('overview')">विहंगावलोकन</button>
+        <button class="nav-tab" onclick="showSection('rights')">कर्मचारी हक्क</button>
+        <button class="nav-tab" onclick="showSection('contracts')">रोजगार करार</button>
+        <button class="nav-tab" onclick="showSection('termination')">समाप्ती</button>
+        <button class="nav-tab" onclick="showSection('disputes')">विवाद निराकरण</button>
+        <button class="nav-tab" onclick="showSection('cases')">महत्त्वाचे खटले</button>
+        <button class="nav-tab" onclick="showSection('recent')">अलीकडील अद्यतने</button>
+    </nav>
+
+    <div class="container">
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <h2 class="section-title">रोजगार कायद्याची समज</h2>
+            
+            <div class="subsection">
+                <h3>व्याख्या आणि व्याप्ती</h3>
+                <p>रोजगार कायदा नियोक्ते आणि कर्मचाऱ्यांमधील संबंध नियंत्रित करतो, ज्यामध्ये कार्यस्थळावरील हक्क, जबाबदाऱ्या आणि संरक्षण समाविष्ट आहे. यात भरती, कामाच्या परिस्थिती, मजुरी, लाभ आणि समाप्तीवरील नियम समाविष्ट आहेत.</p>
+                
+                <div class="example-box">
+                    <strong>मुख्य क्षेत्रे:</strong>
+                    <span>किमान मजुरी, कामाचे तास, रजा धोरणे, सामाजिक सुरक्षा, भेदभाव विरोधी, कार्यस्थळ सुरक्षा, समाप्ती प्रक्रिया आणि विवाद निराकरण.</span>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>भारतातील प्रमुख रोजगार कायदे</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>औद्योगिक विवाद कायदा, १९४७</h4>
+                        <ul>
+                            <li>औद्योगिक विवाद नियंत्रित करतो</li>
+                            <li>बंद आणि सेवानिवृत्ती तरतुदी</li>
+                            <li>संप आणि लॉकआउट नियम</li>
+                            <li>अन्यायकारी कामगार पद्धती</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>फॅक्टरी कायदा, १९४८</h4>
+                        <ul>
+                            <li>आरोग्य आणि सुरक्षा मानके</li>
+                            <li>कामाचे तास आणि ओव्हरटाइम</li>
+                            <li>रजा आणि सुट्ट्या</li>
+                            <li>कल्याण सुविधा</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>किमान मजुरी कायदा, १९४८</h4>
+                        <ul>
+                            <li>किमान मजुरी निर्धारण</li>
+                            <li>विविध क्षेत्रांसाठी भिन्न दर</li>
+                            <li>नियमित मजुरी सुधारणा</li>
+                            <li>अनुपालन न केल्यास दंड</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>कर्मचारी भविष्य निधी कायदा, १९५२</h4>
+                        <ul>
+                            <li>भविष्य निधी योगदान</li>
+                            <li>निवृत्ती वेतन योजना</li>
+                            <li>विमा लाभ</li>
+                            <li>निवृत्ती लाभ</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Employee Rights Section -->
+        <div id="rights" class="content-section">
+            <h2 class="section-title">कर्मचारी हक्क आणि संरक्षण</h2>
+            
+            <div class="subsection">
+                <h3>मूलभूत रोजगार हक्क</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>हक्क</th>
+                            <th>वर्णन</th>
+                            <th>कायदेशीर आधार</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>समान संधी</strong></td>
+                            <td>लिंग, धर्म, जात इ. आधारावर भेदभावापासून संरक्षण</td>
+                            <td>भारताचे संविधान, समान वेतन कायदा</td>
+                        </tr>
+                        <tr>
+                            <td><strong>वाजवी मजुरी</strong></td>
+                            <td>किमान मजुरी आणि वेळेवर पेमेंट मिळविण्याचा अधिकार</td>
+                            <td>किमान मजुरी कायदा, मजुरी देयक कायदा</td>
+                        </tr>
+                        <tr>
+                            <td><strong>सुरक्षित कार्यस्थळ</strong></td>
+                            <td>सुरक्षित आणि निरोगी परिस्थितीत काम करण्याचा अधिकार</td>
+                            <td>फॅक्टरी कायदा, व्यावसायिक सुरक्षा कायदे</td>
+                        </tr>
+                        <tr>
+                            <td><strong>सामाजिक सुरक्षा</strong></td>
+                            <td>भविष्य निधी, विमा आणि निवृत्ती वेतन लाभांचा अधिकार</td>
+                            <td>ईपीएफ कायदा, ईएसआई कायदा, ग्रॅच्युइटी कायदा</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>कामाच्या परिस्थिती आणि लाभ</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>कामाचे तास</h4>
+                        <p>आठवड्यातून जास्तीत जास्त ४८ तास, विश्रांती मध्यांतरांसह दररोज ९ तास</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>रजा पात्रता</h4>
+                        <p>लागू कायद्यांनुसार वार्षिक रजा, आजारपण रजा, मातृत्व रजा आणि कॅज्युअल रजा</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>ओव्हरटाइम भरपाई</h4>
+                        <p>निर्धारित तासांपेक्षा जास्त ओव्हरटाइम कामासाठी सामान्य मजुरी दराच्या दुप्पट</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>बोनस देयके</h4>
+                        <p>पात्र कर्मचाऱ्यांसाठी पगाराच्या ८.३३% ते २०% पर्यंत वैधानिक बोनस</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contracts Section -->
+        <div id="contracts" class="content-section">
+            <h2 class="section-title">रोजगार करार</h2>
+            
+            <div class="subsection">
+                <h3>रोजगार करारांचे प्रकार</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>कायम रोजगार</h4>
+                        <ul>
+                            <li>अनिश्चित कालावधी करार</li>
+                            <li>पूर्ण वैधानिक लाभ</li>
+                            <li>समाप्तीसाठी नोटीस कालावधी</li>
+                            <li>बंद भरपाई</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>निश्चित कालावधी करार</h4>
+                        <ul>
+                            <li>विशिष्ट कालावधी रोजगार</li>
+                            <li>कालबाह्यता वर स्वयंचलित समाप्ती</li>
+                            <li>मर्यादित वैधानिक लाभ</li>
+                            <li>प्रकल्प-आधारित रोजगार</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>सल्लागार करार</h4>
+                        <ul>
+                            <li>सेवा प्रदाता संबंध</li>
+                            <li>नियोक्ता-कर्मचारी संबंध नाही</li>
+                            <li>फी-आधारित भरपाई</li>
+                            <li>स्वतंत्र ठेकेदार स्थिती</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>अप्रेंटिसशिप करार</h4>
+                        <ul>
+                            <li>प्रशिक्षण आणि कौशल्य विकास</li>
+                            <li>पगाराऐवजी स्टायपेंड</li>
+                            <li>मर्यादित कालावधी नियुक्ती</li>
+                            <li>समाप्ती लाभ नाही</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>आवश्यक करार कलमे</h3>
+                <div class="example-box">
+                    <strong>मुख्य करार घटक:</strong>
+                    <ul>
+                        <li>नोकरी शीर्षक, वर्णन आणि कर्तव्ये</li>
+                        <li>भरपाई रचना आणि पेमेंट अटी</li>
+                        <li>कामाचे तास आणि ठिकाण</li>
+                        <li>रजा आणि सुट्टी धोरणे</li>
+                        <li>गोपनीयता आणि गैर-प्रकटीकरण</li>
+                        <li>समाप्ती अटी आणि नोटीस कालावधी</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Termination Section -->
+        <div id="termination" class="content-section">
+            <h2 class="section-title">रोजगार समाप्ती</h2>
+            
+            <div class="subsection">
+                <h3>समाप्तीचे प्रकार</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>समाप्ती प्रकार</th>
+                            <th>प्रक्रिया</th>
+                            <th>भरपाई</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>स्वेच्छिक राजीनामा</strong></td>
+                            <td>कर्मचारी नोटीस कालावधीसह राजीनामा सादर करतो</td>
+                            <td>देयकांचे पूर्ण सेटलमेंट</td>
+                        </tr>
+                        <tr>
+                            <td><strong>बंद</strong></td>
+                            <td>योग्य नोटीससह अतिरिक्त कर्मचाऱ्यांमुळे समाप्ती</td>
+                            <td>पूर्ण वर्षासाठी 15 दिवसांचे सरासरी पे</td>
+                        </tr>
+                        <tr>
+                            <td><strong>गैरवर्तन डिसमिसल</strong></td>
+                            <td>घरगुती चौकशी आणि शो-कॉज नोटीस</td>
+                            <td>सिद्ध झाल्यास भरपाई नाही</td>
+                        </tr>
+                        <tr>
+                            <td><strong>निवृत्ती</strong></td>
+                            <td>निवृत्ती वय गाठल्यावर</td>
+                            <td>ग्रॅच्युइटी आणि निवृत्ती वेतन लाभ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>समाप्ती प्रक्रिया</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>नोटीस कालावधी</strong>
+                            <p>योग्य नोटीस कालावधी द्या किंवा त्याऐवजी पेमेंट करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>घरगुती चौकशी</strong>
+                            <p>गैरवर्तन प्रकरणांसाठी, नैसर्गिक न्याय तत्त्वांसह निष्पक्ष चौकशी करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>अंतिम सेटलमेंट</strong>
+                            <p>पगार, बोनस, ग्रॅच्युइटी आणि रजा एनकॅशमेंटसह सर्व देयकांची गणना करा आणि भरा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>अनुभव प्रमाणपत्र</strong>
+                            <p>कर्मचाऱ्याला अनुभव प्रमाणपत्र आणि रिलीव्हिंग लेटर जारी करा</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disputes Section -->
+        <div id="disputes" class="content-section">
+            <h2 class="section-title">रोजगार विवाद निराकरण</h2>
+            
+            <div class="subsection">
+                <h3>विवाद निराकरण यंत्रणा</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>अंतर्गत तक्रार समिती</h4>
+                        <p>२०+ कर्मचाऱ्यांसह स्थापनांसाठी लैंगिक छेडछाड तक्रारींचे निराकरण करण्यासाठी अनिवार्य</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>कामगार न्यायालये</h4>
+                        <p>विविध कामगार कायद्यांअंतर्गत हक्क आणि दाव्यांचा निकाल लावणे</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>औद्योगिक न्यायाधिकरण</h4>
+                        <p>मजुरी, तास आणि रोजगार परिस्थितींसह औद्योगिक विवाद हाताळणे</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>उच्च न्यायालय आणि सर्वोच्च न्यायालय</h4>
+                        <p>कामगार न्यायालय आणि न्यायाधिकरण निर्णयांवर अपील क्षेत्राधिकार</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>सामान्य रोजगार विवाद</h3>
+                <div class="example-box">
+                    <strong>वारंवार विवाद क्षेत्रे:</strong>
+                    <ul>
+                        <li>चुकीची समाप्ती आणि डिसमिसल</li>
+                        <li>मजुरी आणि बोनसचे पेमेंट न करणे</li>
+                        <li>भेदभाव आणि छेडछाड दावे</li>
+                        <li>अन्यायकारी कामगार पद्धती</li>
+                        <li>करार अर्थ लावणे विवाद</li>
+                        <li>सामाजिक सुरक्षा लाभ दावे</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cases Section -->
+        <div id="cases" class="content-section">
+            <h2 class="section-title">महत्त्वाचे रोजगार खटले</h2>
+            
+            <div class="subsection">
+                <h3>भारतीय महत्त्वाचे खटले</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">बंगलोर वॉटर सप्लाय वि. आर. राजप्पा (१९७८)</div>
+                        <p>औद्योगिक विवाद कायद्याअंतर्गत 'उद्योग' च्या व्याख्येचा विस्तार, स्थापनांच्या विस्तृत श्रेणीचा समावेश</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">फायरस्टोन टायरचे कामगार वि. व्यवस्थापन (१९७३)</div>
+                        <p>औद्योगिक विवाद कायद्याअंतर्गत बंद भरपाई आणि प्रक्रियेसाठी तत्त्वे स्थापित केली</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">विशाखा वि. राजस्थान राज्य (१९९७)</div>
+                        <p>कार्यस्थळावर लैंगिक छेडछाड विरोधी मार्गदर्शक तत्त्वे स्थापित करणारा ऐतिहासिक निर्णय</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">राजस्थान राज्य रोड ट्रान्सपोर्ट वि. कृष्ण कांत (१९९५)</div>
+                        <p>सेवा बाबतीत सिविल न्यायालये आणि कामगार न्यायाधिकरण यांच्यातील अधिकारक्षेत्र स्पष्ट केले</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">डीटीसी वि. डीटीसी मजदूर काँग्रेस (१९९१)</div>
+                        <p>रोजगार समाप्ती आणि नैसर्गिक न्याय तत्त्वांवरील महत्त्वाचे खटला</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">एर इंडिया वि. नरगेश मीरजा (१९८१)</div>
+                        <p>रोजगार आणि सेवा अटींमधील लैंगिक भेदभावावरील महत्त्वाचे खटला</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>आंतरराष्ट्रीय प्रभाव खटले</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">डोनोग्यू वि. स्टीव्हनसन (१९३२) - यूके</div>
+                        <p>आधुनिक दुर्लक्ष कायदा तत्त्वे स्थापित केली जी कार्यस्थळ सुरक्षेसाठी नियोक्ता जबाबदाऱ्यांवर प्रभाव टाकतात</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">ग्रिग्स वि. ड्यूक पॉवर कं. (१९७१) - अमेरिका</div>
+                        <p>'विषम प्रभाव' सिद्धांत स्थापित करणारा ऐतिहासिक रोजगार भेदभाव खटला</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">आयएलओ करार</div>
+                        <p>आंतरराष्ट्रीय कामगार संघटना मानक भारतीय कामगार कायदा सुधार आणि कामगार संरक्षणावर प्रभाव टाकतात</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Updates Section -->
+        <div id="recent" class="content-section">
+            <h2 class="section-title">अलीकडील रोजगार कायदा अद्यतने</h2>
+            
+            <div class="subsection">
+                <h3>कामगार संहिता २०२० - प्रमुख सुधारणा</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>मजुरी संहिता, २०१९</h4>
+                        <ul>
+                            <li>सार्वत्रिक किमान मजुरी कव्हरेज</li>
+                            <li>प्रमाणित मजुरी व्याख्या</li>
+                            <li>वेळेवर पेमेंट आवश्यकता</li>
+                            <li>राष्ट्रीय किमान मजुरी मजला</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>औद्योगिक संबंध संहिता, २०२०</h4>
+                        <ul>
+                            <li>निश्चित कालावधी रोजगार तरतुदी</li>
+                            <li>संप नोटीस आवश्यकता</li>
+                            <li>पुनःकौशल्य निधी स्थापना</li>
+                            <li>वाटाघाटी संघ निकष</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>व्यावसायिक सुरक्षा संहिता, २०२०</h4>
+                        <ul>
+                            <li>स्थापनांसाठी एकल परवाना</li>
+                            <li>महिलांचे रात्री काम तरतुदी</li>
+                            <li>आरोग्य आणि सुरक्षा मानके</li>
+                            <li>ठेकेदार कामगार नियम</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>सामाजिक सुरक्षा संहिता, २०२०</h4>
+                        <ul>
+                            <li>सार्वत्रिक सामाजिक सुरक्षा कव्हरेज</li>
+                            <li>गिग आणि प्लॅटफॉर्म कामगार समावेश</li>
+                            <li>राष्ट्रीय सामाजिक सुरक्षा मंडळ</li>
+                            <li>विस्तारित लाभ योजना</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>अलीकडील न्यायिक विकास</h3>
+                <div class="example-box">
+                    <strong>मुख्य अलीकडील बदल (२०२१-२०२४):</strong>
+                    <ul>
+                        <li>गिग कामगार हक्क आणि सामाजिक सुरक्षेवर सर्वोच्च न्यायालय निर्णय</li>
+                        <li>राज्यांमध्ये कामगार संहितांची अंमलबजावणी</li>
+                        <li>वर्धित मातृत्व लाभ आणि बालकल्याण तरतुदी</li>
+                        <li>डिजिटल अनुपालन आणि ई-गव्हर्नन्स उपक्रम</li>
+                        <li>सुदृढ लैंगिक छेडछाड प्रतिबंध यंत्रणा</li>
+                        <li>रिमोट काम नियम आणि धोरणे</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h3>रोजगार कायदा मदत हवी?</h3>
+            <p>आमची अनुभवी रोजगार कायदा संघ रोजगार करार, विवाद, अनुपालन आणि हक्क संरक्षणासाठी व्यापक कायदेशीर आधार प्रदान करते. आपल्या रोजगार हक्कांचे संरक्षण करणे आमची प्राथमिकता आहे.</p>
+            <a href="https://nyaysetu-3e8f79.zapier.app/" class="cta-button">आता रोजगार कायदेशीर मदत घ्या</a>
+        </div>
+    </div>
+
+    <script>
+        // Tab navigation functionality
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected section and activate corresponding tab
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+
+            // Scroll to top of content
+            document.querySelector('.container').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize with overview section
+            showSection('overview');
+            
+            // Add keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                    const tabs = document.querySelectorAll('.nav-tab');
+                    const activeTab = document.querySelector('.nav-tab.active');
+                    const currentIndex = Array.from(tabs).indexOf(activeTab);
+                    
+                    let newIndex;
+                    if (e.key === 'ArrowLeft') {
+                        newIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
+                    } else {
+                        newIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
+                    }
+                    
+                    tabs[newIndex].click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

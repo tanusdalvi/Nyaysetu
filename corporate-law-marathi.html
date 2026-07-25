@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>कॉर्पोरेट कायदा - न्यायसेतू</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-blue: #1e3c72;
+            --secondary-blue: #2a5298;
+            --accent-gold: #ffd700;
+            --accent-gold-light: #ffed4a;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 5px 20px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+            --border-radius-large: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-medium);
+            backdrop-filter: blur(10px);
+        }
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--white);
+            color: var(--primary-blue);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-light);
+        }
+        .lang-btn:hover {
+            transform: scale(1.1);
+        }
+        .lang-btn.active {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+        /* Header */
+        .header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+        /* Navigation */
+        .nav-tabs {
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+            padding: 0 2rem;
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+        }
+        .nav-tab {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+        .nav-tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--accent-gold);
+        }
+        /* Content Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+        .subsection {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--accent-gold);
+        }
+        .subsection h3 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .subsection h4 {
+            color: var(--secondary-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        .example-box {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .example-box strong {
+            color: var(--primary-blue);
+        }
+        /* Table Styles */
+        .principles-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+        .principles-table th,
+        .principles-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .principles-table th {
+            background: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+        }
+        .principles-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+        /* Laws Grid */
+        .laws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .law-card {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-gold);
+        }
+        .law-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        .law-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+        /* Case Cards */
+        .cases-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .case-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--secondary-blue);
+        }
+        .case-title {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        /* Process Steps */
+        .process-steps {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .step-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        /* Contact CTA */
+        .contact-cta {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius-large);
+            margin-top: 3rem;
+        }
+        .contact-cta h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .cta-button {
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .back-btn {
+                position: static;
+                margin-bottom: 1rem;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            .nav-tabs {
+                padding: 0 1rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="javascript:history.back()" class="back-btn">← सेवांकडे परत</a>
+        <h1>कॉर्पोरेट कायदा</h1>
+        <p>व्यवसायाच्या कायदेशीर बाबींचे सर्वसमावेशक मार्गदर्शन</p>
+    </div>
+
+    <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('overview')">आढावा</button>
+        <button class="nav-tab" onclick="showSection('formation')">कंपनी निर्मिती</button>
+        <button class="nav-tab" onclick="showSection('governance')">कॉर्पोरेट शासन</button>
+        <button class="nav-tab" onclick="showSection('compliance')">अनुपालन</button>
+        <button class="nav-tab" onclick="showSection('contracts')">करार</button>
+        <button class="nav-tab" onclick="showSection('cases')">महत्त्वाचे खटले</button>
+        <button class="nav-tab" onclick="showSection('regulations')">अलीकडील नियम</button>
+    </nav>
+
+    <div class="container">
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <h2 class="section-title">कॉर्पोरेट कायद्याची माहिती</h2>
+            
+            <div class="subsection">
+                <h3>व्याख्या आणि क्षेत्र</h3>
+                <p>कॉर्पोरेट कायदा कॉर्पोरेशन्स आणि इतर व्यवसाय संस्थांच्या निर्मिती, कार्यपद्धती आणि विसर्जनाचे नियमन करतो. यात कॉर्पोरेशन्सच्या मालकी, संचालन आणि नियमनात सहभागी असलेल्या सर्व पक्षांच्या अधिकार आणि जबाबदाऱ्यांचा समावेश होतो, ज्यात भागधारक, संचालक, अधिकारी, कर्मचारी आणि लेनदार यांचा समावेश आहे.</p>
+                
+                <div class="example-box">
+                    <strong>मुख्य क्षेत्र:</strong> कंपनी नोंदणी, कॉर्पोरेट शासन, विलीनीकरण आणि संपादन, सिक्युरिटीज कायदा, करार कायदा, बौद्धिक संपत्ती, रोजगार कायदा, कर अनुपालन आणि नियामक अनुपालन.
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>भारतातील व्यवसाय संस्थांचे प्रकार</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>खाजगी मर्यादित कंपनी</h4>
+                        <ul>
+                            <li>किमान 2, कमाल 200 सदस्य</li>
+                            <li>मर्यादित जबाबदारी संरक्षण</li>
+                            <li>स्वतंत्र कायदेशीर संस्था</li>
+                            <li>गुंतवणुकीसाठी जनतेला आमंत्रित करू शकत नाही</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>सार्वजनिक मर्यादित कंपनी</h4>
+                        <ul>
+                            <li>किमान 7 सदस्य, कमाल मर्यादा नाही</li>
+                            <li>जनतेकडून भांडवल गोळा करू शकते</li>
+                            <li>शेअर बाजारात यादीकृत</li>
+                            <li>कठोर अनुपालन आवश्यकता</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>मर्यादित जबाबदारी भागीदारी (LLP)</h4>
+                        <ul>
+                            <li>भागीदारी आणि कंपनीचे संकरित रूप</li>
+                            <li>किमान 2 भागीदार आवश्यक</li>
+                            <li>भागीदारांसाठी मर्यादित जबाबदारी</li>
+                            <li>लवचिक व्यवस्थापन रचना</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>एक व्यक्ती कंपनी (OPC)</h4>
+                        <ul>
+                            <li>एकच सदस्य असलेली कंपनी</li>
+                            <li>मर्यादित जबाबदारी संरक्षण</li>
+                            <li>नामांकित व्यक्तीची आवश्यकता</li>
+                            <li>सरलीकृत अनुपालन</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formation Section -->
+        <div id="formation" class="content-section">
+            <h2 class="section-title">कंपनी निर्मिती प्रक्रिया</h2>
+            
+            <div class="subsection">
+                <h3>चरण-दर-चरण कंपनी नोंदणी</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">१</div>
+                        <div>
+                            <strong>डिजिटल स्वाक्षरी प्रमाणपत्र (DSC)</strong>
+                            <p>प्रमाणित एजन्सीकडून सर्व संचालक आणि सदस्यांसाठी DSC मिळवा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">२</div>
+                        <div>
+                            <strong>संचालक ओळख क्रमांक (DIN)</strong>
+                            <p>MCA पोर्टलद्वारे सर्व प्रस्तावित संचालकांसाठी DIN साठी अर्ज करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">३</div>
+                        <div>
+                            <strong>नाव आरक्षण</strong>
+                            <p>RUN (रिझर्व्ह युनिक नेम) सेवेद्वारे कंपनीचे नाव आरक्षित करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">४</div>
+                        <div>
+                            <strong>SPICe+ फॉर्म भरणे</strong>
+                            <p>आवश्यक कागदपत्रे आणि फी सह SPICe+ फॉर्म भरा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">५</div>
+                        <div>
+                            <strong>निगमन प्रमाणपत्र</strong>
+                            <p>तपासणीनंतर MCA कडून निगमन प्रमाणपत्र प्राप्त करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">६</div>
+                        <div>
+                            <strong>निगमनानंतरचे अनुपालन</strong>
+                            <p>व्यवसाय सुरू करण्याचे प्रमाणपत्र, बँक खाते उघडणे आणि प्रारंभिक फायली</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>आवश्यक कागदपत्रे</h3>
+                <div class="example-box">
+                    <strong>आवश्यक कागदपत्रे:</strong>
+                    <ul>
+                        <li>सर्व संचालकांचे PAN कार्ड आणि आधार कार्ड</li>
+                        <li>संचालक आणि नोंदणीकृत कार्यालयाचा पत्ता पुरावा</li>
+                        <li>मेमोरंडम ऑफ असोसिएशन (MoA)</li>
+                        <li>आर्टिकल्स ऑफ असोसिएशन (AoA)</li>
+                        <li>संचालक म्हणून काम करण्यास संमती</li>
+                        <li>अनुपालनाची घोषणा</li>
+                        <li>नोंदणीकृत कार्यालयाचा पुरावा</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Governance Section -->
+        <div id="governance" class="content-section">
+            <h2 class="section-title">कॉर्पोरेट शासन</h2>
+            
+            <div class="subsection">
+                <h3>संचालक मंडळ</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>संचालक प्रकार</th>
+                            <th>नियुक्ती</th>
+                            <th>मुख्य जबाबदाऱ्या</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>कार्यकारी संचालक</strong></td>
+                            <td>संचालक पदांसह पूर्णवेळ कर्मचारी</td>
+                            <td>दैनंदिन कार्य, धोरण अंमलबजावणी, व्यवस्थापन</td>
+                        </tr>
+                        <tr>
+                            <td><strong>स्वतंत्र संचालक</strong></td>
+                            <td>भौतिक स्वारस्य नसलेले बाह्य तज्ञ</td>
+                            <td>अधीक्षण, सल्ला, ऑडिट समिती सहभाग</td>
+                        </tr>
+                        <tr>
+                            <td><strong>गैर-कार्यकारी संचालक</strong></td>
+                            <td>अर्धवेळ, दैनंदिन कार्यात सहभागी नाही</td>
+                            <td>रणनीतिक मार्गदर्शन, शासन अधीक्षण</td>
+                        </tr>
+                        <tr>
+                            <td><strong>नामांकित संचालक</strong></td>
+                            <td>विशिष्ट हितधारकांद्वारे नियुक्त</td>
+                            <td>नियुक्त करणाऱ्या पक्षाच्या हितांचे प्रतिनिधित्व</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>भागधारकांचे अधिकार आणि बैठका</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>वार्षिक सामान्य सभा (AGM)</h4>
+                        <p>वार्षिक हिशोब सादर करणे, लाभांश जाहीर करणे आणि संचालक निवडण्यासाठी सक्तीची वार्षिक बैठक. आर्थिक वर्षाच्या समाप्तीनंतर 6 महिन्यांच्या आत आयोजित करणे आवश्यक.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>असाधारण सामान्य सभा (EGM)</h4>
+                        <p>भागधारक मंजुरी आवश्यक असलेल्या तातडीच्या बाबींसाठी बोलावलेल्या विशेष बैठका, जसे की मोठ्या व्यवहार किंवा आर्टिकल्समध्ये दुरुस्त्या.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>मतदानाचे अधिकार</h4>
+                        <p>भागधारकांना त्यांच्या भागभांडवलावर आधारित ठरावांवर मतदान करणे, संचालक निवडणे आणि मोठ्या कॉर्पोरेट कृतींना मंजुरी देण्याचा अधिकार आहे.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>माहितीचे अधिकार</h4>
+                        <p>वार्षिक अहवाल, आर्थिक विधाने आणि कंपनीवर परिणाम करणारी इतर महत्त्वाची माहिती प्राप्त करण्याचा अधिकार.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compliance Section -->
+        <div id="compliance" class="content-section">
+            <h2 class="section-title">नियामक अनुपालन</h2>
+            
+            <div class="subsection">
+                <h3>वार्षिक अनुपालन आवश्यकता</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">१</div>
+                        <div>
+                            <strong>वार्षिक परतावा दाखल करणे (MGT-7)</strong>
+                            <p>कंपनी आणि सदस्य तपशील असलेला वार्षिक परतावा AGM च्या 60 दिवसांच्या आत दाखल करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">२</div>
+                        <div>
+                            <strong>आर्थिक विधाने दाखल करणे</strong>
+                            <p>AGM च्या 30 दिवसांच्या आत ऑडिट केलेली आर्थिक विधाने आणि बोर्ड अहवाल दाखल करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">३</div>
+                        <div>
+                            <strong>आयकर परतावे</strong>
+                            <p>नियत तारखेपर्यंत (सहसा 30 सप्टेंबर) कॉर्पोरेट आयकर परतावे दाखल करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">४</div>
+                        <div>
+                            <strong>GST परतावे</strong>
+                            <p>टर्नओव्हर आणि नोंदणी प्रकारावर अवलंबून मासिक/तिमाही GST परतावे दाखल करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">५</div>
+                        <div>
+                            <strong>बोर्ड बैठका</strong>
+                            <p>दर वर्षी किमान 4 बोर्ड बैठका आयोजित करा ज्यामध्ये 120 दिवसांपेक्षा जास्त अंतर नाही</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">६</div>
+                        <div>
+                            <strong>कायदेशीर ऑडिट</strong>
+                            <p>कायदेशीर ऑडिटर नियुक्त करा आणि आर्थिक विधानांचा वार्षिक ऑडिट करा</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>मुख्य नियामक संस्था</h3>
+                <div class="example-box">
+                    <strong>प्रमुख नियामक:</strong>
+                    <ul>
+                        <li><strong>MCA (कॉर्पोरेट व्यवहार मंत्रालय):</strong> कंपनी कायदा अनुपालन</li>
+                        <li><strong>SEBI:</strong> यादीकृत कंपन्यांसाठी सिक्युरिटीज बाजार नियमन</li>
+                        <li><strong>RBI:</strong> बँकिंग आणि आर्थिक सेवा नियमन</li>
+                        <li><strong>CBDT:</strong> आयकर आणि थेट कर अनुपालन</li>
+                        <li><strong>GST परिषद:</strong> वस्तू आणि सेवा कर अनुपालन</li>
+                        <li><strong>ROC:</strong> प्रादेशिक नोंदणी आणि अनुपालन देखरेख</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contracts Section -->
+        <div id="contracts" class="content-section">
+            <h2 class="section-title">कॉर्पोरेट करार</h2>
+            
+            <div class="subsection">
+                <h3>कॉर्पोरेट करारांचे प्रकार</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>रोजगार करार</h4>
+                        <ul>
+                            <li>रोजगाराच्या अटी आणि नुकसानभरपाई</li>
+                            <li>गैर-प्रकटीकरण आणि गैर-स्पर्धा कलमे</li>
+                            <li>समाप्ती आणि सेव्हरन्स तरतुदी</li>
+                            <li>स्टॉक पर्याय आणि प्रोत्साहन करार</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>व्यावसायिक करार</h4>
+                        <ul>
+                            <li>पुरवठा आणि वितरण करार</li>
+                            <li>सेवा स्तर करार (SLAs)</li>
+                            <li>संयुक्त उद्यम करार</li>
+                            <li>परवाना आणि फ्रेंचायझिंग करार</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>आर्थिक करार</h4>
+                        <ul>
+                            <li>कर्ज आणि क्रेडिट करार</li>
+                            <li>गुंतवणूक आणि निधी करार</li>
+                            <li>सुरक्षा आणि हमी कागदपत्रे</li>
+                            <li>विलीनीकरण आणि संपादन करार</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>बौद्धिक संपत्ती करार</h4>
+                        <ul>
+                            <li>पेटंट आणि ट्रेडमार्क परवाने</li>
+                            <li>कॉपीराइट आणि सॉफ्टवेअर करार</li>
+                            <li>तंत्रज्ञान हस्तांतरण करार</li>
+                            <li>गोपनीयता आणि IP नियुक्ती</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>करार व्यवस्थापनाच्या सर्वोत्तम पद्धती</h3>
+                <div class="example-box">
+                    <strong>मुख्य विचार:</strong>
+                    <ul>
+                        <li>अटी, व्याप्ती आणि वितरण यांची स्पष्ट व्याख्या</li>
+                        <li>महत्त्वाच्या करारांसाठी योग्य अधिकार आणि बोर्ड मंजुरी</li>
+                        <li>जोखीम वाटप आणि जबाबदारी मर्यादा कलमे</li>
+                        <li>विवाद निराकरण यंत्रणा आणि शासन कायदा</li>
+                        <li>नियमित पुनरावलोकन आणि नूतनीकरण प्रक्रिया</li>
+                        <li>लागू कायदे आणि नियमांचे अनुपालन</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cases Section -->
+        <div id="cases" class="content-section">
+            <h2 class="section-title">महत्त्वाचे कॉर्पोरेट कायदा खटले</h2>
+            
+            <div class="subsection">
+                <h3>भारतीय महत्त्वाचे खटले</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">सॅलोमन वि. सॅलोमन अँड कं. लि. (1897)</div>
+                        <p>स्वतंत्र कायदेशीर संस्था आणि मर्यादित जबाबदारी या तत्त्वाची स्थापना केली, जी भारतासह जगभरातील कॉर्पोरेट कायद्यासाठी मूलभूत आहे.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">टाटा कन्सल्टन्सी सर्व्हिसेस वि. आंध्र प्रदेश राज्य (2004)</div>
+                        <p>सॉफ्टवेअर विकास सेवांना सेवा कर लागू करण्यावरील सर्वोच्च न्यायालयाचा निर्णय, ज्यामुळे IT उद्योगावरील करावर परिणाम झाला.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">वोडाफोन इंटरनॅशनल होल्डिंग्स BV वि. भारत संघ (2012)</div>
+                        <p>भारतीय मालमत्तेच्या अप्रत्यक्ष हस्तांतरणाशी संबंधित महत्त्वाचा कर खटला, ज्यामुळे कर कायद्यात मोठे बदल झाले.</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">सत्यम कॉम्प्युटर सर्व्हिसेस खटला (2009)</div>
+                        <p>मोठा कॉर्पोरेट फसवणूक खटला ज्यामुळे कॉर्पोरेट शासन नियम आणि ऑडिटिंग मानकांमध्ये सुधारणा झाल्या.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Regulations Section -->
+        <div id="regulations" class="content-section">
+            <h2 class="section-title">अलीकडील कॉर्पोरेट नियम</h2>
+            
+            <div class="subsection">
+                <h3>2023-24 मधील महत्त्वाचे बदल</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>कॉर्पोरेट सामाजिक जबाबदारी (CSR)</h4>
+                        <p>CSR समिती आणि खर्चासाठी सखोल अनुपालन आवश्यकता. CSR निधीच्या अयोग्य वापरासाठी दंड आणि कारावासाच्या तरतुदी.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>कॉर्पोरेट कायदा 2013 दुरुस्त्या</h4>
+                        <p>निगमन प्रक्रिया सुलभ करणे, कायदेशीर ऑडिटर नियुक्ती प्रक्रिया सुधारणे आणि कंपनी नाव आरक्षण प्रक्रिया सोपी करणे.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>SEBI नियमन</h4>
+                        <p>ESG (पर्यावरण, सामाजिक आणि शासन) प्रकटीकरण आवश्यकता, डिजिटल सिक्युरिटीज आणि क्रिप्टोकरन्सीवरील नवीन नियम.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>GST दुरुस्त्या</h4>
+                        <p>इ-इनव्हॉइसिंग आवश्यकता, HSN कोड आणि e-way बिल नियमांमध्ये सुधारणा, आणि कर क्रेडिट नियमांमध्ये बदल.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>आगामी सुधारणा</h3>
+                <div class="example-box">
+                    <strong>प्रस्तावित बदल:</strong>
+                    <ul>
+                        <li>कंपनी कायद्याची आणखी सुधारणा आणि सरलीकरण</li>
+                        <li>डिजिटल कॉर्पोरेशन आणि आभासी बैठकांवरील नवीन नियम</li>
+                        <li>क्रिप्टोकरन्सी आणि डिजिटल मालमत्ता नियमन</li>
+                        <li>कर्जातील कंपन्यांसाठी दिवाळखोरी आणि दिवाळखोरी संहिता सुधारणा</li>
+                        <li>कॉर्पोरेट शासनावरील कोटरी समितीच्या शिफारशींची अंमलबजावणी</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h3>कॉर्पोरेट कायदा सल्ला हवा आहे?</h3>
+            <p>आमचे अनुभवी कॉर्पोरेट वकील तुम्हाला कंपनी निर्मिती, अनुपालन आणि व्यावसायिक कायदेशीर बाबींमध्ये मदत करू शकतात.</p>
+            <a href="https://nyaysetu-3e8f79.zapier.app/" class="cta-button">आजच सल्ला घ्या</a>
+        </div>
+    </div>
+
+    <script>
+        // Tab navigation functionality
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // Language switcher functionality
+        document.querySelectorAll('.lang-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                if (lang === 'hi') {
+                    window.location.href = 'Corporate Law-hi.html';
+                } else if (lang === 'en') {
+                    window.location.href = 'Corporate Law.html';
+                }
+                // For Marathi, we're already here, so no action needed
+            });
+        });
+    </script>
+</body>
+</html>

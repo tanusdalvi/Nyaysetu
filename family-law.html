@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Law - NYAYSETU</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-blue: #1e3c72;
+            --secondary-blue: #2a5298;
+            --accent-gold: #ffd700;
+            --accent-gold-light: #ffed4a;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 5px 20px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+            --border-radius-large: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-medium);
+            backdrop-filter: blur(10px);
+        }
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--white);
+            color: var(--primary-blue);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-light);
+        }
+        .lang-btn:hover {
+            transform: scale(1.1);
+        }
+        .lang-btn.active {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+        /* Header */
+        .header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+        /* Navigation */
+        .nav-tabs {
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+            padding: 0 2rem;
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+        }
+        .nav-tab {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+        .nav-tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--accent-gold);
+        }
+        /* Content Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+        .subsection {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--accent-gold);
+        }
+        .subsection h3 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .subsection h4 {
+            color: var(--secondary-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        .example-box {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .example-box strong {
+            color: var(--primary-blue);
+        }
+        /* Table Styles */
+        .principles-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+        .principles-table th,
+        .principles-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .principles-table th {
+            background: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+        }
+        .principles-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+        /* Laws Grid */
+        .laws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .law-card {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-gold);
+        }
+        .law-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        .law-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+        /* Case Cards */
+        .cases-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .case-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--secondary-blue);
+        }
+        .case-title {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        /* Process Steps */
+        .process-steps {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .step-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        /* Contact CTA */
+        .contact-cta {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius-large);
+            margin-top: 3rem;
+        }
+        .contact-cta h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .cta-button {
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .back-btn {
+                position: static;
+                margin-bottom: 1rem;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            .nav-tabs {
+                padding: 0 1rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="javascript:history.back()" class="back-btn">← Back to Services</a>
+        <h1>Family Law</h1>
+        <p>Comprehensive Guide to Family Rights and Legal Procedures</p>
+    </div>
+
+    <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('overview')">Overview</button>
+        <button class="nav-tab" onclick="showSection('marriage')">Marriage Laws</button>
+        <button class="nav-tab" onclick="showSection('divorce')">Divorce & Separation</button>
+        <button class="nav-tab" onclick="showSection('maintenance')">Maintenance & Alimony</button>
+        <button class="nav-tab" onclick="showSection('custody')">Child Custody</button>
+        <button class="nav-tab" onclick="showSection('property')">Property Rights</button>
+        <button class="nav-tab" onclick="showSection('adoption')">Adoption & Guardianship</button>
+        <button class="nav-tab" onclick="showSection('cases')">Landmark Cases</button>
+        <button class="nav-tab" onclick="showSection('recent')">Recent Updates</button>
+    </nav>
+
+    <div class="container">
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <h2 class="section-title">Understanding Family Law</h2>
+            
+            <div class="subsection">
+                <h3>Definition and Scope</h3>
+                <p>Family Law governs legal relationships between family members, including marriage, divorce, child custody, adoption, and property rights. It encompasses personal laws of different religions and secular laws applicable to all citizens.</p>
+                
+                <div class="example-box">
+                    <strong>Key Areas:</strong>
+                    <span>Marriage registration, divorce procedures, child custody, maintenance, adoption, domestic violence, property division, and inheritance rights.</span>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Major Family Laws in India</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Hindu Marriage Act, 1955</h4>
+                        <ul>
+                            <li>Governs marriage among Hindus</li>
+                            <li>Conditions for valid marriage</li>
+                            <li>Divorce and judicial separation</li>
+                            <li>Restitution of conjugal rights</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Special Marriage Act, 1954</h4>
+                        <ul>
+                            <li>Inter-religion marriages</li>
+                            <li>Civil marriage procedures</li>
+                            <li>Secular marriage law</li>
+                            <li>Divorce provisions</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Guardian and Wards Act, 1890</h4>
+                        <ul>
+                            <li>Appointment of guardians</li>
+                            <li>Child welfare principles</li>
+                            <li>Guardianship procedures</li>
+                            <li>Minor's property protection</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Protection of Women from Domestic Violence Act, 2005</h4>
+                        <ul>
+                            <li>Protection orders</li>
+                            <li>Residence rights</li>
+                            <li>Monetary relief</li>
+                            <li>Custody orders</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Marriage Laws Section -->
+        <div id="marriage" class="content-section">
+            <h2 class="section-title">Marriage Laws in India</h2>
+            
+            <div class="subsection">
+                <h3>Types of Marriages Recognized</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>Marriage Type</th>
+                            <th>Governing Law</th>
+                            <th>Key Features</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Hindu Marriage</strong></td>
+                            <td>Hindu Marriage Act, 1955</td>
+                            <td>Applicable to Hindus, Sikhs, Jains, Buddhists; Monogamy required</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Muslim Marriage</strong></td>
+                            <td>Muslim Personal Law</td>
+                            <td>Contract-based marriage; Polygamy permitted with conditions</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Christian Marriage</strong></td>
+                            <td>Indian Christian Marriage Act, 1872</td>
+                            <td>Monogamous marriage; Church registration</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Special Marriage</strong></td>
+                            <td>Special Marriage Act, 1954</td>
+                            <td>Inter-religion marriages; 30-day notice period</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Essential Marriage Requirements</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Age Requirements</h4>
+                        <p>Bride: Minimum 18 years, Groom: Minimum 21 years as per Prohibition of Child Marriage Act, 2006</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Mental Capacity</h4>
+                        <p>Both parties must be of sound mind and capable of giving valid consent</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Prohibited Relationships</h4>
+                        <p>No marriage within prohibited degrees of relationship as per applicable personal law</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Registration</h4>
+                        <p>Mandatory registration in most states under respective marriage acts</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Divorce Section -->
+        <div id="divorce" class="content-section">
+            <h2 class="section-title">Divorce & Separation</h2>
+            
+            <div class="subsection">
+                <h3>Types of Divorce</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>Divorce Type</th>
+                            <th>Procedure</th>
+                            <th>Grounds</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Mutual Consent</strong></td>
+                            <td>Joint petition by both spouses</td>
+                            <td>Irretrievable breakdown of marriage</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Contested Divorce</strong></td>
+                            <td>Petition by one spouse</td>
+                            <td>Adultery, cruelty, desertion, conversion, etc.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Divorce by Wife</strong></td>
+                            <td>Special grounds for women</td>
+                            <td>Rape, sodomy, bestiality, non-maintenance</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Judicial Separation</strong></td>
+                            <td>Court order without divorce</td>
+                            <td>Same as divorce grounds</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Divorce Procedures</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>Filing Petition</strong>
+                            <p>Submit divorce petition in appropriate family court with necessary documents</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>First Motion</strong>
+                            <p>Court examines petition and may refer for mediation/counseling</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>Evidence & Hearing</strong>
+                            <p>Both parties present evidence and arguments before the court</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>Second Motion</strong>
+                            <p>For mutual consent divorce - filed after 6 months from first motion</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <strong>Final Decree</strong>
+                            <p>Court passes divorce decree dissolving the marriage</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Maintenance Section -->
+        <div id="maintenance" class="content-section">
+            <h2 class="section-title">Maintenance & Alimony</h2>
+            
+            <div class="subsection">
+                <h3>Types of Maintenance</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Interim Maintenance</h4>
+                        <p>Temporary maintenance during pending court proceedings</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Permanent Maintenance</h4>
+                        <p>Long-term maintenance after divorce decree</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Child Maintenance</h4>
+                        <p>Support for children until they attain majority or complete education</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Medical Maintenance</h4>
+                        <p>Additional support for medical expenses and healthcare needs</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Factors Considered for Maintenance</h3>
+                <div class="example-box">
+                    <strong>Key Considerations:</strong>
+                    <ul>
+                        <li>Income and financial status of both parties</li>
+                        <li>Standard of living during marriage</li>
+                        <li>Age and health of spouses</li>
+                        <li>Number of children and their needs</li>
+                        <li>Educational qualifications and employability</li>
+                        <li>Assets and liabilities of both parties</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Child Custody Section -->
+        <div id="custody" class="content-section">
+            <h2 class="section-title">Child Custody & Guardianship</h2>
+            
+            <div class="subsection">
+                <h3>Types of Custody Arrangements</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>Custody Type</th>
+                            <th>Description</th>
+                            <th>Legal Basis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Physical Custody</strong></td>
+                            <td>Child resides with one parent primarily</td>
+                            <td>Guardian and Wards Act, 1890</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Legal Custody</strong></td>
+                            <td>Decision-making rights for child's welfare</td>
+                            <td>Hindu Minority and Guardianship Act, 1956</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Joint Custody</strong></td>
+                            <td>Shared responsibility between parents</td>
+                            <td>Court discretion based on child's interest</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sole Custody</strong></td>
+                            <td>One parent gets exclusive custody rights</td>
+                            <td>Granted when other parent is unfit</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Welfare Principle Factors</h3>
+                <div class="example-box">
+                    <strong>Court Considers:</strong>
+                    <ul>
+                        <li>Child's age, sex, and religious background</li>
+                        <li>Parent's financial stability and moral character</li>
+                        <li>Child's preference (if above certain age)</li>
+                        <li>Continuity of education and environment</li>
+                        <li>Siblings not to be separated unnecessarily</li>
+                        <li>Parent's ability to provide love and affection</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Property Rights Section -->
+        <div id="property" class="content-section">
+            <h2 class="section-title">Property Rights & Inheritance</h2>
+            
+            <div class="subsection">
+                <h3>Types of Property in Family Law</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Stridhan</h4>
+                        <p>Woman's absolute property including gifts, jewelry, and personal assets</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Joint Family Property</h4>
+                        <p>Hindu Undivided Family property governed by succession laws</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Self-Acquired Property</h4>
+                        <p>Property acquired through own earnings and efforts</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>Matrimonial Home</h4>
+                        <p>Family residence with special protection under domestic violence laws</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Inheritance Laws</h3>
+                <div class="example-box">
+                    <strong>Key Succession Acts:</strong>
+                    <ul>
+                        <li>Hindu Succession Act, 1956 - For Hindus, Sikhs, Jains, Buddhists</li>
+                        <li>Indian Succession Act, 1925 - For Christians, Parsis, intestate succession</li>
+                        <li>Muslim Personal Law - Based on Islamic inheritance principles</li>
+                        <li>Special provisions for daughters' inheritance rights</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Adoption Section -->
+        <div id="adoption" class="content-section">
+            <h2 class="section-title">Adoption & Guardianship</h2>
+            
+            <div class="subsection">
+                <h3>Adoption Laws in India</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>Law</th>
+                            <th>Applicability</th>
+                            <th>Key Provisions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Hindu Adoption Act</strong></td>
+                            <td>Hindus, Sikhs, Jains, Buddhists</td>
+                            <td>Only Hindus can adopt; Specific eligibility criteria</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Guardian & Wards Act</strong></td>
+                            <td>All religions</td>
+                            <td>Guardianship, not adoption; Temporary arrangement</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Juvenile Justice Act</strong></td>
+                            <td>All citizens</td>
+                            <td>Alternative adoption procedure for all religions</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CARA Guidelines</strong></td>
+                            <td>All adoptions</td>
+                            <td>Central Adoption Resource Authority regulations</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>Adoption Process</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>Registration</strong>
+                            <p>Register with recognized adoption agency or CARA</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>Home Study</strong>
+                            <p>Social worker assesses adoptive family's suitability</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>Referral & Matching</strong>
+                            <p>Child proposed for adoption based on compatibility</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>Acceptance</strong>
+                            <p>Adoptive parents accept the child</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <strong>Court Order</strong>
+                            <p>Legal adoption through court decree</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cases Section -->
+        <div id="cases" class="content-section">
+            <h2 class="section-title">Landmark Family Law Cases</h2>
+            
+            <div class="subsection">
+                <h3>Indian Landmark Cases</h3>
+                <div class="cases-grid">
+                    <div class="case-card">
+                        <div class="case-title">Shah Bano Case (1985)</div>
+                        <p>Landmark case on Muslim women's right to maintenance after divorce, leading to controversial legislation</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Daniel Latifi Case (2001)</div>
+                        <p>Upheld Muslim Women Act's constitutional validity while ensuring maintenance rights</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Vishaka v. State of Rajasthan (1997)</div>
+                        <p>Established guidelines against sexual harassment at workplace, influencing domestic violence jurisprudence</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Sarla Mudgal Case (1995)</div>
+                        <p>Addressed issue of conversion to Islam for solemnizing second marriage</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Githa Hariharan Case (1999)</div>
+                        <p>Recognized mother as natural guardian along with father under Hindu Minority Act</p>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-title">Mary Roy Case (1986)</div>
+                        <p>Granted Syrian Christian women equal inheritance rights in Kerala</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Updates Section -->
+        <div id="recent" class="content-section">
+            <h2 class="section-title">Recent Family Law Updates</h2>
+            
+            <div class="subsection">
+                <h3>Recent Legal Reforms</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>Divorce Law Reforms</h4>
+                        <ul>
+                            <li>Irretrievable breakdown as divorce ground</li>
+                            <li>Digital evidence acceptance</li>
+                            <li>Video conferencing for hearings</li>
+                            <li>Mandatory mediation attempts</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Child Rights Protection</h4>
+                        <ul>
+                            <li>Enhanced child support guidelines</li>
+                            <li>Shared parenting provisions</li>
+                            <li>Child's opinion consideration</li>
+                            <li>Anti-child marriage measures</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Women's Property Rights</h4>
+                        <ul>
+                            <li>Equal inheritance for daughters</li>
+                            <li>Matrimonial property rights</li>
+                            <li>Digital asset division</li>
+                            <li>Enhanced maintenance rights</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>Adoption Reforms</h4>
+                        <ul>
+                            <li>Simplified adoption procedures</li>
+                            <li>Single parent adoption rights</li>
+                            <li>LGBTQ+ adoption considerations</li>
+                            <li>Inter-country adoption rules</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Recent Judicial Developments</h3>
+                <div class="example-box">
+                    <strong>Key Recent Changes (2021-2024):</strong>
+                    <ul>
+                        <li>Supreme Court rulings on LGBTQ+ rights and relationships</li>
+                        <li>Digital divorce proceedings and e-filing systems</li>
+                        <li>Enhanced protection for live-in relationships</li>
+                        <li>Recognition of foreign divorces and marriages</li>
+                        <li>Strengthened domestic violence protection mechanisms</li>
+                        <li>Child custody in international marriages</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h3>Need Family Law Assistance?</h3>
+            <p>Our experienced family law team provides comprehensive legal support for marriage, divorce, child custody, adoption, and property matters. Protecting your family rights is our priority.</p>
+            <a href="https://nyaysetu-3e8f79.zapier.app/" class="cta-button">Get Family Legal Help Now</a>
+        </div>
+    </div>
+
+    <script>
+        // Tab navigation functionality
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected section and activate corresponding tab
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+
+            // Scroll to top of content
+            document.querySelector('.container').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize with overview section
+            showSection('overview');
+            
+            // Add keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                    const tabs = document.querySelectorAll('.nav-tab');
+                    const activeTab = document.querySelector('.nav-tab.active');
+                    const currentIndex = Array.from(tabs).indexOf(activeTab);
+                    
+                    let newIndex;
+                    if (e.key === 'ArrowLeft') {
+                        newIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
+                    } else {
+                        newIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
+                    }
+                    
+                    tabs[newIndex].click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

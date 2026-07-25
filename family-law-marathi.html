@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>कौटुंबिक कायदा - NYAYSETU</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-blue: #1e3c72;
+            --secondary-blue: #2a5298;
+            --accent-gold: #ffd700;
+            --accent-gold-light: #ffed4a;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 5px 20px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+            --border-radius-large: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-medium);
+            backdrop-filter: blur(10px);
+        }
+        .lang-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--white);
+            color: var(--primary-blue);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-light);
+        }
+        .lang-btn:hover {
+            transform: scale(1.1);
+        }
+        .lang-btn.active {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+        /* Header */
+        .header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+        /* Navigation */
+        .nav-tabs {
+            background: var(--white);
+            border-bottom: 1px solid #eee;
+            padding: 0 2rem;
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+        }
+        .nav-tab {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: var(--transition);
+        }
+        .nav-tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--accent-gold);
+        }
+        /* Content Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+        .subsection {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--accent-gold);
+        }
+        .subsection h3 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .subsection h4 {
+            color: var(--secondary-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        .example-box {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .example-box strong {
+            color: var(--primary-blue);
+        }
+        /* Table Styles */
+        .principles-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+        }
+        .principles-table th,
+        .principles-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .principles-table th {
+            background: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+        }
+        .principles-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
+        /* Laws Grid */
+        .laws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .law-card {
+            background: var(--white);
+            border-radius: var(--border-radius-large);
+            padding: 2rem;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border-top: 4px solid var(--accent-gold);
+        }
+        .law-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        .law-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+        /* Case Cards */
+        .cases-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .case-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border-left: 4px solid var(--secondary-blue);
+        }
+        .case-title {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        /* Process Steps */
+        .process-steps {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .step-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-left: 4px solid var(--accent-gold);
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        /* Contact CTA */
+        .contact-cta {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius-large);
+            margin-top: 3rem;
+        }
+        .contact-cta h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .cta-button {
+            background: var(--accent-gold);
+            color: var(--primary-blue);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .back-btn {
+                position: static;
+                margin-bottom: 1rem;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            .nav-tabs {
+                padding: 0 1rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="javascript:history.back()" class="back-btn">← सेवांवर परत जा</a>
+        <h1>कौटुंबिक कायदा</h1>
+        <p>कुटुंबातील अधिकार आणि कायदेशीर प्रक्रियांचे सर्वसमावेशक मार्गदर्शक</p>
+    </div>
+
+    <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="showSection('overview')">आढावा</button>
+        <button class="nav-tab" onclick="showSection('marriage')">विवाह कायदे</button>
+        <button class="nav-tab" onclick="showSection('divorce')">घटस्फोट आणि वियोग</button>
+        <button class="nav-tab" onclick="showSection('maintenance')">निर्वाह भत्ता आणि अलिमोनी</button>
+        <button class="nav-tab" onclick="showSection('custody')">मुलांची पालकत्व</button>
+        <button class="nav-tab" onclick="showSection('property')">मालमत्ता अधिकार</button>
+        <button class="nav-tab" onclick="showSection('adoption')">दत्तक घेणे आणि पालकत्व</button>
+        <button class="nav-tab" onclick="showSection('cases')">मैलाचे दगड खटले</button>
+        <button class="nav-tab" onclick="showSection('recent')">अलीकडील अद्यतने</button>
+    </nav>
+
+    <div class="container">
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <h2 class="section-title">कौटुंबिक कायदा समजून घेणे</h2>
+            
+            <div class="subsection">
+                <h3>व्याख्या आणि व्याप्ती</h3>
+                <p>कौटुंबिक कायदा कुटुंबातील सदस्यांमधील कायदेशीर संबंध नियंत्रित करतो, ज्यामध्ये विवाह, घटस्फोट, मुलांची पालकत्व, दत्तक घेणे आणि मालमत्ता अधिकार यांचा समावेश होतो. यात विविध धर्मांच्या वैयक्तिक कायद्यांचा आणि सर्व नागरिकांना लागू होणाऱ्या धर्मनिरपेक्ष कायद्यांचा समावेश होतो.</p>
+                
+                <div class="example-box">
+                    <strong>मुख्य क्षेत्रे:</strong>
+                    <span>विवाह नोंदणी, घटस्फोट प्रक्रिया, मुलांची पालकत्व, निर्वाह भत्ता, दत्तक घेणे, घरगुती हिंसा, मालमत्ता विभाजन आणि वारसा हक्क.</span>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>भारतातील प्रमुख कौटुंबिक कायदे</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>हिंदू विवाह कायदा, १९५५</h4>
+                        <ul>
+                            <li>हिंदूंमधील विवाह नियंत्रित करतो</li>
+                            <li>कायदेशीर विवाहासाठी अटी</li>
+                            <li>घटस्फोट आणि न्यायिक वियोग</li>
+                            <li>कौटुंबिक अधिकारांची पुनर्स्थापना</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>विशेष विवाह कायदा, १९५४</h4>
+                        <ul>
+                            <li>आंतर-धर्म विवाह</li>
+                            <li>नागरी विवाह प्रक्रिया</li>
+                            <li>धर्मनिरपेक्ष विवाह कायदे</li>
+                            <li>घटस्फोट तरतुदी</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>पालक आणि वॉर्ड कायदा, १८९०</h4>
+                        <ul>
+                            <li>पालकांची नियुक्ती</li>
+                            <li>बालकल्याण तत्त्वे</li>
+                            <li>पालकत्व प्रक्रिया</li>
+                            <li>अल्पवयीनांच्या मालमत्तेचे संरक्षण</li>
+                        </ul>
+                    </div>
+                    <div class="law-card">
+                        <h4>घरगुती हिंसेविरुद्ध महिला संरक्षण कायदा, २००५</h4>
+                        <ul>
+                            <li>संरक्षण आदेश</li>
+                            <li>निवास अधिकार</li>
+                            <li>आर्थिक साहाय्य</li>
+                            <li>पालकत्व आदेश</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Marriage Laws Section -->
+        <div id="marriage" class="content-section">
+            <h2 class="section-title">भारतातील विवाह कायदे</h2>
+            
+            <div class="subsection">
+                <h3>मान्यता प्राप्त विवाह प्रकार</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>विवाह प्रकार</th>
+                            <th>शासकीय कायदा</th>
+                            <th>मुख्य वैशिष्ट्ये</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>हिंदू विवाह</strong></td>
+                            <td>हिंदू विवाह कायदा, १९५५</td>
+                            <td>हिंदू, शीख, जैन, बौद्धांना लागू; एकपत्नीत्व आवश्यक</td>
+                        </tr>
+                        <tr>
+                            <td><strong>मुस्लिम विवाह</strong></td>
+                            <td>मुस्लिम वैयक्तिक कायदा</td>
+                            <td>करार-आधारित विवाह; अटींसह बहुपत्नीत्व परवानगी</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ख्रिश्चन विवाह</strong></td>
+                            <td>भारतीय ख्रिश्चन विवाह कायदा, १८७२</td>
+                            <td>एकपत्नीत्व विवाह; चर्च नोंदणी</td>
+                        </tr>
+                        <tr>
+                            <td><strong>विशेष विवाह</strong></td>
+                            <td>विशेष विवाह कायदा, १९५४</td>
+                            <td>आंतर-धर्म विवाह; ३०-दिवस सूचना कालावधी</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>आवश्यक विवाह आवश्यकता</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>वय आवश्यकता</h4>
+                        <p>वधू: किमान १८ वर्षे, वर: किमान २१ वर्षे बालविवाह निषेध कायदा, २००६ नुसार</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>मानसिक क्षमता</h4>
+                        <p>दोन्ही पक्ष स्वस्थ मनाचे असले पाहिजेत आणि वैध संमती देण्यास सक्षम असले पाहिजेत</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>निषिद्ध संबंध</h4>
+                        <p>लागू वैयक्तिक कायद्यानुसार निषिद्ध संबंधांमध्ये कोणताही विवाह नाही</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>नोंदणी</h4>
+                        <p>बहुतेक राज्यांमध्ये संबंधित विवाह कायद्यांअंतर्गत अनिवार्य नोंदणी</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Divorce Section -->
+        <div id="divorce" class="content-section">
+            <h2 class="section-title">घटस्फोट आणि वियोग</h2>
+            
+            <div class="subsection">
+                <h3>घटस्फोटाचे प्रकार</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>घटस्फोट प्रकार</th>
+                            <th>प्रक्रिया</th>
+                            <th>आधार</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>परस्पर संमती</strong></td>
+                            <td>दोन्ही पतींद्वारे संयुक्त अर्ज</td>
+                            <td>विवाहाचे दुरुस्त न होणारे विघटन</td>
+                        </tr>
+                        <tr>
+                            <td><strong>विवादित घटस्फोट</strong></td>
+                            <td>एका पतीद्वारे अर्ज</td>
+                            <td>व्यभिचार, क्रौर्य, परित्याग, धर्मांतर, इ.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>पत्नीद्वारे घटस्फोट</strong></td>
+                            <td>महिलांसाठी विशेष आधार</td>
+                            <td>बलात्कार, समलिंगीता, पाशवीपणा, निर्वाह भत्ता न दिला</td>
+                        </tr>
+                        <tr>
+                            <td><strong>न्यायिक वियोग</strong></td>
+                            <td>घटस्फोटाशिवाय न्यायालयीन आदेश</td>
+                            <td>घटस्फोटाच्या आधारांसारखेच</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>घटस्फोट प्रक्रिया</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>अर्ज दाखल करणे</strong>
+                            <p>आवश्यक कागदपत्रांसह योग्य कौटुंबिक न्यायालयात घटस्फोट अर्ज सादर करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>पहिली मोशन</strong>
+                            <p>न्यायालय अर्जाची तपासणी करते आणि मध्यस्थी/सल्लागारत्वासाठी संदर्भित करू शकते</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>पुरावे आणि सुनावणी</strong>
+                            <p>दोन्ही पक्ष न्यायालयासमोर पुरावे आणि युक्तिवाद सादर करतात</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>दुसरी मोशन</strong>
+                            <p>परस्पर संमती घटस्फोटासाठी - पहिल्या मोशननंतर ६ महिन्यांनी दाखल केली जाते</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <strong>अंतिम डिक्री</strong>
+                            <p>न्यायालय विवाह विसर्जित करून घटस्फोट डिक्री जारी करते</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Maintenance Section -->
+        <div id="maintenance" class="content-section">
+            <h2 class="section-title">निर्वाह भत्ता आणि अलिमोनी</h2>
+            
+            <div class="subsection">
+                <h3>निर्वाह भत्त्याचे प्रकार</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>अंतरिम निर्वाह भत्ता</h4>
+                        <p>चालू न्यायालयीन कारवाई दरम्यान तात्पुरता निर्वाह भत्ता</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>कायम निर्वाह भत्ता</h4>
+                        <p>घटस्फोट डिक्रीनंतर दीर्घकालीन निर्वाह भत्ता</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>मुलाचा निर्वाह भत्ता</h4>
+                        <p>मुले प्रौढ होईपर्यंत किंवा शिक्षण पूर्ण होईपर्यंत समर्थन</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>वैद्यकीय निर्वाह भत्ता</h4>
+                        <p>वैद्यकीय खर्च आणि आरोग्य सेवा गरजांसाठी अतिरिक्त समर्थन</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>निर्वाह भत्त्यासाठी विचारात घेतलेले घटक</h3>
+                <div class="example-box">
+                    <strong>मुख्य विचार:</strong>
+                    <ul>
+                        <li>दोन्ही पक्षांचे उत्पन्न आणि आर्थिक स्थिती</li>
+                        <li>विवाहादरम्यान जीवनमान</li>
+                        <li>पतींचे वय आणि आरोग्य</li>
+                        <li>मुलांची संख्या आणि त्यांच्या गरजा</li>
+                        <li>शैक्षणिक पात्रता आणि रोजगार क्षमता</li>
+                        <li>दोन्ही पक्षांची मालमत्ता आणि दायित्वे</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Child Custody Section -->
+        <div id="custody" class="content-section">
+            <h2 class="section-title">मुलांची पालकत्व आणि पालकत्व</h2>
+            
+            <div class="subsection">
+                <h3>पालकत्व व्यवस्थेचे प्रकार</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>पालकत्व प्रकार</th>
+                            <th>वर्णन</th>
+                            <th>कायदेशीर आधार</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>शारीरिक पालकत्व</strong></td>
+                            <td>मूल प्रामुख्याने एका पालकासोबत राहते</td>
+                            <td>पालक आणि वॉर्ड कायदा, १८९०</td>
+                        </tr>
+                        <tr>
+                            <td><strong>कायदेशीर पालकत्व</strong></td>
+                            <td>मुलाच्या कल्याणासाठी निर्णय घेण्याचा अधिकार</td>
+                            <td>हिंदू अल्पवयीन आणि पालकत्व कायदा, १९५६</td>
+                        </tr>
+                        <tr>
+                            <td><strong>संयुक्त पालकत्व</strong></td>
+                            <td>पालकांमध्ये सामायिक जबाबदारी</td>
+                            <td>मुलाच्या हिताच्या आधारावर न्यायालयाचा विवेक</td>
+                        </tr>
+                        <tr>
+                            <td><strong>एकमेव पालकत्व</strong></td>
+                            <td>एका पालकाला विशेष पालकत्व अधिकार प्राप्त होतात</td>
+                            <td>दुसरा पालक अयोग्य असल्यास दिले जाते</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>कल्याण तत्त्व घटक</h3>
+                <div class="example-box">
+                    <strong>न्यायालय विचार करते:</strong>
+                    <ul>
+                        <li>मुलाचे वय, लिंग आणि धार्मिक पार्श्वभूमी</li>
+                        <li>पालकांची आर्थिक स्थिरता आणि नैतिक चारित्र्य</li>
+                        <li>मुलाची प्राधान्यता (विशिष्ट वयाच्या वर असल्यास)</li>
+                        <li>शिक्षण आणि वातावरणाची सातत्यता</li>
+                        <li>भावंडांना अनावश्यकपणे वेगळे करू नये</li>
+                        <li>पालकांची प्रेम आणि स्नेह प्रदान करण्याची क्षमता</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Property Rights Section -->
+        <div id="property" class="content-section">
+            <h2 class="section-title">मालमत्ता अधिकार आणि वारसा</h2>
+            
+            <div class="subsection">
+                <h3>कौटुंबिक कायद्यातील मालमत्तेचे प्रकार</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>स्त्रीधन</h4>
+                        <p>महिलेची पूर्ण मालमत्ता ज्यामध्ये भेटवस्तू, दागिने आणि वैयक्तिक मालमत्ता यांचा समावेश होतो</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>संयुक्त कुटुंब मालमत्ता</h4>
+                        <p>हिंदू अविभाजित कुटुंब मालमत्ता वारसा कायद्यांद्वारे शासित</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>स्व-संपादित मालमत्ता</h4>
+                        <p>स्वतःच्या कमाई आणि प्रयत्नांद्वारे संपादित केलेली मालमत्ता</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>वैवाहिक घर</h4>
+                        <p>घरगुती हिंसा कायद्यांअंतर्गत विशेष संरक्षण असलेले कौटुंबिक निवासस्थान</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>वारसा कायदे</h3>
+                <div class="example-box">
+                    <strong>मुख्य वारसा कायदे:</strong>
+                    <ul>
+                        <li>हिंदू वारसा कायदा, १९५६ - हिंदू, शीख, जैन, बौद्धांसाठी</li>
+                        <li>भारतीय वारसा कायदा, १९२५ - ख्रिश्चन, पारशी, निर्वसीयत वारसासाठी</li>
+                        <li>मुस्लिम वैयक्तिक कायदा - इस्लामिक वारसा तत्त्वांवर आधारित</li>
+                        <li>मुलींच्या वारसा अधिकारांसाठी विशेष तरतुदी</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Adoption Section -->
+        <div id="adoption" class="content-section">
+            <h2 class="section-title">दत्तक घेणे आणि पालकत्व</h2>
+            
+            <div class="subsection">
+                <h3>भारतातील दत्तक घेण्याचे कायदे</h3>
+                <table class="principles-table">
+                    <thead>
+                        <tr>
+                            <th>कायदा</th>
+                            <th>लागूता</th>
+                            <th>मुख्य तरतूद</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>हिंदू दत्तक कायदा</strong></td>
+                            <td>हिंदू, शीख, जैन, बौद्ध</td>
+                            <td>केवळ हिंदू दत्तक घेऊ शकतात; विशिष्ट पात्रता निकष</td>
+                        </tr>
+                        <tr>
+                            <td><strong>पालक आणि वॉर्ड कायदा</strong></td>
+                            <td>सर्व धर्म</td>
+                            <td>पालकत्व, दत्तक घेणे नाही; तात्पुरती व्यवस्था</td>
+                        </tr>
+                        <tr>
+                            <td><strong>किशोर न्याय कायदा</strong></td>
+                            <td>सर्व नागरिक</td>
+                            <td>सर्व धर्मांसाठी पर्यायी दत्तक प्रक्रिया</td>
+                        </tr>
+                        <tr>
+                            <td><strong>कॅरा मार्गदर्शक तत्त्वे</strong></td>
+                            <td>सर्व दत्तक घेणे</td>
+                            <td>केंद्रीय दत्तक संसाधन प्राधिकरण नियमन</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>दत्तक प्रक्रिया</h3>
+                <div class="process-steps">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>नोंदणी</strong>
+                            <p>मान्यता प्राप्त दत्तक एजन्सी किंवा कॅरासोबत नोंदणी करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>होम स्टडी</strong>
+                            <p>समाज कार्यकर्त्याद्वारे घर मूल्यांकन आणि पात्रता तपासणी</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>मुलाचा संदर्भ</strong>
+                            <p>एका मुलाशी जुळवून आणि संदर्भित केले जाते</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>न्यायालयीन कारवाई</strong>
+                            <p>दत्तक आदेशासाठी न्यायालयात अर्ज दाखल करा</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div>
+                            <strong>अनुवर्ती</strong>
+                            <p>दत्तक घेतल्यानंतर देखरेख आणि समर्थन</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Landmark Cases Section -->
+        <div id="cases" class="content-section">
+            <h2 class="section-title">मैलाचे दगड कौटुंबिक कायदा खटले</h2>
+            
+            <div class="cases-grid">
+                <div class="case-card">
+                    <div class="case-title">शाह बानो वि. मोहम्मद अहमद खान (१९८५)</div>
+                    <p>मुस्लिम महिलांसाठी घटस्फोटानंतर निर्वाह भत्त्याचा अधिकार स्थापित केला.</p>
+                </div>
+                <div class="case-card">
+                    <div class="case-title">डॅनियल लतीफी वि. भारत संघ (२००१)</div>
+                    <p>मुस्लिम महिलांसाठी घटस्फोटानंतर निर्वाह भत्त्याचा अधिकार कायम ठेवला.</p>
+                </div>
+                <div class="case-card">
+                    <div class="case-title">सरला मुद्गल वि. भारत संघ (१९९५)</div>
+                    <p>धर्मांतराद्वारे बहुपत्नीत्व गुन्हा ठरवले.</p>
+                </div>
+                <div class="case-card">
+                    <div class="case-title">विशाखा वि. राजस्थान राज्य (१९९७)</div>
+                    <p>कार्यस्थळी लैंगिक छळाविरुद्ध मार्गदर्शक तत्त्वे स्थापित केली.</p>
+                </div>
+                <div class="case-card">
+                    <div class="case-title">इंदिरा साहनी वि. भारत संघ (१९९२)</div>
+                    <p>आरक्षण धोरणांमध्ये क्रीमी लेयरची संकल्पना स्थापित केली.</p>
+                </div>
+                <div class="case-card">
+                    <div class="case-title">शायरा बानो वि. भारत संघ (२०१७)</div>
+                    <p>मुस्लिम वैयक्तिक कायद्यातील तीन तलाक (तलाक-ए-बिद्दत) असंवैधानिक ठरवले.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Updates Section -->
+        <div id="recent" class="content-section">
+            <h2 class="section-title">अलीकडील कायदेशीर अद्यतने</h2>
+            
+            <div class="subsection">
+                <h3>प्रमुख कायदा सुधारणा</h3>
+                <div class="laws-grid">
+                    <div class="law-card">
+                        <h4>मुस्लिम महिला (विवाह अधिकार संरक्षण) कायदा, २०१९</h4>
+                        <p>मुस्लिम पुरुषांद्वारे तीन तलाक गुन्हेगारी गुन्हा केला.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>हिंदू वारसा (दुरुस्ती) कायदा, २००५</h4>
+                        <p>मुलींना पैतृक मालमत्तेत समान वारसा अधिकार दिले.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>किशोर न्याय (मुलांची काळजी आणि संरक्षण) कायदा, २०१५</h4>
+                        <p>दत्तक घेणे आणि बाल संरक्षण प्रक्रिया सुलभ केल्या.</p>
+                    </div>
+                    <div class="law-card">
+                        <h4>गर्भाची वैद्यकीय समाप्ती (दुरुस्ती) कायदा, २०२१</h4>
+                        <p>गर्भपातासाठी गर्भावधी मर्यादा वाढवली आणि अटी उदार केल्या.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>न्यायिक सुधारणा</h3>
+                <div class="example-box">
+                    <strong>अलीकडील न्यायिक निर्णय:</strong>
+                    <ul>
+                        <li>सर्वोच्च न्यायालयाने घटस्फोट खटल्यांमध्ये मध्यस्थता अनिवार्य केली</li>
+                        <li>मुलांच्या पालकत्वात मुलाच्या इच्छेला प्राधान्य दिले</li>
+                        <li>निर्वाह भत्ता निर्धारणात महिलांच्या अ-आर्थिक योगदानाला मान्यता दिली</li>
+                        <li>लिव्ह-इन संबंधांमध्ये महिलांच्या अधिकारांचा विस्तार केला</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h3>कौटुंबिक कायदा सल्ल्याची गरज आहे?</h3>
+            <p>आमचे अनुभवी कायदेशीर व्यावसायिक आपल्या विशिष्ट परिस्थितीसाठी वैयक्तिक मार्गदर्शन प्रदान करू शकतात.</p>
+            <a href="https://nyaysetu-3e8f79.zapier.app/" class="cta-button">आत्ताच सल्लागारत्व बुक करा</a>
+        </div>
+    </div>
+
+    <script>
+        // Tab navigation functionality
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Activate selected tab
+            event.target.classList.add('active');
+        }
+
+        // Initialize the page with first section active
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set first tab as active by default
+            document.querySelector('.nav-tab').classList.add('active');
+            document.querySelector('.content-section').classList.add('active');
+        });
+    </script>
+</body>
+</html>
