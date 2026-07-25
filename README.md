@@ -2,7 +2,7 @@
 
 A web-based legal aid platform connecting citizens with legal information and verified lawyers across 9 practice areas — built to bridge the justice gap for people who can't easily access or afford legal help.
 
-🔗 **Live Site:** https://tanusdalvi.github.io/nyaysetu/
+🔗 **Live Site:** https://tanusdalvi.github.io/Nyaysetu/
 
 ## 📌 Problem Statement
 
